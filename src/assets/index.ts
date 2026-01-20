@@ -8,6 +8,7 @@ import banner3 from "./images/banner3.svg";
 import StarCircleIcon from "./icons/StarCircleIcon";
 import CustomerServiceIcon from "./icons/CustomerServiceIcon";
 import BusIcon from "./icons/BusIcon";
+import SartorialBag from "./images/sartorial bag.png";
 
 export {
 	Sartorial,
@@ -20,4 +21,5 @@ export {
 	StarCircleIcon,
 	CustomerServiceIcon,
 	BusIcon,
+	SartorialBag,
 };
