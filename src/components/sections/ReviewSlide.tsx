@@ -1,0 +1,184 @@
+import { Star, UserCircle2 } from "lucide-react";
+import {
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
+} from "@/components/ui/carousel";
+import Image from "next/image";
+import { SartorialBabe } from "@/assets";
+
+const reviews = [
+	{
+		id: 1,
+		rating: 5,
+		text: "Fast shipping and great packaging! My bag arrived in perfect condition. Will definitely order again!",
+		author: "Samantha R.",
+		date: "Feb 4, 2025",
+	},
+	{
+		id: 2,
+		rating: 4,
+		text: "Fast shipping and great packaging! My bag arrived in perfect condition. Will definitely order again!",
+		author: "Samantha R.",
+		date: "Feb 4, 2025",
+	},
+	{
+		id: 3,
+		rating: 4,
+		text: "Fast shipping and great packaging! My bag arrived in perfect condition. Will definitely order again!",
+		author: "Samantha R.",
+		date: "Feb 4, 2025",
+	},
+	{
+		id: 4,
+		rating: 4,
+		text: "Fast shipping and great packaging! My bag arrived in perfect condition. Will definitely order again!",
+		author: "Samantha R.",
+		date: "Feb 4, 2025",
+	},
+	{
+		id: 5,
+		rating: 4,
+		text: "Fast shipping and great packaging! My bag arrived in perfect condition. Will definitely order again!",
+		author: "Samantha R.",
+		date: "Feb 4, 2025",
+	},
+	{
+		id: 6,
+		rating: 4,
+		text: "Fast shipping and great packaging! My bag arrived in perfect condition. Will definitely order again!",
+		author: "Samantha R.",
+		date: "Feb 4, 2025",
+	},
+];
+
+const ReviewSlide = () => {
+	return (
+		<div className="w-full mt-10 px-4 md:px-20 py-10 bg-white">
+			<div className="flex flex-col items-center mb-10">
+				<h2 className="text-3xl md:text-4xl font-bold text-sartorial-green mb-8">
+					Happy Sartorial Babes
+				</h2>
+			</div>
+
+			<Carousel
+				opts={{
+					align: "start",
+					loop: true,
+				}}
+				className="w-full mt-20"
+			>
+				<CarouselContent className="-ml-4">
+					<CarouselItem className="pl-4 basis-full sm:basis-1/2 md:basis-1/4">
+						<div className="bg-sartorial-green text-white p-8 rounded-sm h-80 flex flex-col justify-center items-start">
+							<div className="text-6xl font-bold flex items-baseline">
+								4,8
+								<span className="text-2xl font-normal ml-1">
+									/5
+								</span>
+							</div>
+							<div className="flex my-4">
+								{[...Array(5)].map((_, i) => (
+									<Star
+										key={i}
+										className="w-5 h-5 fill-white text-white"
+									/>
+								))}
+							</div>
+							<p className="text-sm opacity-90">2000 reviews</p>
+						</div>
+					</CarouselItem>
+
+					{reviews.map((review) => (
+						<CarouselItem
+							key={review.id}
+							className="pl-4 basis-full sm:basis-1/2 md:basis-1/4"
+						>
+							<div className="bg-sartorial-lightGreen p-6 rounded-sm h-80 flex flex-col justify-between text-[#1A3326]">
+								<div>
+									<div className="flex mb-4">
+										{[...Array(review.rating)].map(
+											(_, i) => (
+												<Star
+													key={i}
+													className="w-4 h-4 fill-[#1A3326] text-[#1A3326]"
+												/>
+											),
+										)}
+									</div>
+									<p className="text-sm leading-relaxed font-medium">
+										{review.text}
+									</p>
+								</div>
+
+								<div className="flex items-center gap-3 mt-4">
+									<UserCircle2 className="w-6 h-6 text-sartorial-green" />
+									<div>
+										<p className="text-xs font-bold">
+											{review.author}
+										</p>
+										<p className="text-[12px]">
+											{review.date}
+										</p>
+									</div>
+								</div>
+							</div>
+						</CarouselItem>
+					))}
+				</CarouselContent>
+
+				<div className="absolute -top-16 left-0 right-0 flex justify-between items-end">
+					<div className="bg-sartorial-green text-white px-4 py-3 rounded-md text-sm font-medium">
+						All from verified purchases
+					</div>
+
+					<div className="flex gap-2">
+						<CarouselPrevious className="static translate-y-0 h-10 w-20 rounded-md border-2 border-sartorial-green text-sartorial-green hover:bg-sartorial-green hover:text-white cursor-pointer" />
+						<CarouselNext className="static translate-y-0 h-10 w-20 rounded-md bg-sartorial-green text-white hover:bg-sartorial-green cursor-pointer" />
+					</div>
+				</div>
+			</Carousel>
+
+			<div className="flex flex-col items-center mt-30">
+				<h2 className="text-3xl md:text-4xl font-bold text-sartorial-green mb-8">
+					Thank You! Sartorial Babes
+				</h2>
+			</div>
+
+			<div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+				<Image
+					src={SartorialBabe}
+					alt="Sartorial Babe"
+					height={100}
+					width={100}
+					className="w-full h-64 object-contain"
+				/>
+				<Image
+					src={SartorialBabe}
+					alt="Sartorial Babe"
+					height={100}
+					width={100}
+					className="w-full h-64 object-contain"
+				/>
+				<Image
+					src={SartorialBabe}
+					alt="Sartorial Babe"
+					height={100}
+					width={100}
+					className="w-full h-64 object-contain"
+				/>
+				<Image
+					src={SartorialBabe}
+					alt="Sartorial Babe"
+					height={100}
+					width={100}
+					className="w-full h-64 object-contain"
+				/>
+			</div>
+		</div>
+	);
+};
+
+export default ReviewSlide;

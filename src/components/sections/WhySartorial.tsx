@@ -12,7 +12,7 @@ const WhySartorial = () => {
 	return (
 		<div className="w-full mt-10 px-20 py-10">
 			<div className="flex justify-center">
-				<p className="text-2xl md:text-4xl md:font-semibold text-sartorial-green">
+				<p className="text-2xl md:text-4xl md:font-bold text-sartorial-green">
 					Why Shop With Sartorial?
 				</p>
 			</div>
