@@ -14,6 +14,17 @@ import Cat2 from "./images/cat2.png";
 import Cat3 from "./images/cat3.png";
 import Cat4 from "./images/cat4.png";
 import SartorialBabe from "./images/sartorial-babe.svg";
+import SartorialFooterIcon from "./icons/sartorial-footer-logo.svg";
+import PhoneIcon from "./icons/PhoneIcon";
+import WhatsappIcon from "./icons/WhatsappIcon";
+import MailIcon from "./icons/MailIcon";
+import LocationIcon from "./icons/LocationIcon";
+import FacebookIcon from "./icons/FacebookIcon";
+import IgIcon from "./icons/IgIcon";
+import TikTokIcon from "./icons/TikTokIcon";
+import SartorialBigBag from "./images/sartorial-bag4.svg";
+import ReturnIcon from "./icons/ReturnIcon";
+import BusIcon2 from "./icons/BusIcon2";
 
 export {
 	Sartorial,
@@ -32,4 +43,15 @@ export {
 	Cat3,
 	Cat4,
 	SartorialBabe,
+	SartorialFooterIcon,
+	PhoneIcon,
+	WhatsappIcon,
+	MailIcon,
+	LocationIcon,
+	FacebookIcon,
+	IgIcon,
+	TikTokIcon,
+	SartorialBigBag,
+	ReturnIcon,
+	BusIcon2,
 };

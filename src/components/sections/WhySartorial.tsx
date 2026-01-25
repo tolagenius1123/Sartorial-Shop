@@ -10,9 +10,9 @@ const WhySartorial = () => {
 	});
 
 	return (
-		<div className="w-full mt-10 px-20 py-10">
+		<div className="w-full md:mt-10 px-10 md:px-20 py-10">
 			<div className="flex justify-center">
-				<p className="text-2xl md:text-4xl md:font-bold text-sartorial-green">
+				<p className="text-3xl font-semibold text-center md:text-4xl md:font-bold text-sartorial-green">
 					Why Shop With Sartorial?
 				</p>
 			</div>
@@ -44,7 +44,7 @@ const WhySartorial = () => {
 				<div className="border shadow-lg border-sartorial-green rounded-sm flex justify-around items-center p-5">
 					<div className="flex flex-col gap-2 items-center text-black">
 						<BusIcon />
-						<p className="font-semibold text-lg">
+						<p className="font-semibold text-lg text-center">
 							WARRANTY AND FAST DELIVERY
 						</p>
 						<p className="text-sm text-center">
@@ -55,7 +55,7 @@ const WhySartorial = () => {
 			</div>
 
 			<div className="mt-10 flex justify-around items-center" ref={ref}>
-				<div className="w-1/2 border shadow-lg border-sartorial-green rounded-sm flex justify-around items-center p-5">
+				<div className="w-full md:w-1/2 border shadow-lg border-sartorial-green rounded-sm flex justify-around items-center p-5">
 					<div className="flex flex-col gap-1 items-center text-black">
 						<p className="font-bold text-[64px] text-sartorial-green">
 							{inView ? (
