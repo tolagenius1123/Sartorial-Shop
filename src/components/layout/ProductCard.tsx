@@ -91,13 +91,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
 					<div className="flex gap-3 mt-6">
 						<Button
 							variant="outline"
-							className="flex-1 h-10 border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green font-medium rounded-lg"
+							className="flex-1 h-10 border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green font-medium rounded-sm"
 							onClick={onAddToCart}
 						>
 							Add to Cart
 						</Button>
 						<Button
-							className="flex-1 h-10 bg-sartorial-green hover:bg-green-800 text-white font-medium rounded-lg"
+							className="flex-1 h-10 bg-sartorial-green hover:bg-green-800 text-white font-medium rounded-sm"
 							onClick={onBuyNow}
 						>
 							Buy Now

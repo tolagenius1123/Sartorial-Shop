@@ -3,10 +3,12 @@ import { SartorialBag } from "@/assets";
 import ProductCard from "../layout/ProductCard";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const BestSellers = () => {
+	const router = useRouter();
 	return (
-		<div className="w-full mt-10 px-20 py-10 bg-gray-50">
+		<div className="w-full mt-10 px-20 py-10 bg-gray-50" id="best-sellers">
 			<div className="flex justify-center">
 				<p className="text-2xl md:text-4xl md:font-semibold text-sartorial-green">
 					Our Best Sellers
@@ -91,7 +93,7 @@ const BestSellers = () => {
 				<Button
 					variant="outline"
 					className="flex text-lg justify-center h-11 border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green font-medium rounded-lg w-40 cursor-pointer"
-					onClick={() => console.log("View All Best Sellers")}
+					onClick={() => router.push("/all-products")}
 				>
 					See more{" "}
 					<ArrowRight className="h-5 w-5 text-5xl font-bold" />

@@ -123,12 +123,12 @@ const ProductDetails = () => {
 								</Button>
 							</div>
 						</div>
-						<div className="mt-3 flex items-center gap-3">
+						<div className="mt-3 flex  items-center gap-3">
 							<div className="flex items-center">
 								<button className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tl-sm rounded-bl-sm h-10 px-4 text-xl">
 									-
 								</button>
-								<button className="cursor-pointer text-sartorial-green border-y-2 border-sartorial-green h-10 px-6 text-2xl">
+								<button className="cursor-pointer text-sartorial-green border-y-2 border-sartorial-green h-10 px-6 md:text-2xl">
 									2
 								</button>
 								<button className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tr-sm rounded-br-sm h-10 px-4 text-xl ">
@@ -138,7 +138,7 @@ const ProductDetails = () => {
 
 							<Button
 								variant={"outline"}
-								className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-sm h-10 px-10"
+								className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-sm h-10 px-5 md:px-10"
 							>
 								Buy Now
 							</Button>

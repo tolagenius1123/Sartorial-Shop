@@ -1,7 +1,17 @@
 "use client";
-import { CartIcon, Sartorial, SearchIcon, UserIcon } from "@/assets";
+import {
+	CartIcon,
+	FacebookIcon,
+	IgIcon,
+	Sartorial,
+	SearchIcon,
+	TikTokIcon,
+	UserIcon,
+	WhatsappIcon,
+} from "@/assets";
 import { headerLinks } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { Heart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -10,8 +20,58 @@ const Header = () => {
 
 	return (
 		<header className="w-full">
-			<div className="bg-sartorial-green text-white flex justify-center items-center py-2">
-				<p className="text-white">Welcome to Sartorial Store!</p>
+			{/* <div className="bg-sartorial-green text-white flex justify-end py-2">
+				<div className="w-1/2 flex justify-between items-center">
+					<p className="text-white">Welcome to Sartorial Store!</p>
+					<div className="flex items-center gap-2">
+						<Link href={"/"}>
+							<IgIcon />
+						</Link>
+						<Link href={"/"}>
+							<FacebookIcon />
+						</Link>
+						<Link href={"/"}>
+							<TikTokIcon />
+						</Link>
+						<Link href={"/"}>
+							<WhatsappIcon />
+						</Link>
+					</div>
+				</div>
+			</div> */}
+			<div className="bg-sartorial-green text-white py-2 px-4 md:px-10 lg:px-20">
+				<div className="relative flex items-center justify-center">
+					<p className="text-sm font-medium">
+						Welcome to Sartorial Store!
+					</p>
+
+					<div className="absolute right-0 flex items-center gap-3">
+						<Link
+							href="/"
+							className="hover:opacity-80 transition-opacity"
+						>
+							<IgIcon />
+						</Link>
+						<Link
+							href="/"
+							className="hover:opacity-80 transition-opacity"
+						>
+							<FacebookIcon />
+						</Link>
+						<Link
+							href="/"
+							className="hover:opacity-80 transition-opacity"
+						>
+							<TikTokIcon />
+						</Link>
+						<Link
+							href="/"
+							className="hover:opacity-80 transition-opacity"
+						>
+							<WhatsappIcon />
+						</Link>
+					</div>
+				</div>
 			</div>
 			<div className="flex items-center bg-sartorial-offWhite px-10 py-2 border-b border-gray-200 justify-between">
 				<Link href="/">
@@ -28,7 +88,7 @@ const Header = () => {
 									"after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-full",
 									"after:origin-left after:scale-x-0 after:bg-sartorial-green after:transition-transform after:duration-300",
 									"hover:text-sartorial-green hover:after:scale-x-100",
-									pathname === href && "after:scale-x-100"
+									pathname === href && "after:scale-x-100",
 								)}
 							>
 								{label}
@@ -39,6 +99,9 @@ const Header = () => {
 				<div className="flex items-center gap-2">
 					<SearchIcon className="h-5 w-5 text-sartorial-green cursor-pointer" />
 					<CartIcon className="h-7 w-7 text-sartorial-green cursor-pointer" />
+					<Heart
+						className={`w-5 h-5 transition-colors cursor-pointer fill-none text-sartorial-green`}
+					/>
 					<UserIcon className="h-5 w-5 text-sartorial-green cursor-pointer" />
 				</div>
 			</div>
