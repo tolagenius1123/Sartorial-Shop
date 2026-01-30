@@ -47,8 +47,10 @@ const Footer = () => {
 
 					<div className="mt-3 text-white flex flex-col gap-4">
 						<Link href={"/"}>Contact Us</Link>
-						<Link href={"/"}>Shipping details</Link>
-						<Link href={"/"}>Refund & Returns</Link>
+						<Link href={"/shipping-details"}>Shipping details</Link>
+						<Link href={"/refund-and-returns"}>
+							Refund & Returns
+						</Link>
 					</div>
 				</div>
 				<div className="mt-8 text-white">
@@ -57,7 +59,9 @@ const Footer = () => {
 					<div className="mt-3 text-white flex flex-col gap-4">
 						<Link href={"/"}>About Us</Link>
 						<Link href={"/"}>FAQs</Link>
-						<Link href={"/"}>Terms & Conditions</Link>
+						<Link href={"/terms-and-condition"}>
+							Terms & Conditions
+						</Link>
 					</div>
 				</div>
 				<div className="mt-8 text-white">

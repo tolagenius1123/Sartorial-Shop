@@ -20,27 +20,8 @@ const Header = () => {
 
 	return (
 		<header className="w-full">
-			{/* <div className="bg-sartorial-green text-white flex justify-end py-2">
-				<div className="w-1/2 flex justify-between items-center">
-					<p className="text-white">Welcome to Sartorial Store!</p>
-					<div className="flex items-center gap-2">
-						<Link href={"/"}>
-							<IgIcon />
-						</Link>
-						<Link href={"/"}>
-							<FacebookIcon />
-						</Link>
-						<Link href={"/"}>
-							<TikTokIcon />
-						</Link>
-						<Link href={"/"}>
-							<WhatsappIcon />
-						</Link>
-					</div>
-				</div>
-			</div> */}
 			<div className="bg-sartorial-green text-white py-2 px-4 md:px-10 lg:px-20">
-				<div className="relative flex items-center justify-center">
+				<div className="relative flex items-center justify-between md:justify-center">
 					<p className="text-sm font-medium">
 						Welcome to Sartorial Store!
 					</p>

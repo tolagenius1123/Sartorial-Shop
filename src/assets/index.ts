@@ -25,6 +25,19 @@ import TikTokIcon from "./icons/TikTokIcon";
 import SartorialBigBag from "./images/sartorial-bag4.svg";
 import ReturnIcon from "./icons/ReturnIcon";
 import BusIcon2 from "./icons/BusIcon2";
+import AboutUsSartorialIcon from "./icons/sartorial-footer-logo.svg";
+import AboutUsSartorialIcon2 from "./icons/sar-about-logo.svg";
+import CEO from "./icons/ceo.svg";
+import Luxury from "./icons/luxury.svg";
+import Elegance from "./icons/elegance.svg";
+import Excellence from "./icons/excellence.svg";
+import Authenticity from "./icons/authenticity.svg";
+import Innovation from "./icons/innovation.svg";
+import CustomerCentric from "./icons/customer-centric.svg";
+import Sustainability from "./icons/sustainability.svg";
+import Sustainability2 from "./icons/sustainability.png";
+import Trust from "./icons/trust.svg";
+import CEO2 from "./icons/ceo2.svg";
 
 export {
 	Sartorial,
@@ -54,4 +67,17 @@ export {
 	SartorialBigBag,
 	ReturnIcon,
 	BusIcon2,
+	AboutUsSartorialIcon,
+	AboutUsSartorialIcon2,
+	CEO,
+	Luxury,
+	Elegance,
+	Excellence,
+	Authenticity,
+	Innovation,
+	CustomerCentric,
+	Sustainability,
+	Sustainability2,
+	Trust,
+	CEO2,
 };
