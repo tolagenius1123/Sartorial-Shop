@@ -58,7 +58,7 @@ const Footer = () => {
 
 					<div className="mt-3 text-white flex flex-col gap-4">
 						<Link href={"/"}>About Us</Link>
-						<Link href={"/"}>FAQs</Link>
+						<Link href={"/faqs"}>FAQs</Link>
 						<Link href={"/terms-and-condition"}>
 							Terms & Conditions
 						</Link>

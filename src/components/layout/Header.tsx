@@ -1,6 +1,5 @@
 "use client";
 import {
-	CartIcon,
 	FacebookIcon,
 	IgIcon,
 	Sartorial,
@@ -9,17 +8,18 @@ import {
 	UserIcon,
 	WhatsappIcon,
 } from "@/assets";
-import { headerLinks } from "@/lib/data";
+import { headerLinks } from "@/data";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Cart from "./Cart";
 
 const Header = () => {
 	const pathname = usePathname();
 
 	return (
-		<header className="w-full">
+		<header className="w-full fixed z-50 bg-white">
 			<div className="bg-sartorial-green text-white py-2 px-4 md:px-10 lg:px-20">
 				<div className="relative flex items-center justify-between md:justify-center">
 					<p className="text-sm font-medium">
@@ -79,7 +79,7 @@ const Header = () => {
 				</div>
 				<div className="flex items-center gap-2">
 					<SearchIcon className="h-5 w-5 text-sartorial-green cursor-pointer" />
-					<CartIcon className="h-7 w-7 text-sartorial-green cursor-pointer" />
+					<Cart />
 					<Heart
 						className={`w-5 h-5 transition-colors cursor-pointer fill-none text-sartorial-green`}
 					/>

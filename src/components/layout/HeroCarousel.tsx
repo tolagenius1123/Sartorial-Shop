@@ -34,7 +34,7 @@ const HeroCarousel = () => {
 
 	return (
 		<>
-			<div className="flex flex-col items-center w-full overflow-hidden gap-4 bg-sartorial-offWhite">
+			<div className="pt-24 flex flex-col items-center w-full overflow-hidden gap-4 bg-sartorial-offWhite">
 				<div className="relative w-full h-96">
 					{slides.map((slide, index) => (
 						<Link
