@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { banner1, banner2, banner3 } from "@/assets";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const HeroCarousel = () => {
 	const [currentSlide, setCurrentSlide] = useState(0);
@@ -17,6 +18,10 @@ const HeroCarousel = () => {
 	const nextSlide = useCallback(() => {
 		setCurrentSlide((prev) => (prev + 1) % slides.length);
 	}, [slides.length]);
+
+	const prevSlide = () => {
+		setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+	};
 
 	const goToSlide = (index: number) => {
 		setCurrentSlide(index);
@@ -57,6 +62,21 @@ const HeroCarousel = () => {
 					))}
 				</div>
 
+				<button
+					onClick={prevSlide}
+					className="absolute left-4 top-1/3 md:top-1/2 -translate-y-1/2 hover:bg-[#8EC09E45] bg-sartorial-lightGreen text-white p-2 rounded-full transition-all duration-300 z-20 cursor-pointer"
+					aria-label="Previous slide"
+				>
+					<ChevronLeft className="w-6 h-6" />
+				</button>
+				<button
+					onClick={nextSlide}
+					className="absolute right-4 top-1/3 md:top-1/2 -translate-y-1/2 hover:bg-[#8EC09E45] bg-sartorial-lightGreen text-white p-2 rounded-full transition-all duration-300 z-20 cursor-pointer"
+					aria-label="Next slide"
+				>
+					<ChevronRight className="w-6 h-6" />
+				</button>
+
 				<div className="flex gap-3 py-2">
 					{slides.map((_, index) => (
 						<button
@@ -64,7 +84,7 @@ const HeroCarousel = () => {
 							onClick={() => goToSlide(index)}
 							className={`transition-all duration-300 rounded-full w-3 h-3 ${
 								index === currentSlide
-									? "bg-sartorial-darkGreen scale-110"
+									? "bg-sartorial-green scale-110"
 									: "bg-sartorial-lightGreen opacity-70"
 							}`}
 							aria-label={`Go to slide ${index + 1}`}

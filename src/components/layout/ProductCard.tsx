@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { Product } from "@/lib/types/types";
+import { useWishlistStore } from "@/store/useWishlistStore";
 
 interface ProductCardProps {
+	product: Product;
 	name: string;
 	price?: number;
 	currency?: string;
@@ -17,6 +20,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
+	product,
 	name,
 	currency,
 	originalPrice,
@@ -24,29 +28,34 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	onAddToCart,
 	onBuyNow,
 }) => {
-	const [isFavorite, setIsFavorite] = useState(false);
+	const { addToWishlist, removeFromWishlist, isInWishlist } =
+		useWishlistStore();
+
+	const isFavorite = isInWishlist(product?._id);
 
 	const EXCHANGE_RATE = 0.000714;
 	const priceInDollars = originalPrice * EXCHANGE_RATE;
 
-	const toggleFavorite = () => {
-		setIsFavorite(!isFavorite);
+	const toggleFavorite = (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		if (isFavorite) {
+			removeFromWishlist(product._id);
+		} else {
+			addToWishlist(product);
+		}
 	};
 
 	return (
 		<>
 			<div className="w-full max-w-sm border-none cursor-pointer">
 				<Link href={`/product/${name}`}>
-					<div className="bg-white p-5 rounded-lg hover:border-2 hover:border-sartorial-green hover:shadow-lg transition-all duration-300">
+					<div className="bg-white p-5 rounded-lg hover:border-2 hover:border-sartorial-green hover:shadow-lg transition-all duration-200">
 						<div className="flex justify-end mb-4">
 							<button
 								onClick={toggleFavorite}
 								className="transition-transform hover:scale-110 focus:outline-none"
-								aria-label={
-									isFavorite
-										? "Remove from favorites"
-										: "Add to favorites"
-								}
 							>
 								<Heart
 									className={`w-6 h-6 transition-colors cursor-pointer ${
@@ -71,7 +80,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 				</Link>
 
 				<div className="mt-3">
-					{/* Product Info */}
 					<div className="text-center space-y-2">
 						<h3 className="text-3xl font-semibold text-sartorial-green">
 							{name}
@@ -94,7 +102,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 						</p>
 					</div>
 
-					{/* Action Buttons */}
 					<div className="flex gap-3 mt-6">
 						<Button
 							variant="outline"

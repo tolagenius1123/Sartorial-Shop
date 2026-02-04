@@ -13,10 +13,14 @@ import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Cart from "./Cart";
+import dynamic from "next/dynamic";
+import { useWishlistStore } from "@/store/useWishlistStore";
+
+const Cart = dynamic(() => import("./Cart"), { ssr: false });
 
 const Header = () => {
 	const pathname = usePathname();
+	const wishlistCount = useWishlistStore((state) => state.items.length);
 
 	return (
 		<header className="w-full fixed z-50 bg-white">
@@ -80,9 +84,15 @@ const Header = () => {
 				<div className="flex items-center gap-2">
 					<SearchIcon className="h-5 w-5 text-sartorial-green cursor-pointer" />
 					<Cart />
-					<Heart
-						className={`w-5 h-5 transition-colors cursor-pointer fill-none text-sartorial-green`}
-					/>
+					<Link href="/wishlist" className="relative">
+						<Heart className="w-5 h-5 cursor-pointer text-sartorial-green" />
+
+						{wishlistCount > 0 && (
+							<span className="absolute -top-2 -right-2 bg-white text-green-900 text-xs px-1 rounded-full">
+								{wishlistCount}
+							</span>
+						)}
+					</Link>
 					<UserIcon className="h-5 w-5 text-sartorial-green cursor-pointer" />
 				</div>
 			</div>

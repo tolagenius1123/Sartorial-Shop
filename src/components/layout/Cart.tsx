@@ -32,9 +32,11 @@ const Cart = () => {
 			<DialogTrigger asChild>
 				<button className="relative">
 					<CartIcon className="h-7 w-7 text-sartorial-green cursor-pointer" />
-					<span className="absolute -top-2 -right-2 bg-white text-green-900 text-xs px-2 rounded-full">
-						{totalItems}
-					</span>
+					{totalItems > 0 && (
+						<span className="absolute -top-2 -right-2 bg-white text-green-900 text-xs px-2 rounded-full">
+							{totalItems}
+						</span>
+					)}
 				</button>
 			</DialogTrigger>
 
