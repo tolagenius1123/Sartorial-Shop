@@ -5,7 +5,6 @@
 
 @theme {
 	--color-sartorial-green: #2c5b42;
-	--color-sartorial-darkGreen: #2c5b42;
 	--color-sartorial-lightGreen: #8ec09e;
 	--color-sartorial-offWhite: #fffdfd;
 }
@@ -129,4 +128,13 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+	width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 10px;
 }

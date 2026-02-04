@@ -22,7 +22,7 @@ const AboutUs = () => {
 			<div
 				className="
 					w-full flex flex-col md:flex-row items-center
-					py-10 px-10 md:px-20
+					pt-10 pb-10 px-10 md:px-20 md:pt-30
 					bg-[radial-gradient(circle_at_center,#8EC09E_0%,#2C5B42_70%)]
 				"
 			>

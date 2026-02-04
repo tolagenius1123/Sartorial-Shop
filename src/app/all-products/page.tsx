@@ -66,8 +66,7 @@ const AllProducts = () => {
 	return (
 		<div className="h-auto w-full bg-gray-50">
 			<Header />
-
-			<div className="flex flex-col md:flex-row w-full mt-10 px-10 md:px-20 py-10 gap-8">
+			<div className="flex flex-col md:flex-row w-full px-10 md:px-20 py-20 md:py-40 gap-8">
 				{/* Filters Sidebar */}
 				<FilterSidebar
 					categories={categories}

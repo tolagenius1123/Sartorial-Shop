@@ -8,9 +8,9 @@ import Link from "next/link";
 
 interface ProductCardProps {
 	name: string;
-	price: number;
+	price?: number;
 	currency?: string;
-	originalPrice?: number;
+	originalPrice: number;
 	image: any;
 	onAddToCart?: () => void;
 	onBuyNow?: () => void;
@@ -18,14 +18,16 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({
 	name,
-	price,
-	currency = "$",
+	currency,
 	originalPrice,
 	image,
 	onAddToCart,
 	onBuyNow,
 }) => {
 	const [isFavorite, setIsFavorite] = useState(false);
+
+	const EXCHANGE_RATE = 0.000714;
+	const priceInDollars = originalPrice * EXCHANGE_RATE;
 
 	const toggleFavorite = () => {
 		setIsFavorite(!isFavorite);
@@ -83,7 +85,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
 						)}
 
 						<p className="text-xl text-sartorial-green">
-							${price.toFixed(2)}
+							($
+							{priceInDollars.toLocaleString(undefined, {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2,
+							})}
+							)
 						</p>
 					</div>
 

@@ -5,3 +5,5 @@ export const headerLinks = [
 	{ href: "/all-products", label: "All Products" },
 	{ href: "/about-us", label: "About Us" },
 ];
+
+export const EXCHANGE_RATE = 0.000714;

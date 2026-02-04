@@ -39,6 +39,7 @@ import Sustainability2 from "./icons/sustainability.png";
 import Trust from "./icons/trust.svg";
 import CEO2 from "./icons/ceo2.svg";
 import FAQ from "./images/faq.png";
+import CheckoutImage from "./images/checkout-image.png";
 
 export {
 	Sartorial,
@@ -82,4 +83,5 @@ export {
 	Trust,
 	CEO2,
 	FAQ,
+	CheckoutImage,
 };
