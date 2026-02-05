@@ -97,7 +97,7 @@ const Cart = () => {
 							<div className="text-right space-y-2">
 								<button
 									onClick={() => removeItem(item.product._id)}
-									className="text-white/70 hover:text-red-400"
+									className="text-white/70 hover:text-red-400 cursor-pointer"
 								>
 									<Trash2 size={18} />
 								</button>

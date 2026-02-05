@@ -4,8 +4,10 @@ export const billingSchema = yup.object().shape({
 	firstName: yup.string().trim().required("First name is required"),
 	lastName: yup.string().trim().required("Last name is required"),
 	address: yup.string().trim().required("Street address is required"),
+	country: yup.string().trim().required("Country is required"),
+	state: yup.string().trim(),
 	apartment: yup.string().trim(),
-	townCity: yup.string().trim().required("Town/City is required"),
+	area: yup.string().trim(),
 	postalCode: yup.string().trim(),
 	phoneNo: yup.string().trim().required("Phone number is required"),
 	emailAddress: yup
@@ -29,11 +31,13 @@ export const billingSchema = yup.object().shape({
 		then: (schema) => schema.required("Receiver's address is required"),
 		otherwise: (schema) => schema.notRequired(),
 	}),
-	shippingTownCity: yup.string().when("shipToDifferentAddress", {
+	shippingCountry: yup.string().when("shipToDifferentAddress", {
 		is: true,
-		then: (schema) => schema.required("Receiver's town/city is required"),
+		then: (schema) => schema.required("Country is required"),
 		otherwise: (schema) => schema.notRequired(),
 	}),
+	shippingState: yup.string().trim(),
+	shippingArea: yup.string().trim(),
 	shippingPhoneNo: yup.string().when("shipToDifferentAddress", {
 		is: true,
 		then: (schema) =>

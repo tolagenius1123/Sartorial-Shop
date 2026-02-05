@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 
 const inter = Inter({
@@ -20,11 +21,13 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className="scroll-smooth">
-			<body className={`${inter.variable} antialiased`}>
-				{children}
-				<Toaster position="top-right" richColors />
-			</body>
-		</html>
+		<ClerkProvider dynamic>
+			<html lang="en" className="scroll-smooth">
+				<body className={`${inter.variable} antialiased`}>
+					{children}
+					<Toaster position="top-right" richColors />
+				</body>
+			</html>
+		</ClerkProvider>
 	);
 }

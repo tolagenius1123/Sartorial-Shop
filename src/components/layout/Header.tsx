@@ -15,10 +15,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useWishlistStore } from "@/store/useWishlistStore";
+import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 const Cart = dynamic(() => import("./Cart"), { ssr: false });
 
 const Header = () => {
+	const { user } = useUser();
 	const pathname = usePathname();
 	const wishlistCount = useWishlistStore((state) => state.items.length);
 
@@ -93,7 +95,32 @@ const Header = () => {
 							</span>
 						)}
 					</Link>
-					<UserIcon className="h-5 w-5 text-sartorial-green cursor-pointer" />
+					{/* <UserIcon className="h-5 w-5 text-sartorial-green cursor-pointer" /> */}
+					<ClerkLoaded>
+						{user ? (
+							<div className="ml-3 flex items-center space-x-2">
+								<UserButton />
+
+								<div className="hidden sm:block text-xs">
+									<p className="text-sartorial-green">
+										Welcome Back
+									</p>
+									<p className="font-bold">
+										{user.fullName}!
+									</p>
+								</div>
+							</div>
+						) : (
+							<SignInButton mode="modal">
+								<div className="flex items-center gap-2 cursor-pointer group">
+									<UserIcon className="h-5 w-5 text-sartorial-green group-hover:scale-110 transition-transform" />
+									{/* <span className="text-xs font-bold uppercase tracking-tighter">
+										Login
+									</span> */}
+								</div>
+							</SignInButton>
+						)}
+					</ClerkLoaded>
 				</div>
 			</div>
 		</header>
