@@ -2,11 +2,12 @@
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { EXCHANGE_RATE } from "@/data";
-import { Product } from "@/lib/types/types";
 import { useBasketStore } from "@/store/store";
 import { useWishlistStore } from "@/store/useWishlistStore";
 import Image from "next/image";
 import { toast } from "sonner";
+import { Product } from "../../../../sanity.types";
+import { SartorialBag } from "@/assets";
 
 const WishList = () => {
 	const { items, removeFromWishlist } = useWishlistStore();
@@ -54,8 +55,11 @@ const WishList = () => {
 								<div className="flex items-center gap-6 flex-1 w-full">
 									<div className="relative w-24 h-24 bg-gray-50 rounded-md overflow-hidden shrink-0">
 										<Image
-											src={product.image}
-											alt={product.name}
+											src={
+												product?.images?.[0]?.asset
+													?.url ?? SartorialBag
+											}
+											alt={product.name ?? "pic"}
 											fill
 											className="object-contain p-2"
 										/>
@@ -72,14 +76,12 @@ const WishList = () => {
 
 								<div className="flex flex-col items-end flex-1 w-full">
 									<p className="text-lg font-medium text-gray-700">
-										₦
-										{product.originalPrice.toLocaleString()}
+										₦{(product.price || 0).toLocaleString()}
 									</p>
 									<p className="text-gray-500">
 										$
 										{(
-											product.originalPrice *
-											EXCHANGE_RATE
+											(product.price || 0) * EXCHANGE_RATE
 										).toLocaleString(undefined, {
 											minimumFractionDigits: 2,
 											maximumFractionDigits: 2,

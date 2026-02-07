@@ -31,3 +31,23 @@ export interface BillingFormValues {
 	shippingPhoneNo: string;
 	orderNote: string;
 }
+
+export type SanityImageAsset = {
+	url: string;
+};
+
+export type ProductImage = {
+	alt?: string;
+	asset?: SanityImageAsset;
+};
+
+export type BestSellerProduct = {
+	_id: string;
+	name?: string;
+	slug?: string;
+	price?: number;
+	stock?: number;
+	isBestSeller?: boolean;
+	isNewArrival?: boolean;
+	images?: ProductImage[];
+};

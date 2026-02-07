@@ -3,7 +3,6 @@ import ProductCard from "../layout/ProductCard";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { bestSellers } from "@/data/products";
 import { useBasketStore } from "@/store/store";
 import { toast } from "sonner";
 import { getBestSellers } from "@/sanity/lib/product/getBestSellers";
@@ -16,8 +15,6 @@ const BestSellers = () => {
 
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(true);
-
-	console.log(products);
 
 	useEffect(() => {
 		getBestSellers()
@@ -35,37 +32,11 @@ const BestSellers = () => {
 				</p>
 			</div>
 
-			{/* <div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-				{bestSellers.map((product) => (
-					<ProductCard
-						product={product}
-						key={product._id}
-						name={product.name}
-						price={product.price}
-						originalPrice={product.originalPrice}
-						currency="₦"
-						image={product.image}
-						onAddToCart={() => {
-							addItem(product);
-							toast.success(`${product.name} added to cart`);
-						}}
-						onBuyNow={() => {
-							addItem(product);
-							router.push("/checkout");
-						}}
-					/>
-				))}
-			</div> */}
-
 			<div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
 				{products.map((product) => (
 					<ProductCard
 						key={product._id}
 						product={product}
-						name={product.name}
-						originalPrice={product.price}
-						currency="₦"
-						image={product.images?.[0]?.asset?.url}
 						onAddToCart={() => {
 							addItem(product);
 							toast.success(`${product.name} added to cart`);

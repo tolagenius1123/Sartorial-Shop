@@ -1,17 +1,60 @@
 "use client";
-import { BusIcon2, ReturnIcon, SartorialBag, SartorialBigBag } from "@/assets";
+import { BusIcon2, ReturnIcon, SartorialBag } from "@/assets";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
-import ProductCard from "@/components/layout/ProductCard";
 import Tabs, { TabItem } from "@/components/layout/Tabs";
 import { Button } from "@/components/ui/button";
+import { getProductBySlug } from "@/sanity/lib/product/getProductBySlug";
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { PortableText } from "@portabletext/react";
+
+type Color = {
+	_id: string;
+	title: string;
+	hex: string;
+};
+
+type ProductImage = {
+	alt: string;
+	asset: {
+		url: string;
+	};
+	color?: Color;
+};
+
+type ProductData = {
+	_id: string;
+	name: string;
+	slug: string;
+	price: number;
+	stock: number;
+	description: any[];
+	isBestSeller: boolean;
+	isNewArrival: boolean;
+	images: ProductImage[];
+	colors: Color[];
+	categories: any[] | null;
+};
 
 const ProductDetails = () => {
+	const params = useParams();
+	const slug = params.slug as string;
+
 	const [isFavorite, setIsFavorite] = useState(false);
 	const [generalTab, setGeneralTab] = useState("product-details");
+	const [product, setProduct] = useState<ProductData | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [selectedColor, setSelectedColor] = useState<string>("");
+	const [selectedImage, setSelectedImage] = useState<ProductImage | null>(
+		null,
+	);
+	const [quantity, setQuantity] = useState(1);
+
+	const EXCHANGE_RATE = 0.000714;
+	const priceInDollars = product ? product.price * EXCHANGE_RATE : 0;
 
 	const toggleFavorite = () => {
 		setIsFavorite(!isFavorite);
@@ -32,116 +75,245 @@ const ProductDetails = () => {
 		},
 	];
 
+	useEffect(() => {
+		const fetchProduct = async () => {
+			try {
+				const data = await getProductBySlug(slug);
+				setProduct(data);
+
+				if (data?.colors?.length > 0) {
+					setSelectedColor(data.colors[0]._id);
+				}
+				if (data?.images?.length > 0) {
+					setSelectedImage(data.images[0]);
+				}
+			} catch (error) {
+				console.error("Error fetching product:", error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		if (slug) {
+			fetchProduct();
+		}
+	}, [slug]);
+
+	const handleColorSelect = (colorId: string) => {
+		setSelectedColor(colorId);
+		const matchingImage = product?.images.find(
+			(img) => img.color?._id === colorId,
+		);
+		if (matchingImage) {
+			setSelectedImage(matchingImage);
+		}
+	};
+
+	const handleQuantityChange = (action: "increment" | "decrement") => {
+		if (action === "increment" && product && quantity < product.stock) {
+			setQuantity(quantity + 1);
+		} else if (action === "decrement" && quantity > 1) {
+			setQuantity(quantity - 1);
+		}
+	};
+
+	if (loading) {
+		return (
+			<div className="h-screen w-full flex items-center justify-center">
+				<p className="text-sartorial-green text-xl">Loading...</p>
+			</div>
+		);
+	}
+
+	if (!product) {
+		return (
+			<div className="h-screen w-full flex items-center justify-center">
+				<p className="text-sartorial-green text-xl">
+					Product not found
+				</p>
+			</div>
+		);
+	}
+
 	return (
 		<div className="h-auto w-full bg-sartorial-offWhite">
 			<Header />
-			<div className="w-full mt-10 px-10 md:px-20 py-10">
+			<div className="w-full pt-10 pb-10 px-10 md:px-20 md:pt-40">
 				<div className="w-full flex flex-col md:flex-row justify-between gap-5">
+					{/* Images Section */}
 					<div className="w-full md:w-[60%]">
 						<div className="flex gap-2 flex-col-reverse md:flex-row">
+							{/* Thumbnail Images */}
 							<div className="flex flex-row md:flex-col gap-3">
-								<div className="border border-sartorial-green rounded-lg px-5">
-									<Image
-										width={100}
-										height={100}
-										src={SartorialBag}
-										alt={"sartorial-bag"}
-										// className="w-full h-64 object-contain"
-									/>
-								</div>
-								<div className="border border-sartorial-green rounded-lg px-5">
-									<Image
-										width={100}
-										height={100}
-										src={SartorialBag}
-										alt={"sartorial-bag"}
-										// className="w-full h-64 object-contain"
-									/>
-								</div>
-								<div className="border border-sartorial-green rounded-lg px-5">
-									<Image
-										width={100}
-										height={100}
-										src={SartorialBag}
-										alt={"sartorial-bag"}
-										// className="w-full h-64 object-contain"
-									/>
-								</div>
+								{product.images.map((img, index) => (
+									<div
+										key={index}
+										className={`border rounded-lg cursor-pointer transition-all flex items-center justify-center ${
+											selectedImage?.asset.url ===
+											img.asset.url
+												? "border-sartorial-green border-2"
+												: "border-gray-300"
+										}`}
+										onClick={() => {
+											setSelectedImage(img);
+											if (img.color?._id) {
+												setSelectedColor(img.color._id);
+											}
+										}}
+										style={{
+											width: "120px",
+											height: "120px",
+										}}
+									>
+										<Image
+											width={100}
+											height={100}
+											src={img.asset.url ?? SartorialBag}
+											alt={img.alt ?? "product"}
+											className="object-contain w-full h-full p-2"
+										/>
+									</div>
+								))}
 							</div>
-							<div className="w-full">
+
+							{/* Main Image */}
+							<div
+								className="w-full bg-white rounded-lg flex items-center justify-center"
+								style={{ height: "500px" }}
+							>
 								<Image
-									src={SartorialBigBag}
-									alt={"sartorial-bag"}
-									className="w-full h-full object-cover"
-									// fill
+									width={500}
+									height={500}
+									src={
+										selectedImage?.asset.url ??
+										product.images[0]?.asset.url ??
+										SartorialBag
+									}
+									alt={selectedImage?.alt ?? product.name}
+									className="object-contain max-w-full max-h-full"
+									priority
 								/>
-								{/* <Image
-									className="object-cover transition-transform duration-300 group-hover:scale-105"
-									src={SartorialBag}
-									alt={"Product image"}
-									fill
-									sizes="(max-width: 768px) 100vw, (max-width:1200px) 50vw, 33vw"
-								/> */}
 							</div>
 						</div>
 					</div>
+
+					{/* Product Info Section */}
 					<div className="w-full md:w-[40%] text-sartorial-green">
-						<div className="">
-							<p className="text-4xl semi-bold ">Bella Bag</p>
-							<p className="text-2xl">₦70,000</p>
-							<p className="text-2xl">$192.00</p>
-							<p>
-								PlayStation 5 Controller Skin High quality vinyl
-								with air channel adhesive for easy bubble free
-								install & mess free removal Pressure sensitive.
+						<div className="space-y-3">
+							<h1 className="text-4xl font-semibold">
+								{product.name}
+							</h1>
+							<p className="text-2xl font-bold">
+								₦{product.price.toLocaleString()}
 							</p>
-						</div>
-						<div className="">
-							<p>
-								Select Color: <span>Green</span>
+							<p className="text-xl">
+								($
+								{priceInDollars.toLocaleString(undefined, {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2,
+								})}
+								)
 							</p>
-							<div className="flex items-center gap-2 mt-2">
-								<Button
-									className="text-sm bg-sartorial-green hover:bg-green-800 text-white font-medium rounded-sm"
-									onClick={() => {}}
-								>
-									Green
-								</Button>
-								<Button
-									variant="outline"
-									className="text-sm border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green font-medium rounded-sm"
-									onClick={() => {}}
-								>
-									Burgundy
-								</Button>
-								<Button
-									variant="outline"
-									className="text-sm border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green font-medium rounded-sm"
-									onClick={() => {}}
-								>
-									Black
-								</Button>
+
+							{/* Description */}
+							<div className="text-gray-700 text-sm leading-relaxed">
+								{product.description && (
+									<PortableText value={product.description} />
+								)}
 							</div>
+
+							{/* Stock Status */}
+							<p className="text-sm">
+								<span className="font-semibold">
+									Availability:
+								</span>{" "}
+								{product.stock > 0 ? (
+									<span className="text-green-600">
+										In Stock ({product.stock} available)
+									</span>
+								) : (
+									<span className="text-red-600">
+										Out of Stock
+									</span>
+								)}
+							</p>
 						</div>
-						<div className="mt-3 flex  items-center gap-3">
+
+						{/* Color Selection */}
+						{product.colors && product.colors.length > 0 && (
+							<div className="mt-5">
+								<p className="mb-2">
+									Select Color:{" "}
+									<span className="font-semibold">
+										{
+											product.colors.find(
+												(c) => c._id === selectedColor,
+											)?.title
+										}
+									</span>
+								</p>
+								<div className="flex items-center gap-2 flex-wrap">
+									{product.colors.map((color) => (
+										<Button
+											key={color._id}
+											variant={
+												selectedColor === color._id
+													? "default"
+													: "outline"
+											}
+											className={`text-sm font-medium rounded-sm ${
+												selectedColor === color._id
+													? "bg-sartorial-green hover:bg-green-800 text-white"
+													: "border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green"
+											}`}
+											onClick={() =>
+												handleColorSelect(color._id)
+											}
+										>
+											{color.title}
+										</Button>
+									))}
+								</div>
+							</div>
+						)}
+
+						{/* Quantity and Actions */}
+						<div className="mt-5 flex items-center gap-3">
+							{/* Quantity Selector */}
 							<div className="flex items-center">
-								<button className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tl-sm rounded-bl-sm h-10 px-4 text-xl">
+								<button
+									onClick={() =>
+										handleQuantityChange("decrement")
+									}
+									className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tl-sm rounded-bl-sm h-10 px-4 text-xl hover:bg-gray-50 transition-colors"
+									disabled={quantity <= 1}
+								>
 									-
 								</button>
-								<button className="cursor-pointer text-sartorial-green border-y-2 border-sartorial-green h-10 px-6 md:text-2xl">
-									2
-								</button>
-								<button className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tr-sm rounded-br-sm h-10 px-4 text-xl ">
+								<div className="cursor-default text-sartorial-green border-y-2 border-sartorial-green h-10 px-6 flex items-center justify-center min-w-[60px] text-xl font-semibold">
+									{quantity}
+								</div>
+								<button
+									onClick={() =>
+										handleQuantityChange("increment")
+									}
+									className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tr-sm rounded-br-sm h-10 px-4 text-xl hover:bg-gray-50 transition-colors"
+									disabled={quantity >= product.stock}
+								>
 									+
 								</button>
 							</div>
 
+							{/* Buy Now Button */}
 							<Button
-								variant={"outline"}
-								className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-sm h-10 px-5 md:px-10"
+								variant="outline"
+								className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-sm h-10 px-5 md:px-10 hover:bg-gray-50"
+								disabled={product.stock <= 0}
 							>
 								Buy Now
 							</Button>
+
+							{/* Wishlist Button */}
 							<button
 								onClick={toggleFavorite}
 								className="transition-transform hover:scale-110 focus:outline-none border-2 border-sartorial-green cursor-pointer rounded-sm h-10 px-3"
@@ -160,6 +332,8 @@ const ProductDetails = () => {
 								/>
 							</button>
 						</div>
+
+						{/* Delivery Info */}
 						<div className="mt-5 border border-[#40404040] rounded-sm">
 							<div className="flex items-center gap-5 py-3 px-6 border-b border-[#40404040]">
 								<BusIcon2 />
@@ -190,6 +364,8 @@ const ProductDetails = () => {
 						</div>
 					</div>
 				</div>
+
+				{/* Tabs Section */}
 				<div className="mt-10 border-b border-[#D1D5DB]">
 					<Tabs
 						tabs={generalTabItems}
@@ -197,39 +373,16 @@ const ProductDetails = () => {
 						onChange={setGeneralTab}
 					/>
 				</div>
+
 				{/* Product Details Section */}
 				<div className="mt-6 text-sartorial-green">
 					{generalTab === "product-details" && (
 						<div className="space-y-4 max-w-4xl">
-							<p className="text-sm leading-relaxed text-gray-700">
-								Step into a realm of unparalleled off-duty style
-								with these grey acid wash joggers that
-								effortlessly marry fashion with comfort. Crafted
-								for those committed to style even on their off
-								days, these joggers feature a chic drawstring
-								waist and a wide leg cut. The distinctive acid
-								wash adds a touch of urban edge, making these
-								joggers a versatile choice for leisurely
-								pursuits and relaxed outings. Elevate your
-								casual wardrobe with the perfect blend of
-								fashion-forward design and comfort-driven
-								details, redefining off-duty elegance with every
-								step.
-							</p>
-
-							<ul className="list-disc pl-5 space-y-1 text-sm text-gray-700">
-								<li>Dark grey</li>
-								<li>Acid wash finish</li>
-								<li>Drawstring waist</li>
-								<li>Side slit pockets</li>
-								<li>Pin tuck pleat</li>
-								<li>Wide leg</li>
-								<li>
-									Model is 5&apos;9&quot;/175cm and wears UK
-									10/EU 38/US 6
-								</li>
-								<li>Product Code: 891545603</li>
-							</ul>
+							<div className="text-sm leading-relaxed text-gray-700">
+								{product.description && (
+									<PortableText value={product.description} />
+								)}
+							</div>
 						</div>
 					)}
 
@@ -261,57 +414,16 @@ const ProductDetails = () => {
 					)}
 				</div>
 			</div>
+
+			{/* Related Products */}
 			<div className="w-full mt-10 px-20 py-10 bg-gray-50">
-				<div className="">
+				<div>
 					<p className="text-2xl font-semibold text-sartorial-green">
 						Related Products
 					</p>
 				</div>
 				<div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-					<ProductCard
-						name="Bella Bag"
-						price={192.0}
-						originalPrice={3000}
-						currency="₦"
-						image={SartorialBag}
-						onAddToCart={() =>
-							console.log("Added Bella Bag to cart")
-						}
-						onBuyNow={() => console.log("Bought Bella Bag")}
-					/>
-					<ProductCard
-						name="Bella Bag"
-						price={192.0}
-						originalPrice={3000}
-						currency="₦"
-						image={SartorialBag}
-						onAddToCart={() =>
-							console.log("Added Bella Bag to cart")
-						}
-						onBuyNow={() => console.log("Bought Bella Bag")}
-					/>
-					<ProductCard
-						name="Bella Bag"
-						price={192.0}
-						originalPrice={3000}
-						currency="₦"
-						image={SartorialBag}
-						onAddToCart={() =>
-							console.log("Added Bella Bag to cart")
-						}
-						onBuyNow={() => console.log("Bought Bella Bag")}
-					/>
-					<ProductCard
-						name="Bella Bag"
-						price={192.0}
-						originalPrice={3000}
-						currency="₦"
-						image={SartorialBag}
-						onAddToCart={() =>
-							console.log("Added Bella Bag to cart")
-						}
-						onBuyNow={() => console.log("Bought Bella Bag")}
-					/>
+					{/* Add related products here */}
 				</div>
 			</div>
 			<Footer />

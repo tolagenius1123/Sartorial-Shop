@@ -11,7 +11,7 @@ import { Trash2, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useBasketStore } from "@/store/store";
-import { CartIcon } from "@/assets";
+import { CartIcon, SartorialBag } from "@/assets";
 import { useRouter } from "next/navigation";
 import { EXCHANGE_RATE } from "@/data";
 
@@ -61,8 +61,10 @@ const Cart = () => {
 						>
 							<div className="flex items-center gap-4">
 								<Image
-									// src={item.product.image}
-									src={item.product.images?.[0]?.asset?.url}
+									src={
+										item.product?.images?.[0]?.asset?.url ??
+										SartorialBag
+									}
 									alt={item.product.name ?? "pic"}
 									width={70}
 									height={70}
