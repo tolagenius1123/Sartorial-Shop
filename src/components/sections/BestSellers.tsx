@@ -6,10 +6,26 @@ import { useRouter } from "next/navigation";
 import { bestSellers } from "@/data/products";
 import { useBasketStore } from "@/store/store";
 import { toast } from "sonner";
+import { getBestSellers } from "@/sanity/lib/product/getBestSellers";
+import { useEffect, useState } from "react";
+import { Product } from "../../../sanity.types";
 
 const BestSellers = () => {
 	const router = useRouter();
 	const addItem = useBasketStore((s) => s.addItem);
+
+	const [products, setProducts] = useState<Product[]>([]);
+	const [loading, setLoading] = useState(true);
+
+	console.log(products);
+
+	useEffect(() => {
+		getBestSellers()
+			.then((data) => setProducts(data))
+			.finally(() => setLoading(false));
+	}, []);
+
+	if (loading) return <p>Loading best sellers...</p>;
 
 	return (
 		<div className="w-full mt-10 px-20 py-10 bg-gray-50" id="best-sellers">
@@ -19,7 +35,7 @@ const BestSellers = () => {
 				</p>
 			</div>
 
-			<div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+			{/* <div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
 				{bestSellers.map((product) => (
 					<ProductCard
 						product={product}
@@ -29,6 +45,27 @@ const BestSellers = () => {
 						originalPrice={product.originalPrice}
 						currency="₦"
 						image={product.image}
+						onAddToCart={() => {
+							addItem(product);
+							toast.success(`${product.name} added to cart`);
+						}}
+						onBuyNow={() => {
+							addItem(product);
+							router.push("/checkout");
+						}}
+					/>
+				))}
+			</div> */}
+
+			<div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+				{products.map((product) => (
+					<ProductCard
+						key={product._id}
+						product={product}
+						name={product.name}
+						originalPrice={product.price}
+						currency="₦"
+						image={product.images?.[0]?.asset?.url}
 						onAddToCart={() => {
 							addItem(product);
 							toast.success(`${product.name} added to cart`);

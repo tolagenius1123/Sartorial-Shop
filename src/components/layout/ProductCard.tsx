@@ -1,20 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { Product } from "@/lib/types/types";
 import { useWishlistStore } from "@/store/useWishlistStore";
+import { Product } from "../../../sanity.types";
 
 interface ProductCardProps {
 	product: Product;
-	name: string;
+	name: string | undefined;
 	price?: number;
 	currency?: string;
-	originalPrice: number;
-	image: any;
+	originalPrice: number | undefined;
+	image: string;
 	onAddToCart?: () => void;
 	onBuyNow?: () => void;
 }
@@ -34,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	const isFavorite = isInWishlist(product?._id);
 
 	const EXCHANGE_RATE = 0.000714;
-	const priceInDollars = originalPrice * EXCHANGE_RATE;
+	const priceInDollars = (originalPrice ?? 0) * EXCHANGE_RATE;
 
 	const toggleFavorite = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -72,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 								width={100}
 								height={100}
 								src={image}
-								alt={name}
+								alt={name ? name : "pic"}
 								className="w-full h-64 object-contain"
 							/>
 						</div>

@@ -1,6 +1,6 @@
-import { Product } from "@/lib/types/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { Product } from "../../sanity.types";
 
 export interface BasketItem {
 	product: Product;
@@ -75,8 +75,7 @@ export const useBasketStore = create<BasketState>()(
 			getTotalPrice: () => {
 				return get().items.reduce(
 					(total, item) =>
-						total +
-						(item.product.originalPrice || 0) * item.quantity,
+						total + (item.product.price || 0) * item.quantity,
 					0,
 				);
 			},

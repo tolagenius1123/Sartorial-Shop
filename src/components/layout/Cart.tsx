@@ -61,8 +61,9 @@ const Cart = () => {
 						>
 							<div className="flex items-center gap-4">
 								<Image
-									src={item.product.image}
-									alt={item.product.name}
+									// src={item.product.image}
+									src={item.product.images?.[0]?.asset?.url}
+									alt={item.product.name ?? "pic"}
 									width={70}
 									height={70}
 									className="rounded-lg object-cover"
@@ -104,14 +105,14 @@ const Cart = () => {
 								<p className="font-semibold">
 									₦
 									{(
-										(item.product.originalPrice || 0) *
+										(item.product.price || 0) *
 										item.quantity
 									).toLocaleString()}
 								</p>
 								<p className="font-semibold">
 									$
 									{(
-										item.product.originalPrice *
+										(item.product.price ?? 0) *
 										item.quantity *
 										EXCHANGE_RATE
 									).toLocaleString(undefined, {

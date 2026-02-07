@@ -1,6 +1,6 @@
-import { Product } from "@/lib/types/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { Product } from "../../sanity.types";
 
 interface WishlistState {
 	items: Product[];
