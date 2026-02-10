@@ -1,6 +1,5 @@
-// app/order-pending/page.tsx
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -8,8 +7,6 @@ export default function OrderPendingPage() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const reference = searchParams.get("reference");
-	const [attempts, setAttempts] = useState(0);
-	const maxAttempts = 30; // Poll for 30 seconds (30 attempts * 1 second)
 
 	useEffect(() => {
 		if (!reference) {
@@ -29,42 +26,23 @@ export default function OrderPendingPage() {
 					router.push(
 						`/success?orderNumber=${data.order.orderNumber}&reference=${reference}`,
 					);
-				} else if (attempts >= maxAttempts) {
-					// After max attempts, show error
-					toast.error(
-						"Order is taking longer than expected. Please check your email for confirmation.",
+				} else {
+					toast.info(
+						"Your order is being processed. You'll receive an email confirmation shortly.",
 					);
 					router.push("/");
-				} else {
-					// Keep polling
-					setAttempts((prev) => prev + 1);
 				}
 			} catch (error) {
 				console.error("Error checking order:", error);
-				if (attempts >= maxAttempts) {
-					toast.error(
-						"Error processing order. Please contact support.",
-					);
-					router.push("/");
-				} else {
-					setAttempts((prev) => prev + 1);
-				}
+				toast.error("Error verifying order. Please check your email.");
+				router.push("/");
 			}
 		};
 
-		// Start polling after 2 seconds to give webhook time to process
-		const timeout = setTimeout(() => {
-			checkOrder();
-		}, 2000);
+		const timeout = setTimeout(checkOrder, 5000);
 
-		// Then poll every second
-		const interval = setInterval(checkOrder, 1000);
-
-		return () => {
-			clearTimeout(timeout);
-			clearInterval(interval);
-		};
-	}, [reference, router, attempts]);
+		return () => clearTimeout(timeout);
+	}, [reference, router]);
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -77,7 +55,7 @@ export default function OrderPendingPage() {
 					Please wait while we confirm your payment...
 				</p>
 				<p className="text-sm text-gray-500 mt-2">
-					This usually takes just a few seconds
+					This will only take a moment
 				</p>
 			</div>
 		</div>

@@ -201,11 +201,14 @@ const CheckoutPage = () => {
 		email: formik.values.emailAddress,
 		amount: total,
 		formData: formik.values,
-		items: useBasketStore.getState().items,
+		items: useBasketStore.getState().items.map((item) => ({
+			_id: item.product._id,
+			quantity: item.quantity,
+			name: item.product.name,
+			price: item.product.price,
+		})),
 		onSuccess: async (ref) => {
 			toast.success("Payment successful! Processing your order...");
-
-			// Redirect to order pending page
 			router.push(`/order-pending?reference=${ref.reference}`);
 		},
 		onClose: () => {
