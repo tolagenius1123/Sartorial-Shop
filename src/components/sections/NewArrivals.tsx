@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Product } from "../../../sanity.types";
 import ProductCard from "../layout/ProductCard";
 import { toast } from "sonner";
+import ProductCardSkeleton from "../layout/ProductCardSkeleton";
 
 const NewArrivals = () => {
 	const router = useRouter();
@@ -21,8 +22,6 @@ const NewArrivals = () => {
 			.finally(() => setLoading(false));
 	}, []);
 
-	if (loading) return <p>Loading New Arrivals...</p>;
-
 	return (
 		<div className="w-full px-20 py-20 bg-gray-50" id="new-arrivals">
 			<div className="flex justify-center">
@@ -31,20 +30,26 @@ const NewArrivals = () => {
 				</p>
 			</div>
 			<div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-				{products.map((product) => (
-					<ProductCard
-						key={product._id}
-						product={product}
-						onAddToCart={() => {
-							addItem(product);
-							toast.success(`${product.name} added to cart`);
-						}}
-						onBuyNow={() => {
-							addItem(product);
-							router.push("/checkout");
-						}}
-					/>
-				))}
+				{loading
+					? Array.from({ length: 4 }).map((_, index) => (
+							<ProductCardSkeleton key={index} />
+						))
+					: products.map((product) => (
+							<ProductCard
+								key={product._id}
+								product={product}
+								onAddToCart={() => {
+									addItem(product);
+									toast.success(
+										`${product.name} added to cart`,
+									);
+								}}
+								onBuyNow={() => {
+									addItem(product);
+									router.push("/checkout");
+								}}
+							/>
+						))}
 			</div>
 		</div>
 	);

@@ -2,7 +2,7 @@ import { client } from "../client";
 import { groq } from "next-sanity";
 
 export const getProductBySlug = async (slug: string) => {
-	const query = groq`
+	const PRODUCT_BY_SLUG_QUERY = groq`
     *[_type == "product" && slug.current == $slug][0] {
       _id,
       name,
@@ -10,6 +10,7 @@ export const getProductBySlug = async (slug: string) => {
       price,
       stock,
       description,
+      detailedDescription,
       isBestSeller,
       isNewArrival,
       images[]{
@@ -33,5 +34,5 @@ export const getProductBySlug = async (slug: string) => {
     }
   `;
 
-	return client.fetch(query, { slug });
+	return client.fetch(PRODUCT_BY_SLUG_QUERY, { slug });
 };

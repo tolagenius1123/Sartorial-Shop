@@ -7,9 +7,15 @@ import { Button } from "@/components/ui/button";
 import { getProductBySlug } from "@/sanity/lib/product/getProductBySlug";
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PortableText } from "@portabletext/react";
+import { useWishlistStore } from "@/store/useWishlistStore";
+import { toast } from "sonner";
+import { useBasketStore } from "@/store/store";
+import ProductCard from "@/components/layout/ProductCard";
+import { Product } from "../../../../../sanity.types";
+import { getBestSellers } from "@/sanity/lib/product/getBestSellers";
 
 type Color = {
 	_id: string;
@@ -25,7 +31,7 @@ type ProductImage = {
 	color?: Color;
 };
 
-type ProductData = {
+export type ProductData = {
 	_id: string;
 	name: string;
 	slug: string;
@@ -40,12 +46,13 @@ type ProductData = {
 };
 
 const ProductDetails = () => {
+	const router = useRouter();
 	const params = useParams();
 	const slug = params.slug as string;
+	const addItem = useBasketStore((s) => s.addItem);
 
-	const [isFavorite, setIsFavorite] = useState(false);
 	const [generalTab, setGeneralTab] = useState("product-details");
-	const [product, setProduct] = useState<ProductData | null>(null);
+	const [product, setProduct] = useState<any | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [selectedColor, setSelectedColor] = useState<string>("");
 	const [selectedImage, setSelectedImage] = useState<ProductImage | null>(
@@ -53,11 +60,28 @@ const ProductDetails = () => {
 	);
 	const [quantity, setQuantity] = useState(1);
 
+	const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+	const [isRelatedProductsloading, setIsRelatedProductsLoading] =
+		useState(true);
+
 	const EXCHANGE_RATE = 0.000714;
 	const priceInDollars = product ? product.price * EXCHANGE_RATE : 0;
 
-	const toggleFavorite = () => {
-		setIsFavorite(!isFavorite);
+	const { addToWishlist, removeFromWishlist, isInWishlist } =
+		useWishlistStore();
+	const isFavorite = isInWishlist(product?._id);
+
+	const toggleFavorite = (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		if (!product?._id) return;
+
+		if (isFavorite) {
+			removeFromWishlist(product._id);
+		} else {
+			addToWishlist(product);
+		}
 	};
 
 	const generalTabItems: TabItem[] = [
@@ -98,6 +122,12 @@ const ProductDetails = () => {
 			fetchProduct();
 		}
 	}, [slug]);
+
+	useEffect(() => {
+		getBestSellers()
+			.then((data) => setRelatedProducts(data))
+			.finally(() => setIsRelatedProductsLoading(false));
+	}, []);
 
 	const handleColorSelect = (colorId: string) => {
 		setSelectedColor(colorId);
@@ -199,19 +229,22 @@ const ProductDetails = () => {
 
 					{/* Product Info Section */}
 					<div className="w-full md:w-[40%] text-sartorial-green">
-						<div className="space-y-3">
+						<div className="space-y-1">
 							<h1 className="text-4xl font-semibold">
 								{product.name}
 							</h1>
 							<p className="text-2xl font-bold">
-								₦{product.price.toLocaleString()}
+								₦{(product.price * quantity).toLocaleString()}
 							</p>
 							<p className="text-xl">
 								($
-								{priceInDollars.toLocaleString(undefined, {
-									minimumFractionDigits: 2,
-									maximumFractionDigits: 2,
-								})}
+								{(priceInDollars * quantity).toLocaleString(
+									undefined,
+									{
+										minimumFractionDigits: 2,
+										maximumFractionDigits: 2,
+									},
+								)}
 								)
 							</p>
 
@@ -261,7 +294,7 @@ const ProductDetails = () => {
 													? "default"
 													: "outline"
 											}
-											className={`text-sm font-medium rounded-sm ${
+											className={`text-sm font-medium rounded-sm cursor-pointer ${
 												selectedColor === color._id
 													? "bg-sartorial-green hover:bg-green-800 text-white"
 													: "border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green"
@@ -309,6 +342,16 @@ const ProductDetails = () => {
 								variant="outline"
 								className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-sm h-10 px-5 md:px-10 hover:bg-gray-50"
 								disabled={product.stock <= 0}
+								onClick={() => {
+									for (let i = 0; i < quantity; i++) {
+										addItem(product);
+									}
+									// addItem(product);
+									toast.success(
+										`${product.name} added to cart`,
+									);
+									router.push("/checkout");
+								}}
 							>
 								Buy Now
 							</Button>
@@ -378,11 +421,16 @@ const ProductDetails = () => {
 				<div className="mt-6 text-sartorial-green">
 					{generalTab === "product-details" && (
 						<div className="space-y-4 max-w-4xl">
-							<div className="text-sm leading-relaxed text-gray-700">
+							{/* <div className="text-sm leading-relaxed text-gray-700">
 								{product.description && (
 									<PortableText value={product.description} />
 								)}
-							</div>
+							</div> */}
+							{product.detailedDescription && (
+								<div className="whitespace-pre-line text-sm text-gray-700">
+									{product.detailedDescription}
+								</div>
+							)}
 						</div>
 					)}
 
@@ -423,7 +471,20 @@ const ProductDetails = () => {
 					</p>
 				</div>
 				<div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-					{/* Add related products here */}
+					{relatedProducts.map((product) => (
+						<ProductCard
+							key={product._id}
+							product={product}
+							onAddToCart={() => {
+								addItem(product);
+								toast.success(`${product.name} added to cart`);
+							}}
+							onBuyNow={() => {
+								addItem(product);
+								router.push("/checkout");
+							}}
+						/>
+					))}
 				</div>
 			</div>
 			<Footer />

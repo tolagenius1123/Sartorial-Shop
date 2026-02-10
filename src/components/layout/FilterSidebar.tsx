@@ -34,7 +34,6 @@ const FilterContent = ({
 	clearAllFilters,
 }: FilterProps) => (
 	<div className="p-0 md:p-6">
-		{/* Filters Header */}
 		<div className="flex justify-between items-center mb-4">
 			<h3 className="text-lg font-semibold text-gray-900">Filters</h3>
 			<button
@@ -45,7 +44,6 @@ const FilterContent = ({
 			</button>
 		</div>
 
-		{/* Category Filter */}
 		<div className="mb-6 border-b pb-5">
 			<h4 className="font-medium text-gray-900 mb-3">Category</h4>
 			<div className="space-y-2">
@@ -68,7 +66,6 @@ const FilterContent = ({
 			</div>
 		</div>
 
-		{/* Price Range Filter */}
 		<div className="mb-6 pb-5 border-b">
 			<h4 className="font-medium text-gray-900 mb-3">Price Range</h4>
 			<div className="space-y-2">
@@ -91,7 +88,6 @@ const FilterContent = ({
 			</div>
 		</div>
 
-		{/* Color Filter */}
 		<div className="pb-5 border-b">
 			<h4 className="font-medium text-gray-900 mb-3">Color</h4>
 			<div className="flex gap-3 flex-wrap">
@@ -116,7 +112,6 @@ const FilterContent = ({
 export const FilterSidebar = (props: FilterProps) => {
 	return (
 		<>
-			{/* Mobile Trigger & Sheet */}
 			<div className="md:hidden mb-4">
 				<Sheet>
 					<SheetTrigger asChild>
@@ -139,7 +134,6 @@ export const FilterSidebar = (props: FilterProps) => {
 				</Sheet>
 			</div>
 
-			{/* Desktop Sidebar */}
 			<div className="hidden md:block w-62.5 shrink-0 border-r">
 				<FilterContent {...props} />
 			</div>

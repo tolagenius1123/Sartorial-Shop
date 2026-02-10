@@ -78,6 +78,7 @@ export type Product = {
     _key: string;
   }>;
   description?: BlockContent;
+  detailedDescription?: string;
   price?: number;
   colors?: Array<{
     _ref: string;
@@ -105,7 +106,6 @@ export type Color = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  hex?: string;
 };
 
 export type SanityImageCrop = {
@@ -220,9 +220,26 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = BlockContent | Category | Slug | Product | Color | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes =
+  | BlockContent
+  | Category
+  | Slug
+  | Product
+  | Color
+  | SanityImageCrop
+  | SanityImageHotspot
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityImageMetadata
+  | SanityFileAsset
+  | SanityAssetSourceData
+  | SanityImageAsset
+  | Geopoint;
+
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./src/sanity/lib/product/getBestSellers.tsx
+
+// Source: src/sanity/lib/product/getBestSellers.tsx
 // Variable: query
 // Query: *[_type == "product" && isBestSeller == true] | order(_createdAt desc) {      _id,      name,      "slug": slug.current,      price,      stock,      isBestSeller,      isNewArrival,      images[]{ asset->{url}, alt }    }
 export type QueryResult = Array<{
@@ -241,10 +258,66 @@ export type QueryResult = Array<{
   }> | null;
 }>;
 
+// Source: src/sanity/lib/product/getNewArrivals.ts
+// Variable: NEW_ARRIVALS_QUERY
+// Query: *[_type == "product" && isNewArrival == true] | order(_createdAt desc) {      _id,      name,      "slug": slug.current,      price,      stock,      isBestSeller,      isNewArrival,      images[]{ asset->{url}, alt }    }
+export type NEW_ARRIVALS_QUERY_RESULT = Array<{
+  _id: string;
+  name: string | null;
+  slug: string | null;
+  price: number | null;
+  stock: number | null;
+  isBestSeller: boolean | null;
+  isNewArrival: true;
+  images: Array<{
+    asset: {
+      url: string | null;
+    } | null;
+    alt: string | null;
+  }> | null;
+}>;
+
+// Source: src/sanity/lib/product/getProductBySlug.ts
+// Variable: PRODUCT_BY_SLUG_QUERY
+// Query: *[_type == "product" && slug.current == $slug][0] {      _id,      name,      "slug": slug.current,      price,      stock,      description,      detailedDescription,      isBestSeller,      isNewArrival,      images[]{        alt,        asset->{url},        "color": color->{          _id,          title,          hex        }      },      colors[]->{        _id,        title,        hex      },      categories[]->{        _id,        name      }    }
+export type PRODUCT_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  name: string | null;
+  slug: string | null;
+  price: number | null;
+  stock: number | null;
+  description: BlockContent | null;
+  detailedDescription: string | null;
+  isBestSeller: boolean | null;
+  isNewArrival: boolean | null;
+  images: Array<{
+    alt: string | null;
+    asset: {
+      url: string | null;
+    } | null;
+    color: {
+      _id: string;
+      title: string | null;
+      hex: null;
+    } | null;
+  }> | null;
+  colors: Array<{
+    _id: string;
+    title: string | null;
+    hex: null;
+  }> | null;
+  categories: Array<{
+    _id: string;
+    name: null;
+  }> | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n    *[_type == \"product\" && isBestSeller == true] | order(_createdAt desc) {\n      _id,\n      name,\n      \"slug\": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt }\n    }\n  ": QueryResult;
+    '\n    *[_type == "product" && isBestSeller == true] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt }\n    }\n  ': QueryResult;
+    '\n    *[_type == "product" && isNewArrival == true] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt }\n    }\n  ': NEW_ARRIVALS_QUERY_RESULT;
+    '\n    *[_type == "product" && slug.current == $slug][0] {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      description,\n      detailedDescription,\n      isBestSeller,\n      isNewArrival,\n      images[]{\n        alt,\n        asset->{url},\n        "color": color->{\n          _id,\n          title,\n          hex\n        }\n      },\n      colors[]->{\n        _id,\n        title,\n        hex\n      },\n      categories[]->{\n        _id,\n        name\n      }\n    }\n  ': PRODUCT_BY_SLUG_QUERY_RESULT;
   }
 }

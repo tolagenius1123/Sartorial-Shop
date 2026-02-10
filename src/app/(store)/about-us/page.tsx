@@ -231,9 +231,9 @@ const AboutUs = () => {
 					</h3>
 
 					<p className="text-base md:text-lg leading-relaxed">
-						Founded by ms Chinagorom Evelyn Ukachukwu, Sartorial is
-						guided by a vision of modern elegance grounded in
-						craftsmanship and purpose.
+						Founded by Mr&apos;s Chinagorom Evelyn Ukachukwu,
+						Sartorial is guided by a vision of modern elegance
+						grounded in craftsmanship and purpose.
 					</p>
 				</div>
 

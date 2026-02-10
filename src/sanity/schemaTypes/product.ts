@@ -57,6 +57,14 @@ const productType = defineType({
 			type: "blockContent",
 		}),
 		defineField({
+			name: "detailedDescription",
+			title: "Detailed Description",
+			type: "text",
+			rows: 10,
+			description:
+				"Paste the full product description here with all details and bullet points",
+		}),
+		defineField({
 			name: "price",
 			title: "Price",
 			type: "number",

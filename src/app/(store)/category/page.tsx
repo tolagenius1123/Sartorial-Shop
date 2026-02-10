@@ -1,20 +1,30 @@
 "use client";
-import { SartorialBag } from "@/assets";
 import { FilterSidebar } from "@/components/layout/FilterSidebar";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import ProductCard from "@/components/layout/ProductCard";
-import Hero from "@/components/sections/Hero";
 import { Button } from "@/components/ui/button";
+import { useBasketStore } from "@/store/store";
 import { ListFilter } from "lucide-react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Product } from "../../../../sanity.types";
+import { getAllProducts } from "@/sanity/lib/product/getAllProducts";
+import { toast } from "sonner";
+import ProductCardSkeleton from "@/components/layout/ProductCardSkeleton";
+import CategoryHero from "@/components/sections/CategoryHero";
 
 const Category = () => {
+	const router = useRouter();
+	const addItem = useBasketStore((s) => s.addItem);
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 	const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>(
 		[],
 	);
 	const [selectedColors, setSelectedColors] = useState<string[]>([]);
+
+	const [products, setProducts] = useState<Product[]>([]);
+	const [loading, setLoading] = useState(true);
 
 	const categories = [
 		"Uncategorised Bags",
@@ -64,12 +74,17 @@ const Category = () => {
 		setSelectedColors([]);
 	};
 
+	useEffect(() => {
+		getAllProducts()
+			.then((data) => setProducts(data))
+			.finally(() => setLoading(false));
+	}, []);
+
 	return (
 		<div className="h-auto w-full bg-gray-50">
 			<Header />
-			<Hero />
+			<CategoryHero />
 			<div className="flex flex-col md:flex-row w-full mt-10 px-10 md:px-20 py-10 gap-8">
-				{/* Filters Sidebar */}
 				<FilterSidebar
 					categories={categories}
 					priceRanges={priceRanges}
@@ -83,7 +98,6 @@ const Category = () => {
 					clearAllFilters={clearAllFilters}
 				/>
 
-				{/* Products Grid */}
 				<div className="w-full md:w-[70%]">
 					<div className="flex justify-end mb-5">
 						<Button
@@ -95,94 +109,26 @@ const Category = () => {
 						</Button>
 					</div>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-						<ProductCard
-							name="Bella Bag"
-							price={192.0}
-							originalPrice={3000}
-							currency="₦"
-							image={SartorialBag}
-							onAddToCart={() =>
-								console.log("Added Bella Bag to cart")
-							}
-							onBuyNow={() => console.log("Bought Bella Bag")}
-						/>
-						<ProductCard
-							name="Bella Bag"
-							price={192.0}
-							originalPrice={3000}
-							currency="₦"
-							image={SartorialBag}
-							onAddToCart={() =>
-								console.log("Added Bella Bag to cart")
-							}
-							onBuyNow={() => console.log("Bought Bella Bag")}
-						/>
-						<ProductCard
-							name="Bella Bag"
-							price={192.0}
-							originalPrice={3000}
-							currency="₦"
-							image={SartorialBag}
-							onAddToCart={() =>
-								console.log("Added Bella Bag to cart")
-							}
-							onBuyNow={() => console.log("Bought Bella Bag")}
-						/>
-						<ProductCard
-							name="Bella Bag"
-							price={192.0}
-							originalPrice={3000}
-							currency="₦"
-							image={SartorialBag}
-							onAddToCart={() =>
-								console.log("Added Bella Bag to cart")
-							}
-							onBuyNow={() => console.log("Bought Bella Bag")}
-						/>
-						<ProductCard
-							name="Bella Bag"
-							price={192.0}
-							originalPrice={3000}
-							currency="₦"
-							image={SartorialBag}
-							onAddToCart={() =>
-								console.log("Added Bella Bag to cart")
-							}
-							onBuyNow={() => console.log("Bought Bella Bag")}
-						/>
-						<ProductCard
-							name="Bella Bag"
-							price={192.0}
-							originalPrice={3000}
-							currency="₦"
-							image={SartorialBag}
-							onAddToCart={() =>
-								console.log("Added Bella Bag to cart")
-							}
-							onBuyNow={() => console.log("Bought Bella Bag")}
-						/>
-						<ProductCard
-							name="Bella Bag"
-							price={192.0}
-							originalPrice={3000}
-							currency="₦"
-							image={SartorialBag}
-							onAddToCart={() =>
-								console.log("Added Bella Bag to cart")
-							}
-							onBuyNow={() => console.log("Bought Bella Bag")}
-						/>
-						<ProductCard
-							name="Bella Bag"
-							price={192.0}
-							originalPrice={3000}
-							currency="₦"
-							image={SartorialBag}
-							onAddToCart={() =>
-								console.log("Added Bella Bag to cart")
-							}
-							onBuyNow={() => console.log("Bought Bella Bag")}
-						/>
+						{loading
+							? Array.from({ length: 4 }).map((_, index) => (
+									<ProductCardSkeleton key={index} />
+								))
+							: products.map((product) => (
+									<ProductCard
+										key={product._id}
+										product={product}
+										onAddToCart={() => {
+											addItem(product);
+											toast.success(
+												`${product.name} added to cart`,
+											);
+										}}
+										onBuyNow={() => {
+											addItem(product);
+											router.push("/checkout");
+										}}
+									/>
+								))}
 					</div>
 				</div>
 			</div>

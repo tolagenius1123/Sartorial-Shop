@@ -40,6 +40,10 @@ import Trust from "./icons/trust.svg";
 import CEO2 from "./icons/ceo2.svg";
 import FAQ from "./images/faq.png";
 import CheckoutImage from "./images/checkout-image.png";
+import MasterCard from "./icons/mastercard-logo.svg";
+import Verve from "./icons/verve-logo.png";
+import Visa from "./icons/visa-logo.svg";
+import PayPal from "./icons/paypal-logo.svg";
 
 export {
 	Sartorial,
@@ -84,4 +88,8 @@ export {
 	CEO2,
 	FAQ,
 	CheckoutImage,
+	MasterCard,
+	Verve,
+	PayPal,
+	Visa,
 };

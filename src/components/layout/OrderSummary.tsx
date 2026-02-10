@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { EXCHANGE_RATE } from "@/data";
 import { useBasketStore } from "@/store/store";
 import { useSyncExternalStore } from "react";
+import { SartorialBag } from "@/assets";
 
 interface OrderSummaryProps {
 	shipping: number;
@@ -27,14 +28,18 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 
 	return (
 		<div className="w-full md:w-[40%] bg-white p-8 rounded-sm shadow-sm h-fit">
-			{/* Rest of your component */}
 			<h2 className="text-xl font-bold mb-6">Order Summary</h2>
 
 			<div className="space-y-6">
 				{groupedItems.map((item) => {
 					const nairaTotal =
-						(item.product.originalPrice || 0) * item.quantity;
+						(item.product.price || 0) * item.quantity;
 					const dollarTotal = nairaTotal * EXCHANGE_RATE;
+
+					const imageUrl =
+						item?.product?.images?.[0]?.asset?.url ?? SartorialBag;
+					const imageAlt =
+						item?.product?.images?.[0]?.alt ?? "product-name";
 
 					return (
 						<div
@@ -43,8 +48,8 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 						>
 							<div className="flex items-center gap-3">
 								<Image
-									src={item.product.image}
-									alt={item.product.name}
+									src={imageUrl}
+									alt={imageAlt}
 									width={40}
 									height={40}
 									className="rounded-md object-cover"

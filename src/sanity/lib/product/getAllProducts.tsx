@@ -1,9 +1,9 @@
 import { client } from "../client";
 import { groq } from "next-sanity";
 
-export const getNewArrivals = async () => {
-	const NEW_ARRIVALS_QUERY = groq`
-    *[_type == "product" && isNewArrival == true] | order(_createdAt desc) {
+export const getAllProducts = async () => {
+	const ALL_PRODUCTS_QUERY = groq`
+    *[_type == "product"] | order(_createdAt desc) {
       _id,
       name,
       "slug": slug.current,
@@ -14,5 +14,5 @@ export const getNewArrivals = async () => {
       images[]{ asset->{url}, alt }
     }
   `;
-	return client.fetch(NEW_ARRIVALS_QUERY);
+	return client.fetch(ALL_PRODUCTS_QUERY);
 };

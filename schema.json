@@ -433,6 +433,13 @@
         },
         "optional": true
       },
+      "detailedDescription": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "price": {
         "type": "objectAttribute",
         "value": {
@@ -587,13 +594,6 @@
         }
       },
       "title": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "hex": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
