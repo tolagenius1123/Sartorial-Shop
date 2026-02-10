@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useWishlistStore } from "@/store/useWishlistStore";
 import { Product } from "../../../sanity.types";
 import { SartorialBag } from "@/assets";
+import { urlFor } from "@/lib/imageUrl";
 
 interface ProductCardProps {
 	product: Product;
@@ -28,8 +29,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	const productSlug =
 		product?.slug?.current ??
 		productName.toLowerCase().replace(/\s+/g, "-");
-	const imageUrl = product?.images?.[0]?.asset?.url ?? SartorialBag;
-	const imageAlt = product?.images?.[0]?.alt ?? productName;
+	const imageUrl = product?.images?.[0]?.asset
+		? urlFor(product.images[0])
+		: SartorialBag;
+	const imageAlt = product?.name ?? "product-name";
 
 	const isFavorite = isInWishlist(productId);
 

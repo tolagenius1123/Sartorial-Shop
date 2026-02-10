@@ -17,13 +17,13 @@ import ProductCard from "@/components/layout/ProductCard";
 import { Product } from "../../../../../sanity.types";
 import { getBestSellers } from "@/sanity/lib/product/getBestSellers";
 
-type Color = {
+export type Color = {
 	_id: string;
 	title: string;
 	hex: string;
 };
 
-type ProductImage = {
+export type ProductImage = {
 	alt: string;
 	asset: {
 		url: string;
@@ -132,7 +132,7 @@ const ProductDetails = () => {
 	const handleColorSelect = (colorId: string) => {
 		setSelectedColor(colorId);
 		const matchingImage = product?.images.find(
-			(img) => img.color?._id === colorId,
+			(img: any) => img.color?._id === colorId,
 		);
 		if (matchingImage) {
 			setSelectedImage(matchingImage);
@@ -175,35 +175,42 @@ const ProductDetails = () => {
 						<div className="flex gap-2 flex-col-reverse md:flex-row">
 							{/* Thumbnail Images */}
 							<div className="flex flex-row md:flex-col gap-3">
-								{product.images.map((img, index) => (
-									<div
-										key={index}
-										className={`border rounded-lg cursor-pointer transition-all flex items-center justify-center ${
-											selectedImage?.asset.url ===
-											img.asset.url
-												? "border-sartorial-green border-2"
-												: "border-gray-300"
-										}`}
-										onClick={() => {
-											setSelectedImage(img);
-											if (img.color?._id) {
-												setSelectedColor(img.color._id);
-											}
-										}}
-										style={{
-											width: "120px",
-											height: "120px",
-										}}
-									>
-										<Image
-											width={100}
-											height={100}
-											src={img.asset.url ?? SartorialBag}
-											alt={img.alt ?? "product"}
-											className="object-contain w-full h-full p-2"
-										/>
-									</div>
-								))}
+								{product.images.map(
+									(img: ProductImage, index: number) => (
+										<div
+											key={index}
+											className={`border rounded-lg cursor-pointer transition-all flex items-center justify-center ${
+												selectedImage?.asset.url ===
+												img.asset.url
+													? "border-sartorial-green border-2"
+													: "border-gray-300"
+											}`}
+											onClick={() => {
+												setSelectedImage(img);
+												if (img.color?._id) {
+													setSelectedColor(
+														img.color._id,
+													);
+												}
+											}}
+											style={{
+												width: "120px",
+												height: "120px",
+											}}
+										>
+											<Image
+												width={100}
+												height={100}
+												src={
+													img.asset.url ??
+													SartorialBag
+												}
+												alt={img.alt ?? "product"}
+												className="object-contain w-full h-full p-2"
+											/>
+										</div>
+									),
+								)}
 							</div>
 
 							{/* Main Image */}
@@ -280,13 +287,14 @@ const ProductDetails = () => {
 									<span className="font-semibold">
 										{
 											product.colors.find(
-												(c) => c._id === selectedColor,
+												(c: Color) =>
+													c._id === selectedColor,
 											)?.title
 										}
 									</span>
 								</p>
 								<div className="flex items-center gap-2 flex-wrap">
-									{product.colors.map((color) => (
+									{product.colors.map((color: Color) => (
 										<Button
 											key={color._id}
 											variant={

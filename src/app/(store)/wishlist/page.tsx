@@ -8,6 +8,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { Product } from "../../../../sanity.types";
 import { SartorialBag } from "@/assets";
+import { urlFor } from "@/lib/imageUrl";
 
 const WishList = () => {
 	const { items, removeFromWishlist } = useWishlistStore();
@@ -57,7 +58,8 @@ const WishList = () => {
 										<Image
 											src={
 												product?.images?.[0]?.asset
-													?.url ?? SartorialBag
+													? urlFor(product.images[0])
+													: SartorialBag
 											}
 											alt={product.name ?? "pic"}
 											fill

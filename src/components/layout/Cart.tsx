@@ -14,6 +14,7 @@ import { useBasketStore } from "@/store/store";
 import { CartIcon, SartorialBag } from "@/assets";
 import { useRouter } from "next/navigation";
 import { EXCHANGE_RATE } from "@/data";
+import { urlFor } from "@/lib/imageUrl";
 
 const Cart = () => {
 	const router = useRouter();
@@ -62,8 +63,9 @@ const Cart = () => {
 							<div className="flex items-center gap-4">
 								<Image
 									src={
-										item.product?.images?.[0]?.asset?.url ??
-										SartorialBag
+										item.product?.images?.[0]?.asset
+											? urlFor(item.product.images[0])
+											: SartorialBag
 									}
 									alt={item.product.name ?? "pic"}
 									width={70}

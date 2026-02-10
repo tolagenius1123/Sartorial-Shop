@@ -5,6 +5,7 @@ import { EXCHANGE_RATE } from "@/data";
 import { useBasketStore } from "@/store/store";
 import { useSyncExternalStore } from "react";
 import { SartorialBag } from "@/assets";
+import { urlFor } from "@/lib/imageUrl";
 
 interface OrderSummaryProps {
 	shipping: number;
@@ -36,10 +37,11 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 						(item.product.price || 0) * item.quantity;
 					const dollarTotal = nairaTotal * EXCHANGE_RATE;
 
-					const imageUrl =
-						item?.product?.images?.[0]?.asset?.url ?? SartorialBag;
-					const imageAlt =
-						item?.product?.images?.[0]?.alt ?? "product-name";
+					const imageUrl = item.product?.images?.[0]?.asset
+						? urlFor(item.product.images[0])
+						: SartorialBag;
+
+					const imageAlt = item?.product?.name ?? "product-name";
 
 					return (
 						<div
