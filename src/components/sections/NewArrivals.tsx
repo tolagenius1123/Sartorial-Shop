@@ -1,5 +1,4 @@
 "use client";
-
 import { getNewArrivals } from "@/sanity/lib/product/getNewArrivals";
 import { useBasketStore } from "@/store/store";
 import { useRouter } from "next/navigation";

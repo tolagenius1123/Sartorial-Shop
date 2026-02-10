@@ -26,7 +26,7 @@ const BestSellers = () => {
 	return (
 		<div className="w-full mt-10 px-20 py-10 bg-gray-50" id="best-sellers">
 			<div className="flex justify-center">
-				<p className="text-2xl md:text-4xl md:font-semibold text-sartorial-green">
+				<p className="text-2xl md:text-4xl md:font-bold text-sartorial-green">
 					Our Best Sellers
 				</p>
 			</div>
