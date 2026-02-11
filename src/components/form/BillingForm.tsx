@@ -13,12 +13,19 @@ import PaymentMethodModal from "@/app/(store)/checkout/PaymentMethodModal";
 interface BillingFormProps {
 	formik: FormikProps<BillingFormValues>;
 	onPaystack: () => void;
+	onPayPal: (details: any) => void;
+	totalAmount: number;
 }
 
 const labelStyle = "text-gray-400 font-normal text-sm";
 const inputStyle = "w-full bg-gray-100 border-none h-10 text-black";
 
-const BillingForm = ({ formik, onPaystack }: BillingFormProps) => {
+const BillingForm = ({
+	formik,
+	onPaystack,
+	onPayPal,
+	totalAmount,
+}: BillingFormProps) => {
 	const [showPaymentModal, setShowPaymentModal] = useState(false);
 
 	const handleCheckoutClick = (e: React.FormEvent) => {
@@ -34,16 +41,19 @@ const BillingForm = ({ formik, onPaystack }: BillingFormProps) => {
 	};
 
 	const handlePaymentConfirm = (paymentMethod: string) => {
-		setShowPaymentModal(false);
-
 		if (paymentMethod === "paystack") {
+			setShowPaymentModal(false);
 			onPaystack();
-			return;
 		}
+	};
 
-		if (paymentMethod === "paypal") {
-			alert("PayPal coming soon");
-		}
+	const handlePayPalSuccess = (details: any) => {
+		setShowPaymentModal(false);
+		onPayPal(details);
+	};
+
+	const handlePayPalError = (error: any) => {
+		console.error("PayPal Error:", error);
 	};
 
 	return (
@@ -366,10 +376,19 @@ const BillingForm = ({ formik, onPaystack }: BillingFormProps) => {
 				</div>
 			</form>
 
+			{/* <PaymentMethodModal
+				isOpen={showPaymentModal}
+				onClose={() => setShowPaymentModal(false)}
+				onConfirm={handlePaymentConfirm}
+				totalAmount={totalAmount}
+			/> */}
 			<PaymentMethodModal
 				isOpen={showPaymentModal}
 				onClose={() => setShowPaymentModal(false)}
 				onConfirm={handlePaymentConfirm}
+				onPayPalSuccess={handlePayPalSuccess}
+				onPayPalError={handlePayPalError}
+				totalAmount={totalAmount}
 			/>
 		</>
 	);

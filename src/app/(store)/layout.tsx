@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
+import PayPalProvider from "@/components/layout/PayPalProvider";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -24,7 +25,7 @@ export default function RootLayout({
 		<ClerkProvider dynamic>
 			<html lang="en" className="scroll-smooth">
 				<body className={`${inter.variable} antialiased`}>
-					{children}
+					<PayPalProvider>{children}</PayPalProvider>
 					<Toaster position="top-right" richColors />
 				</body>
 			</html>

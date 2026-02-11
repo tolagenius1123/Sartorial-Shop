@@ -105,7 +105,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 								₦{productPrice.toLocaleString()}
 							</p>
 
-							<p className="text-xl text-sartorial-green">
+							<p className="text-sm text-sartorial-green">
 								($
 								{priceInDollars.toLocaleString(undefined, {
 									minimumFractionDigits: 2,
