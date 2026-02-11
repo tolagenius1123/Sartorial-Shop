@@ -473,7 +473,7 @@ const PaymentMethodModal = ({
 								console.log("Payment cancelled by user");
 								toast.info("Payment cancelled");
 							}}
-							onError={(err) => {
+							onError={(err: any) => {
 								setIsProcessing(false);
 								console.error("PayPal Button Error:", err);
 
