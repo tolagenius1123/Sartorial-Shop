@@ -1,3 +1,4 @@
+"use client";
 import { Star, UserCircle2 } from "lucide-react";
 import {
 	Carousel,
@@ -8,6 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { SartorialBabe } from "@/assets";
+import { motion } from "framer-motion";
 
 const reviews = [
 	{
@@ -54,11 +56,31 @@ const reviews = [
 	},
 ];
 
+const containerVariants = {
+	hidden: { opacity: 0 },
+	show: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.15,
+		},
+	},
+};
+
+const imageVariants = {
+	hidden: { opacity: 0, y: 30, scale: 0.95 },
+	show: {
+		opacity: 1,
+		y: 0,
+		scale: 1,
+		transition: { duration: 0.6, ease: "easeOut" },
+	},
+};
+
 const ReviewSlide = () => {
 	return (
 		<div className="w-full mt-10 px-4 md:px-20 py-10 bg-white">
 			<div className="flex flex-col items-center mb-10">
-				<h2 className="text-3xl md:text-4xl font-bold text-sartorial-green mb-8">
+				<h2 className="text-center text-3xl md:text-4xl font-semibold md:font-bold text-sartorial-green mb-8">
 					Happy Sartorial Babes
 				</h2>
 			</div>
@@ -70,7 +92,7 @@ const ReviewSlide = () => {
 				}}
 				className="w-full mt-20"
 			>
-				<CarouselContent className="-ml-4">
+				<CarouselContent className="-ml-4 mt-2 md:mt-0">
 					<CarouselItem className="pl-4 basis-full sm:basis-1/2 md:basis-1/4">
 						<div className="bg-sartorial-green text-white p-8 rounded-sm h-80 flex flex-col justify-center items-start">
 							<div className="text-6xl font-bold flex items-baseline">
@@ -129,14 +151,14 @@ const ReviewSlide = () => {
 					))}
 				</CarouselContent>
 
-				<div className="absolute -top-16 left-0 right-0 flex justify-between items-end">
+				<div className="absolute -top-16 left-0 right-0 flex justify-between items-end  gap-2">
 					<div className="bg-sartorial-green text-white px-4 py-3 rounded-md text-sm font-medium">
 						All from verified purchases
 					</div>
 
 					<div className="flex gap-2">
-						<CarouselPrevious className="static translate-y-0 h-10 w-20 rounded-md border-2 border-sartorial-green text-sartorial-green hover:bg-sartorial-green hover:text-white cursor-pointer" />
-						<CarouselNext className="static translate-y-0 h-10 w-20 rounded-md bg-sartorial-green text-white hover:bg-sartorial-green cursor-pointer" />
+						<CarouselPrevious className="static translate-y-0 h-10 w-10 md:w-20 rounded-md border-2 border-sartorial-green text-sartorial-green hover:bg-sartorial-green hover:text-white cursor-pointer" />
+						<CarouselNext className="static translate-y-0 h-10 w-10 md:w-20 rounded-md bg-sartorial-green text-white hover:bg-sartorial-green cursor-pointer" />
 					</div>
 				</div>
 			</Carousel>
@@ -147,35 +169,66 @@ const ReviewSlide = () => {
 				</h2>
 			</div>
 
+			{/* <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+				<Image
+					src={SartorialBabe}
+					alt="Sartorial Babe"
+					height={100}
+					width={100}
+					className="w-full h-64 object-contain"
+				/>
+				<Image
+					src={SartorialBabe}
+					alt="Sartorial Babe"
+					height={100}
+					width={100}
+					className="w-full h-64 object-contain"
+				/>
+				<Image
+					src={SartorialBabe}
+					alt="Sartorial Babe"
+					height={100}
+					width={100}
+					className="w-full h-64 object-contain"
+				/>
+				<Image
+					src={SartorialBabe}
+					alt="Sartorial Babe"
+					height={100}
+					width={100}
+					className="w-full h-64 object-contain"
+				/>
+			</div> */}
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-				<Image
-					src={SartorialBabe}
-					alt="Sartorial Babe"
-					height={100}
-					width={100}
-					className="w-full h-64 object-contain"
-				/>
-				<Image
-					src={SartorialBabe}
-					alt="Sartorial Babe"
-					height={100}
-					width={100}
-					className="w-full h-64 object-contain"
-				/>
-				<Image
-					src={SartorialBabe}
-					alt="Sartorial Babe"
-					height={100}
-					width={100}
-					className="w-full h-64 object-contain"
-				/>
-				<Image
-					src={SartorialBabe}
-					alt="Sartorial Babe"
-					height={100}
-					width={100}
-					className="w-full h-64 object-contain"
-				/>
+				<motion.div
+					variants={containerVariants}
+					initial="hidden"
+					whileInView="show"
+					viewport={{ once: true }}
+					className="grid grid-cols-1 md:grid-cols-4 gap-3 col-span-full"
+				>
+					{Array.from({ length: 4 }).map((_, i) => (
+						<motion.div
+							key={i}
+							variants={imageVariants}
+							whileHover={{ y: -6, scale: 1.03 }}
+							transition={{
+								type: "spring",
+								stiffness: 200,
+								damping: 15,
+							}}
+							className="overflow-hidden rounded-lg"
+						>
+							<Image
+								src={SartorialBabe}
+								alt="Sartorial Babe"
+								height={100}
+								width={100}
+								className="w-full h-64 object-contain transition-transform duration-300"
+							/>
+						</motion.div>
+					))}
+				</motion.div>
 			</div>
 		</div>
 	);

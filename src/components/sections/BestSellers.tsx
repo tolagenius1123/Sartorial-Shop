@@ -9,6 +9,7 @@ import { getBestSellers } from "@/sanity/lib/product/getBestSellers";
 import { useEffect, useState } from "react";
 import { Product } from "../../../sanity.types";
 import ProductCardSkeleton from "../layout/ProductCardSkeleton";
+import { motion } from "framer-motion";
 
 const BestSellers = () => {
 	const router = useRouter();
@@ -24,9 +25,12 @@ const BestSellers = () => {
 	}, []);
 
 	return (
-		<div className="w-full mt-10 px-20 py-10 bg-gray-50" id="best-sellers">
+		<div
+			className="w-full mt-10 px-6 md:px-20 py-10 bg-gray-50"
+			id="best-sellers"
+		>
 			<div className="flex justify-center">
-				<p className="text-2xl md:text-4xl md:font-bold text-sartorial-green">
+				<p className="text-2xl md:text-4xl font-semibold md:font-bold text-sartorial-green">
 					Our Best Sellers
 				</p>
 			</div>
@@ -54,7 +58,7 @@ const BestSellers = () => {
 						))}
 			</div>
 
-			<div className="mt-10 flex justify-center">
+			{/* <div className="mt-20 md:mt-10 flex justify-center">
 				<Button
 					variant="outline"
 					className="flex text-lg justify-center h-11 border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green font-medium rounded-lg w-40 cursor-pointer"
@@ -62,6 +66,38 @@ const BestSellers = () => {
 				>
 					See more <ArrowRight className="h-5 w-5 ml-1" />
 				</Button>
+			</div> */}
+			<div className="mt-20 flex justify-center">
+				<motion.div
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.6, ease: "easeOut" }}
+				>
+					<motion.div
+						animate={{ scale: [1, 1.05, 1] }}
+						transition={{
+							duration: 2,
+							repeat: Infinity,
+							repeatDelay: 3,
+							ease: "easeInOut",
+						}}
+					>
+						<Button
+							variant="outline"
+							className="group flex text-lg justify-center h-11 border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green font-medium rounded-lg w-40 cursor-pointer transition-all"
+							onClick={() => router.push("/all-products")}
+						>
+							See more
+							<motion.span
+								className="ml-1 mt-1 inline-flex"
+								whileHover={{ x: 4 }}
+							>
+								<ArrowRight className="h-5 w-5" />
+							</motion.span>
+						</Button>
+					</motion.div>
+				</motion.div>
 			</div>
 		</div>
 	);

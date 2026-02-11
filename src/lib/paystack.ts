@@ -63,6 +63,7 @@
 // 	return handlePayment;
 // };
 
+"use client";
 import { usePaystackPayment } from "react-paystack";
 
 export const usePaystackCheckout = ({

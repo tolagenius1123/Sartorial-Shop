@@ -39,8 +39,9 @@ const HeroCarousel = () => {
 
 	return (
 		<>
-			<div className="pt-24 flex flex-col items-center w-full overflow-hidden gap-4 bg-sartorial-offWhite">
-				<div className="relative w-full h-96">
+			<div className="pt-26 md:pt-24 flex flex-col items-center w-full overflow-hidden gap-4 bg-sartorial-offWhite">
+				{/* <div className="relative w-full h-[300px] sm:h-[450px] md:h-[500px] lg:h-[550px] xl:h-[600px]"> */}
+				<div className="relative w-full h-30 md:h-96">
 					{slides.map((slide, index) => (
 						<Link
 							href="/all-products"
@@ -56,7 +57,8 @@ const HeroCarousel = () => {
 								alt={`Slide ${index + 1}`}
 								fill
 								priority={index === 0}
-								className="object-cover"
+								className="object-contain sm:object-cover object-top"
+								// className="object-cover"
 							/>
 						</Link>
 					))}
@@ -64,14 +66,14 @@ const HeroCarousel = () => {
 
 				<button
 					onClick={prevSlide}
-					className="absolute left-4 top-1/3 md:top-1/2 -translate-y-1/2 hover:bg-[#8EC09E45] bg-sartorial-lightGreen text-white p-2 rounded-full transition-all duration-300 z-20 cursor-pointer"
+					className="hidden md:block absolute left-4 top-1/3 md:top-1/2 -translate-y-1/2 hover:bg-[#8EC09E45] bg-sartorial-lightGreen text-white p-2 rounded-full transition-all duration-300 z-20 cursor-pointer"
 					aria-label="Previous slide"
 				>
 					<ChevronLeft className="w-6 h-6" />
 				</button>
 				<button
 					onClick={nextSlide}
-					className="absolute right-4 top-1/3 md:top-1/2 -translate-y-1/2 hover:bg-[#8EC09E45] bg-sartorial-lightGreen text-white p-2 rounded-full transition-all duration-300 z-20 cursor-pointer"
+					className="hidden md:block absolute right-4 top-1/3 md:top-1/2 -translate-y-1/2 hover:bg-[#8EC09E45] bg-sartorial-lightGreen text-white p-2 rounded-full transition-all duration-300 z-20 cursor-pointer"
 					aria-label="Next slide"
 				>
 					<ChevronRight className="w-6 h-6" />

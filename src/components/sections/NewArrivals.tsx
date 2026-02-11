@@ -22,9 +22,12 @@ const NewArrivals = () => {
 	}, []);
 
 	return (
-		<div className="w-full px-20 py-20 bg-gray-50" id="new-arrivals">
+		<div
+			className="w-full px-6 md:px-20 py-20 bg-gray-50"
+			id="new-arrivals"
+		>
 			<div className="flex justify-center">
-				<p className="text-2xl md:text-4xl md:font-bold text-sartorial-green">
+				<p className="text-2xl md:text-4xl font-semibold md:font-bold text-sartorial-green">
 					New Arrivals
 				</p>
 			</div>

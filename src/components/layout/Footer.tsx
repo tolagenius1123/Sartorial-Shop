@@ -13,7 +13,7 @@ import Link from "next/link";
 
 const Footer = () => {
 	return (
-		<div className="w-full mt-10 px-20 pt-10 pb-5 bg-sartorial-green">
+		<div className="w-full mt-10 px-10 md:px-20 pt-10 pb-5 bg-sartorial-green">
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-20">
 				<div className="">
 					<Image

@@ -4,13 +4,13 @@ import Link from "next/link";
 
 const ShopByCategory = () => {
 	return (
-		<div className="w-full px-20 py-20 bg-sartorial-green">
+		<div className="w-full px-10 md:px-20 py-20 bg-sartorial-green">
 			<div className="flex justify-center">
-				<p className="text-2xl md:text-4xl md:font-bold text-white">
+				<p className="text-center text-2xl md:text-4xl md:font-bold text-white">
 					Shop by Category
 				</p>
 			</div>
-			<div className="mt-20 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+			<div className="mt-10 md:mt-20 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
 				<Link
 					href="/category"
 					className="group flex flex-col gap-5 items-center transition-transform duration-300 ease-out hover:-translate-y-2"
