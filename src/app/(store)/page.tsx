@@ -6,6 +6,7 @@ import NewArrivals from "@/components/sections/NewArrivals";
 import ReviewSlide from "@/components/sections/ReviewSlide";
 import ShopByCategory from "@/components/sections/ShopByCategory";
 import WhySartorial from "@/components/sections/WhySartorial";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Buy Premium Bags Online in Nigeria | Sartorial",
