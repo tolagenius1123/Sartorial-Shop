@@ -12,8 +12,42 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-	title: "Sartorial",
-	description: "Something for Everyone.",
+	title: "Sartorial – Premium Bags for Every Woman",
+	description:
+		"Shop premium bags and accessories for women on Sartorial. Quality styles delivered to your doorstep.",
+	keywords: [
+		"fashion store",
+		"fashion bags",
+		"online store",
+		"buy bags online",
+		"women fashion",
+		"Sartorial",
+		"sartorial.ng",
+	],
+	openGraph: {
+		title: "Sartorial – Premium Bags for Every Woman",
+		description:
+			"Shop premium bags and accessories for women on Sartorial. Quality styles delivered to your doorstep.",
+		url: "https://sartorial.ng",
+		siteName: "Sartorial",
+		images: [
+			{
+				url: "https://res.cloudinary.com/dkoi9zeli/image/upload/v1770800367/sartorial_zn5q28.svg",
+				width: 1200,
+				height: 630,
+				alt: "Sartorial Fashion Store",
+			},
+		],
+		type: "website",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Sartorial – Premium Fashion Store",
+		description: "Premium Bags for Every Woman",
+		images: [
+			"https://res.cloudinary.com/dkoi9zeli/image/upload/v1770800367/sartorial_zn5q28.svg",
+		],
+	},
 };
 
 export default function RootLayout({

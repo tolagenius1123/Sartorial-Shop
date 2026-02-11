@@ -7,6 +7,12 @@ import ReviewSlide from "@/components/sections/ReviewSlide";
 import ShopByCategory from "@/components/sections/ShopByCategory";
 import WhySartorial from "@/components/sections/WhySartorial";
 
+export const metadata: Metadata = {
+	title: "Buy Premium Bags Online in Nigeria | Sartorial",
+	description:
+		"Sartorial is an online fashion store in Nigeria offering premium bags and accessories for women. Shop stylish handbags and more today.",
+};
+
 export default function Home() {
 	return (
 		<main className="h-auto w-full bg-sartorial-offWhite">
