@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { SartorialBabe } from "@/assets";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 const reviews = [
 	{
@@ -56,7 +56,7 @@ const reviews = [
 	},
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
 	hidden: { opacity: 0 },
 	show: {
 		opacity: 1,
@@ -66,7 +66,7 @@ const containerVariants = {
 	},
 };
 
-const imageVariants = {
+const imageVariants: Variants = {
 	hidden: { opacity: 0, y: 30, scale: 0.95 },
 	show: {
 		opacity: 1,
