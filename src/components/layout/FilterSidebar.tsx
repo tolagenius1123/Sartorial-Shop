@@ -112,10 +112,10 @@ const FilterContent = ({
 export const FilterSidebar = (props: FilterProps) => {
 	return (
 		<>
-			<div className="md:hidden mb-4">
+			<div className="md:hidden md:mb-4">
 				<Sheet>
 					<SheetTrigger asChild>
-						<button className="flex items-center gap-2 px-4 py-2 border rounded-md bg-white text-sm font-medium">
+						<button className="flex items-center gap-2 px-4 py-2.5 border-2 rounded-sm bg-[#F1F3F4] text-sm font-medium border-sartorial-green">
 							<Filter className="w-4 h-4" />
 							Filters
 						</button>

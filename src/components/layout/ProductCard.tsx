@@ -95,7 +95,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
 			<div className="mt-3">
 				<div className="text-center space-y-2">
-					<h3 className="text-3xl font-semibold text-sartorial-green">
+					<h3 className="text-2xl md:text-2xl font-semibold text-sartorial-green">
 						{productName}
 					</h3>
 

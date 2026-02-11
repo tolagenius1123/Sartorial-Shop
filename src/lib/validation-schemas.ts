@@ -45,3 +45,12 @@ export const billingSchema = yup.object().shape({
 		otherwise: (schema) => schema.notRequired(),
 	}),
 });
+
+export const joinSartorialSchema = yup.object().shape({
+	fullName: yup.string().required("Full name is required"),
+	emailAddress: yup
+		.string()
+		.email("Invalid email address")
+		.required("Email is required"),
+	phoneNo: yup.string().required("Phone number is required"),
+});

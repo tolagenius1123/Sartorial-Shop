@@ -49,10 +49,7 @@ const CustomInput = ({
 	const hasError = touched && error;
 
 	return (
-		<div
-			className={`grid w-full items-center gap-3 ${containerStyle}`}
-			// className={`grid w-full max-w-sm items-center gap-3 ${containerStyle}`}
-		>
+		<div className={`grid w-full items-center gap-2 ${containerStyle}`}>
 			{label && (
 				<Label htmlFor={id} className={labelStyle}>
 					{label}

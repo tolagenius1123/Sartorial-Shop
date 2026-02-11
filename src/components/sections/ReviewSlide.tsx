@@ -164,72 +164,38 @@ const ReviewSlide = () => {
 			</Carousel>
 
 			<div className="flex flex-col items-center mt-30">
-				<h2 className="text-3xl md:text-4xl font-bold text-sartorial-green mb-8">
+				<h2 className="text-center text-2xl md:text-4xl font-bold text-sartorial-green mb-8">
 					Thank You! Sartorial Babes
 				</h2>
 			</div>
 
-			{/* <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-				<Image
-					src={SartorialBabe}
-					alt="Sartorial Babe"
-					height={100}
-					width={100}
-					className="w-full h-64 object-contain"
-				/>
-				<Image
-					src={SartorialBabe}
-					alt="Sartorial Babe"
-					height={100}
-					width={100}
-					className="w-full h-64 object-contain"
-				/>
-				<Image
-					src={SartorialBabe}
-					alt="Sartorial Babe"
-					height={100}
-					width={100}
-					className="w-full h-64 object-contain"
-				/>
-				<Image
-					src={SartorialBabe}
-					alt="Sartorial Babe"
-					height={100}
-					width={100}
-					className="w-full h-64 object-contain"
-				/>
-			</div> */}
-			<div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-				<motion.div
-					variants={containerVariants}
-					initial="hidden"
-					whileInView="show"
-					viewport={{ once: true }}
-					className="grid grid-cols-1 md:grid-cols-4 gap-3 col-span-full"
-				>
-					{Array.from({ length: 4 }).map((_, i) => (
-						<motion.div
-							key={i}
-							variants={imageVariants}
-							whileHover={{ y: -6, scale: 1.03 }}
-							transition={{
-								type: "spring",
-								stiffness: 200,
-								damping: 15,
-							}}
-							className="overflow-hidden rounded-lg"
-						>
-							<Image
-								src={SartorialBabe}
-								alt="Sartorial Babe"
-								height={100}
-								width={100}
-								className="w-full h-64 object-contain transition-transform duration-300"
-							/>
-						</motion.div>
-					))}
-				</motion.div>
-			</div>
+			<motion.div
+				variants={containerVariants}
+				initial="hidden"
+				whileInView="show"
+				viewport={{ once: true }}
+				className="grid grid-cols-1 md:grid-cols-4 gap-3 col-span-full"
+			>
+				{Array.from({ length: 4 }).map((_, i) => (
+					<motion.div
+						key={i}
+						variants={imageVariants}
+						whileHover={{ y: -6, scale: 1.03 }}
+						transition={{
+							type: "spring",
+							stiffness: 200,
+							damping: 15,
+						}}
+						className="overflow-hidden rounded-lg w-full"
+					>
+						<Image
+							src={SartorialBabe}
+							alt="Sartorial Babe"
+							className="w-full h-64 object-cover transition-transform duration-300"
+						/>
+					</motion.div>
+				))}
+			</motion.div>
 		</div>
 	);
 };

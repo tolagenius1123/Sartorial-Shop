@@ -38,7 +38,7 @@ const WishList = () => {
 		<div className="min-h-screen flex flex-col bg-gray-50">
 			<Header />
 			<main className="grow w-full pt-30 md:pt-40 pb-20 px-6 md:px-20 lg:px-32">
-				<div className="bg-white max-w-6xl mx-auto p-10 rounded-sm">
+				<div className="bg-white max-w-6xl mx-auto p-3 md:p-10 rounded-sm">
 					<h1 className="text-2xl font-bold mb-8 text-gray-800">
 						Wishlist
 					</h1>
@@ -47,13 +47,13 @@ const WishList = () => {
 						{items.map((product, index) => (
 							<div
 								key={product._id}
-								className={`flex flex-col md:flex-row items-center justify-between p-8 gap-6 ${
+								className={`flex flex-col md:flex-row items-center justify-between p-3 md:p-8 gap-6 ${
 									index !== items.length - 1
 										? "border-b border-gray-100"
 										: ""
 								}`}
 							>
-								<div className="flex items-center gap-6 flex-1 w-full">
+								<div className="flex flex-col md:flex-row items-center gap-6 flex-1 w-full">
 									<div className="relative w-24 h-24 bg-gray-50 rounded-md overflow-hidden shrink-0">
 										<Image
 											src={
@@ -76,7 +76,7 @@ const WishList = () => {
 									</div>
 								</div>
 
-								<div className="flex flex-col items-end flex-1 w-full">
+								<div className="flex flex-col items-center md:items-end flex-1 w-full">
 									<p className="text-lg font-medium text-gray-700">
 										₦{(product.price || 0).toLocaleString()}
 									</p>
@@ -90,12 +90,12 @@ const WishList = () => {
 										})}
 									</p>
 
-									<div className="ml-10 mt-4 flex items-center gap-4 justify-end">
+									<div className="md:ml-10 mt-4 flex items-center justify-between gap-4 md:justify-end">
 										<button
 											onClick={() =>
 												removeFromWishlist(product._id)
 											}
-											className="px-10 py-2.5 border border-sartorial-green text-sartorial-green rounded-full hover:bg-gray-50 transition-colors min-w-35 cursor-pointer"
+											className="text-sm px-4 md:px-10 py-2.5 border border-sartorial-green text-sartorial-green rounded-full hover:bg-gray-50 transition-colors md:min-w-35 cursor-pointer"
 										>
 											Remove
 										</button>
@@ -103,7 +103,7 @@ const WishList = () => {
 											onClick={() =>
 												handleAddToCart(product)
 											}
-											className="px-10 py-2.5 bg-sartorial-green text-white rounded-full hover:bg-[#234231] transition-colors min-w-35 cursor-pointer"
+											className="text-sm px-4 md:px-10 py-2.5 bg-sartorial-green text-white rounded-full hover:bg-[#234231] transition-colors md:min-w-35 cursor-pointer"
 										>
 											Add to Cart
 										</button>

@@ -1,5 +1,6 @@
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import JoinSartorialBabesModal from "@/components/modals/JoinSartorialBabesModal";
 import BestSellers from "@/components/sections/BestSellers";
 import Hero from "@/components/sections/Hero";
 import NewArrivals from "@/components/sections/NewArrivals";
@@ -25,6 +26,7 @@ export default function Home() {
 			<ShopByCategory />
 			<ReviewSlide />
 			<Footer />
+			<JoinSartorialBabesModal />
 		</main>
 	);
 }

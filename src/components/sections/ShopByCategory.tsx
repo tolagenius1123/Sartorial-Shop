@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const ShopByCategory = () => {
 	return (
-		<div className="w-full px-10 md:px-20 py-20 bg-sartorial-green">
+		<div className="w-full px-6 md:px-20 py-20 bg-sartorial-green">
 			<div className="flex justify-center">
 				<p className="text-center text-2xl md:text-4xl md:font-bold text-white">
 					Shop by Category

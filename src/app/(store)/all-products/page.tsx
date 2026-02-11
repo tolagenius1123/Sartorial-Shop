@@ -25,13 +25,7 @@ const AllProducts = () => {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(true);
 
-	const categories = [
-		"Uncategorised Bags",
-		"Mini Bags",
-		"Small Bags",
-		"Medium Bags",
-		"Large Bags",
-	];
+	const categories = ["Mini Bags", "Small Bags", "Medium Bags", "Large Bags"];
 
 	const priceRanges = ["Under $25", "$25 - $50", "$50 - $100", "Over $100"];
 
@@ -82,22 +76,31 @@ const AllProducts = () => {
 	return (
 		<div className="h-auto w-full bg-gray-50">
 			<Header />
-			<div className="flex flex-col md:flex-row w-full px-10 md:px-20 pt-30 pb-20 md:py-40 gap-5 md:gap-8">
-				<FilterSidebar
-					categories={categories}
-					priceRanges={priceRanges}
-					colors={colors}
-					selectedCategories={selectedCategories}
-					selectedPriceRanges={selectedPriceRanges}
-					selectedColors={selectedColors}
-					handleCategoryChange={handleCategoryChange}
-					handlePriceRangeChange={handlePriceRangeChange}
-					handleColorChange={handleColorChange}
-					clearAllFilters={clearAllFilters}
-				/>
+			<div className="flex flex-col md:flex-row w-full px-6 md:px-10 pt-30 pb-20 md:py-40 gap-5 md:gap-8">
+				<div className="flex justify-between items-center">
+					<FilterSidebar
+						categories={categories}
+						priceRanges={priceRanges}
+						colors={colors}
+						selectedCategories={selectedCategories}
+						selectedPriceRanges={selectedPriceRanges}
+						selectedColors={selectedColors}
+						handleCategoryChange={handleCategoryChange}
+						handlePriceRangeChange={handlePriceRangeChange}
+						handleColorChange={handleColorChange}
+						clearAllFilters={clearAllFilters}
+					/>
+					<Button
+						variant="outline"
+						className="flex md:hidden items-center gap-4 rounded-sm border-2 border-sartorial-green bg-[#F1F3F4] px-8 py-5 text-sm font-medium text-sartorial-green hover:bg-[#e8eaeb] hover:text-sartorial-green"
+					>
+						<ListFilter className="h-8 w-8 stroke-[2.5px]" />
+						<span>Sort by</span>
+					</Button>
+				</div>
 
-				<div className="w-full md:w-[70%]">
-					<div className="flex justify-end mb-5">
+				<div className="w-full md:w-[80%]">
+					<div className="hidden md:flex justify-end mb-5">
 						<Button
 							variant="outline"
 							className="flex items-center gap-4 rounded-sm border-2 border-sartorial-green bg-[#F1F3F4] px-8 py-5 text-sm font-medium text-sartorial-green hover:bg-[#e8eaeb] hover:text-sartorial-green"
