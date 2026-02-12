@@ -273,20 +273,23 @@ const CheckoutPage = () => {
 				: undefined,
 		})),
 		onSuccess: async (ref) => {
-			try {
-				toast.loading("Processing your order...");
+			// 1. Assign the loading toast to a constant
+			const toastId = toast.loading("Processing your order...");
 
-				// ✅ CREATE ORDER DIRECTLY (same as PayPal)
+			try {
 				await createOrderInDatabase(ref.reference, "paystack");
 
+				// 2. Dismiss the loading toast before showing success
+				toast.dismiss(toastId);
 				toast.success("Payment successful!");
+
 				useBasketStore.getState().clearBasket();
 				router.push(`/order-pending?reference=${ref.reference}`);
 			} catch (error) {
+				// 3. Dismiss here too so it doesn't spin forever on error
+				toast.dismiss(toastId);
 				console.error("Error creating order:", error);
-				toast.error(
-					"Payment successful but order creation failed. Please contact support.",
-				);
+				toast.error("Payment successful but order creation failed.");
 			}
 		},
 		onClose: () => {
