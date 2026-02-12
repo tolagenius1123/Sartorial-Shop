@@ -41,8 +41,8 @@ const Cart = () => {
 				</button>
 			</DialogTrigger>
 
-			<DialogContent className="max-w-175 max-h-[90vh] flex flex-col rounded-3xl bg-sartorial-green text-white p-8 border-none">
-				<DialogHeader className="flex flex-row items-center justify-between pb-4">
+			<DialogContent className="max-w-175 max-h-[90vh] flex flex-col rounded-3xl bg-sartorial-green text-white p-5 md:p-8 border-none">
+				<DialogHeader className="flex flex-row items-center justify-between pb-2 md:pb-4">
 					<DialogTitle className="text-xl font-semibold">
 						Cart ({totalItems})
 					</DialogTitle>
@@ -74,7 +74,7 @@ const Cart = () => {
 								/>
 
 								<div>
-									<p className="font-medium">
+									<p className="text-sm md:text-base font-medium">
 										{item.product.name}
 									</p>
 									<div className="flex items-center gap-3 mt-2">

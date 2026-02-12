@@ -57,16 +57,6 @@ const BestSellers = () => {
 							/>
 						))}
 			</div>
-
-			{/* <div className="mt-20 md:mt-10 flex justify-center">
-				<Button
-					variant="outline"
-					className="flex text-lg justify-center h-11 border-2 border-sartorial-green hover:bg-gray-50 text-sartorial-green font-medium rounded-lg w-40 cursor-pointer"
-					onClick={() => router.push("/all-products")}
-				>
-					See more <ArrowRight className="h-5 w-5 ml-1" />
-				</Button>
-			</div> */}
 			<div className="mt-20 flex justify-center">
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}

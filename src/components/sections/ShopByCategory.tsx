@@ -12,7 +12,10 @@ const ShopByCategory = () => {
 			</div>
 			<div className="mt-10 md:mt-20 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
 				<Link
-					href="/category"
+					href={{
+						pathname: "/category",
+						query: { value: "Mini Bags" },
+					}}
 					className="group flex flex-col gap-5 items-center transition-transform duration-300 ease-out hover:-translate-y-2"
 				>
 					<div className="overflow-visible">
@@ -28,7 +31,10 @@ const ShopByCategory = () => {
 				</Link>
 
 				<Link
-					href="/category"
+					href={{
+						pathname: "/category",
+						query: { value: "Small Bags" },
+					}}
 					className="group flex flex-col gap-5 items-center transition-transform duration-300 hover:-translate-y-2"
 				>
 					<div className="overflow-visible">
@@ -44,7 +50,10 @@ const ShopByCategory = () => {
 				</Link>
 
 				<Link
-					href="/category"
+					href={{
+						pathname: "/category",
+						query: { value: "Medium Bags" },
+					}}
 					className="group flex flex-col gap-5 items-center transition-transform duration-300 hover:-translate-y-2"
 				>
 					<div className="overflow-visible">
@@ -60,7 +69,10 @@ const ShopByCategory = () => {
 				</Link>
 
 				<Link
-					href="/category"
+					href={{
+						pathname: "/category",
+						query: { value: "Large Bags" },
+					}}
 					className="group flex flex-col gap-5 items-center transition-transform duration-300 hover:-translate-y-2"
 				>
 					<div className="overflow-visible">

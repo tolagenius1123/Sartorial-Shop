@@ -230,7 +230,6 @@ const BillingForm = ({
 				{/* Shipping Address Section */}
 				{formik.values.shipToDifferentAddress && (
 					<div className="space-y-6 pt-4 animate-in fade-in slide-in-from-top-2 duration-300">
-						{/* ... All shipping fields remain the same ... */}
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<CustomInput
 								id="receiverFirstName"
@@ -365,7 +364,7 @@ const BillingForm = ({
 						Checkout
 					</Button>
 
-					<div className="mt-3 text-white flex justify-center items-center gap-4 underline text-xs">
+					<div className="mt-5 md:mt-3 text-white flex justify-center items-center gap-4 underline text-[10px] md:text-xs">
 						<Link href="/terms-and-condition">
 							Terms & Condition
 						</Link>

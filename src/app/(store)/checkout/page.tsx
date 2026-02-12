@@ -179,7 +179,6 @@ const CheckoutPage = () => {
 	const shipping = calculateShipping(getShippingAddress());
 	const total = subtotal + shipping;
 
-	// Create order in your backend
 	const createOrderInDatabase = async (
 		paymentReference: string,
 		paymentMethod: string,
@@ -252,12 +251,10 @@ const CheckoutPage = () => {
 		try {
 			toast.loading("Processing your order...");
 
-			// Create order in your database
 			await createOrderInDatabase(details.id, "paypal");
 
 			toast.success("PayPal Payment Successful!");
 
-			// Clear the basket
 			useBasketStore.getState().clearBasket();
 
 			router.push(`/order-pending?reference=${details.id}`);
@@ -267,17 +264,12 @@ const CheckoutPage = () => {
 		}
 	};
 
-	const handlePayPalError = (error: any) => {
-		console.error("PayPal Error:", error);
-		toast.error("Payment failed. Please try again.");
-	};
-
 	return (
 		<div className="h-auto w-full bg-gray-50">
 			<Header />
-			<div className="flex flex-col-reverse md:flex-row w-full px-10 md:px-20 py-30 md:py-40 gap-8">
-				<div className="w-full md:w-[60%] bg-[#2D5A43] rounded-sm p-8 md:p-12">
-					<h1 className="text-3xl text-white font-semibold text-center tracking-wide mb-10">
+			<div className="flex flex-col md:flex-row w-full px-6 md:px-20 py-25 md:py-40 gap-8">
+				<div className="w-full md:w-[60%] bg-[#2D5A43] rounded-sm p-5 md:p-12">
+					<h1 className="text-3xl text-white font-semibold text-center tracking-wide mb-5 md:mb-10">
 						Checkout
 					</h1>
 					<BillingForm

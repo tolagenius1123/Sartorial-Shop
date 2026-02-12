@@ -24,7 +24,7 @@ const Accordion = ({
 		>
 			<div className="flex flex-col gap-4">
 				<div className="flex items-center gap-3">
-					<p className="w-full text-xl font-semibold group-[.is-active]:font-bold duration-300">
+					<p className="w-full text-lg md:text-xl font-semibold group-[.is-active]:font-bold duration-300">
 						{id}. {question}
 					</p>
 

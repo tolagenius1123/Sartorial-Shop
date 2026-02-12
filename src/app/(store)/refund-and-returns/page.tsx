@@ -1,39 +1,17 @@
-// import Footer from "@/components/layout/Footer";
-// import Header from "@/components/layout/Header";
-
-// const RefundAndReturns = () => {
-// 	return (
-// 		<div className="h-auto w-full bg-gray-50">
-// 			<Header />
-// 			<div className="w-full py-10 px-10 md:px-20">
-// 				<div className="bg-[#8EC09E45] text-sartorial-green p-8 rounded-sm">
-// 					<h1 className="text-2xl font-bold text-center mb-8 uppercase tracking-wide">
-// 						Refund & Returns Policy
-// 					</h1>
-// 				</div>
-// 			</div>
-// 			<Footer />
-// 		</div>
-// 	);
-// };
-
-// export default RefundAndReturns;
-
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 
 const RefundAndReturns = () => {
 	return (
-		<div className="h-auto w-full bg-gray-50">
+		<div className="h-auto w-full bg-gray-50 flex flex-col">
 			<Header />
-			<div className="w-full py-10 px-10 md:px-20">
-				<div className="bg-[#8EC09E45] text-[#1B4332] p-8 rounded-sm">
-					<h1 className="text-2xl font-bold text-center mb-8 uppercase tracking-wide">
+			<div className="w-full mt-10 md:mt-20 py-10 px-6 md:px-20">
+				<div className="bg-[#8EC09E45] text-[#1B4332] p-5 md:p-8 rounded-sm">
+					<h1 className="text-xl md:text-2xl font-bold text-center mb-8 uppercase tracking-wide">
 						Refund & Return Policy
 					</h1>
 
 					<div className="space-y-8">
-						{/* Exchange Section */}
 						<section>
 							<h2 className="text-xl font-bold mb-3">Exchange</h2>
 							<p className="leading-relaxed">
@@ -50,7 +28,6 @@ const RefundAndReturns = () => {
 							</p>
 						</section>
 
-						{/* Returns Section */}
 						<section>
 							<h2 className="text-xl font-bold mb-3">Returns</h2>
 							<p className="leading-relaxed">
@@ -63,7 +40,6 @@ const RefundAndReturns = () => {
 							</p>
 						</section>
 
-						{/* Sale Items Section */}
 						<section>
 							<h2 className="text-xl font-bold mb-3">
 								Sale Items
@@ -74,7 +50,6 @@ const RefundAndReturns = () => {
 							</p>
 						</section>
 
-						{/* Footer Note */}
 						<footer className="pt-6 border-t border-[#1B4332]/10 text-center italic">
 							<p>
 								Thank you for choosing Sartorial. We look

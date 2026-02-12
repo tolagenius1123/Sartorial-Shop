@@ -28,7 +28,7 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 		);
 
 	return (
-		<div className="w-full md:w-[40%] bg-white p-8 rounded-sm shadow-sm h-fit">
+		<div className="w-full md:w-[40%] bg-white p-5 md:p-8 rounded-sm shadow-sm h-fit">
 			<h2 className="text-xl font-bold mb-6">Order Summary</h2>
 
 			<div className="space-y-6">
@@ -56,7 +56,7 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 									height={40}
 									className="rounded-md object-cover"
 								/>
-								<p className="font-medium">
+								<p className="text-sm md:text-base font-medium">
 									{item.product.name}
 								</p>
 							</div>
@@ -128,9 +128,9 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 				<input
 					type="text"
 					placeholder="Coupon Code"
-					className="w-full border rounded-full px-4 h-11 outline-none focus:ring-2 focus:ring-green-700"
+					className="w-full border rounded-full px-4 h-11 outline-none focus:ring-2 focus:ring-green-700 text-xs md:text-base"
 				/>
-				<Button className="rounded-full bg-sartorial-green text-white hover:bg-green-800 h-11 cursor-pointer">
+				<Button className="text-xs md:text-base rounded-full bg-sartorial-green text-white hover:bg-green-800 h-11 cursor-pointer">
 					Apply Coupon
 				</Button>
 			</div>

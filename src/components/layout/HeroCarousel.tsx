@@ -1,18 +1,19 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { banner1, banner2, banner3 } from "@/assets";
+import { banner1, banner2, banner3, MobileBanner1 } from "@/assets";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const HeroCarousel = () => {
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+	const [isMobile, setIsMobile] = useState(false);
 
 	const slides = [
-		{ id: 1, image: banner1 },
-		{ id: 2, image: banner2 },
-		{ id: 3, image: banner3 },
+		{ id: 1, image: banner1, mobileImage: MobileBanner1 },
+		{ id: 2, image: banner2, mobileImage: MobileBanner1 },
+		{ id: 3, image: banner3, mobileImage: MobileBanner1 },
 	];
 
 	const nextSlide = useCallback(() => {
@@ -37,6 +38,17 @@ const HeroCarousel = () => {
 		return () => clearInterval(interval);
 	}, [isAutoPlaying, nextSlide]);
 
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+
+		return () => window.removeEventListener("resize", checkMobile);
+	}, []);
+
 	return (
 		<>
 			<div className="pt-25 md:pt-24 flex flex-col items-center w-full overflow-hidden gap-4 bg-sartorial-offWhite">
@@ -52,7 +64,8 @@ const HeroCarousel = () => {
 							}`}
 						>
 							<Image
-								src={slide.image}
+								// src={slide.image}
+								src={isMobile ? slide.mobileImage : slide.image}
 								alt={`Slide ${index + 1}`}
 								fill
 								priority={index === 0}

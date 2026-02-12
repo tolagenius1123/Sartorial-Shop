@@ -3,11 +3,11 @@ import Header from "@/components/layout/Header";
 
 const TermsAndCondition = () => {
 	return (
-		<div className="h-auto w-full bg-gray-50">
+		<div className="h-auto w-full bg-gray-50 flex flex-col">
 			<Header />
-			<div className="w-full py-10 px-10 md:px-20">
-				<div className="bg-[#8EC09E45] text-sartorial-green p-8 rounded-sm">
-					<h1 className="text-2xl font-bold text-center mb-8 uppercase tracking-wide">
+			<div className="w-full mt-20 py-10 px-6 md:px-20">
+				<div className="bg-[#8EC09E45] text-sartorial-green p-5 md:p-8 rounded-sm">
+					<h1 className="text-xl md:text-2xl font-bold text-center mb-8 uppercase tracking-wide">
 						Terms & Conditions
 					</h1>
 

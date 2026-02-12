@@ -122,7 +122,7 @@ export const FilterSidebar = (props: FilterProps) => {
 					</SheetTrigger>
 					<SheetContent
 						side="left"
-						className="w-75 sm:w-100 overflow-y-auto p-4 "
+						className="w-50 sm:w-50 overflow-y-auto p-4 "
 					>
 						<SheetHeader className="text-left">
 							<SheetTitle>Product Filters</SheetTitle>
