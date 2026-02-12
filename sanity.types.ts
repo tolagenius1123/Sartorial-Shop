@@ -14,409 +14,459 @@
 
 // Source: schema.json
 export type Order = {
-  _id: string;
-  _type: "order";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  orderNumber?: string;
-  paystackReference?: string;
-  paystackCustomerId?: string;
-  clerkUserId?: string;
-  customerName?: string;
-  email?: string;
-  products?: Array<{
-    product?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "product";
-    };
-    quantity?: number;
-    selectedColor?: {
-      colorId?: string;
-      colorTitle?: string;
-    };
-    _key: string;
-  }>;
-  totalPrice?: number;
-  currency?: string;
-  amountDiscount?: number;
-  status?: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
-  shippingAddress?: {
-    address?: string;
-    city?: string;
-    state?: string;
-    country?: string;
-    postalCode?: string;
-    phone?: string;
-  };
-  orderDate?: string;
+	_id: string;
+	_type: "order";
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	orderNumber?: string;
+	paystackReference?: string;
+	paystackCustomerId?: string;
+	paypalOrderId?: string;
+	clerkUserId?: string;
+	customerName?: string;
+	email?: string;
+	products?: Array<{
+		product?: {
+			_ref: string;
+			_type: "reference";
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: "product";
+		};
+		quantity?: number;
+		selectedColor?: {
+			colorId?: string;
+			colorTitle?: string;
+		};
+		_key: string;
+	}>;
+	totalPrice?: number;
+	currency?: string;
+	amountDiscount?: number;
+	status?: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
+	shippingAddress?: {
+		address?: string;
+		city?: string;
+		state?: string;
+		country?: string;
+		postalCode?: string;
+		phone?: string;
+	};
+	paymentMethod?: "paystack" | "paypal";
+	shippingCost?: number;
+	subtotal?: number;
+	orderDate?: string;
 };
 
 export type BlockContent = Array<{
-  children?: Array<{
-    marks?: Array<string>;
-    text?: string;
-    _type: "span";
-    _key: string;
-  }>;
-  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-  listItem?: "bullet";
-  markDefs?: Array<{
-    href?: string;
-    _type: "link";
-    _key: string;
-  }>;
-  level?: number;
-  _type: "block";
-  _key: string;
+	children?: Array<{
+		marks?: Array<string>;
+		text?: string;
+		_type: "span";
+		_key: string;
+	}>;
+	style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+	listItem?: "bullet";
+	markDefs?: Array<{
+		href?: string;
+		_type: "link";
+		_key: string;
+	}>;
+	level?: number;
+	_type: "block";
+	_key: string;
 }>;
 
 export type Category = {
-  _id: string;
-  _type: "category";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  description?: string;
+	_id: string;
+	_type: "category";
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	title?: string;
+	slug?: Slug;
+	description?: string;
 };
 
 export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
+	_type: "slug";
+	current?: string;
+	source?: string;
 };
 
 export type Product = {
-  _id: string;
-  _type: "product";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  images?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    color?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "color";
-    };
-    _type: "image";
-    _key: string;
-  }>;
-  description?: BlockContent;
-  detailedDescription?: string;
-  price?: number;
-  colors?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "color";
-  }>;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  stock?: number;
-  isBestSeller?: boolean;
-  isNewArrival?: boolean;
+	_id: string;
+	_type: "product";
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	name?: string;
+	slug?: Slug;
+	images?: Array<{
+		asset?: {
+			_ref: string;
+			_type: "reference";
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+		};
+		media?: unknown;
+		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		alt?: string;
+		color?: {
+			_ref: string;
+			_type: "reference";
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: "color";
+		};
+		_type: "image";
+		_key: string;
+	}>;
+	description?: BlockContent;
+	detailedDescription?: string;
+	price?: number;
+	colors?: Array<{
+		_id: string;
+		title: string;
+	}>;
+	// colors?: Array<{
+	// 	_ref: string;
+	// 	_type: "reference";
+	// 	_weak?: boolean;
+	// 	_key: string;
+	// 	[internalGroqTypeReferenceTo]?: "color";
+	// }>;
+	categories?: Array<{
+		_ref: string;
+		_type: "reference";
+		_weak?: boolean;
+		_key: string;
+		[internalGroqTypeReferenceTo]?: "category";
+	}>;
+	stock?: number;
+	isBestSeller?: boolean;
+	isNewArrival?: boolean;
 };
 
 export type Color = {
-  _id: string;
-  _type: "color";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
+	_id: string;
+	_type: "color";
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	title?: string;
 };
 
 export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
+	_type: "sanity.imageCrop";
+	top?: number;
+	bottom?: number;
+	left?: number;
+	right?: number;
 };
 
 export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
+	_type: "sanity.imageHotspot";
+	x?: number;
+	y?: number;
+	height?: number;
+	width?: number;
 };
 
 export type SanityImagePaletteSwatch = {
-  _type: "sanity.imagePaletteSwatch";
-  background?: string;
-  foreground?: string;
-  population?: number;
-  title?: string;
+	_type: "sanity.imagePaletteSwatch";
+	background?: string;
+	foreground?: string;
+	population?: number;
+	title?: string;
 };
 
 export type SanityImagePalette = {
-  _type: "sanity.imagePalette";
-  darkMuted?: SanityImagePaletteSwatch;
-  lightVibrant?: SanityImagePaletteSwatch;
-  darkVibrant?: SanityImagePaletteSwatch;
-  vibrant?: SanityImagePaletteSwatch;
-  dominant?: SanityImagePaletteSwatch;
-  lightMuted?: SanityImagePaletteSwatch;
-  muted?: SanityImagePaletteSwatch;
+	_type: "sanity.imagePalette";
+	darkMuted?: SanityImagePaletteSwatch;
+	lightVibrant?: SanityImagePaletteSwatch;
+	darkVibrant?: SanityImagePaletteSwatch;
+	vibrant?: SanityImagePaletteSwatch;
+	dominant?: SanityImagePaletteSwatch;
+	lightMuted?: SanityImagePaletteSwatch;
+	muted?: SanityImagePaletteSwatch;
 };
 
 export type SanityImageDimensions = {
-  _type: "sanity.imageDimensions";
-  height?: number;
-  width?: number;
-  aspectRatio?: number;
+	_type: "sanity.imageDimensions";
+	height?: number;
+	width?: number;
+	aspectRatio?: number;
 };
 
 export type SanityImageMetadata = {
-  _type: "sanity.imageMetadata";
-  location?: Geopoint;
-  dimensions?: SanityImageDimensions;
-  palette?: SanityImagePalette;
-  lqip?: string;
-  blurHash?: string;
-  hasAlpha?: boolean;
-  isOpaque?: boolean;
+	_type: "sanity.imageMetadata";
+	location?: Geopoint;
+	dimensions?: SanityImageDimensions;
+	palette?: SanityImagePalette;
+	lqip?: string;
+	blurHash?: string;
+	hasAlpha?: boolean;
+	isOpaque?: boolean;
 };
 
 export type SanityFileAsset = {
-  _id: string;
-  _type: "sanity.fileAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  source?: SanityAssetSourceData;
+	_id: string;
+	_type: "sanity.fileAsset";
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	originalFilename?: string;
+	label?: string;
+	title?: string;
+	description?: string;
+	altText?: string;
+	sha1hash?: string;
+	extension?: string;
+	mimeType?: string;
+	size?: number;
+	assetId?: string;
+	uploadId?: string;
+	path?: string;
+	url?: string;
+	source?: SanityAssetSourceData;
 };
 
 export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
-  name?: string;
-  id?: string;
-  url?: string;
+	_type: "sanity.assetSourceData";
+	name?: string;
+	id?: string;
+	url?: string;
 };
 
 export type SanityImageAsset = {
-  _id: string;
-  _type: "sanity.imageAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  metadata?: SanityImageMetadata;
-  source?: SanityAssetSourceData;
+	_id: string;
+	_type: "sanity.imageAsset";
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	originalFilename?: string;
+	label?: string;
+	title?: string;
+	description?: string;
+	altText?: string;
+	sha1hash?: string;
+	extension?: string;
+	mimeType?: string;
+	size?: number;
+	assetId?: string;
+	uploadId?: string;
+	path?: string;
+	url?: string;
+	metadata?: SanityImageMetadata;
+	source?: SanityAssetSourceData;
 };
 
 export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
+	_type: "geopoint";
+	lat?: number;
+	lng?: number;
+	alt?: number;
 };
 
 export type AllSanitySchemaTypes =
-  | Order
-  | BlockContent
-  | Category
-  | Slug
-  | Product
-  | Color
-  | SanityImageCrop
-  | SanityImageHotspot
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SanityImageMetadata
-  | SanityFileAsset
-  | SanityAssetSourceData
-  | SanityImageAsset
-  | Geopoint;
+	| Order
+	| BlockContent
+	| Category
+	| Slug
+	| Product
+	| Color
+	| SanityImageCrop
+	| SanityImageHotspot
+	| SanityImagePaletteSwatch
+	| SanityImagePalette
+	| SanityImageDimensions
+	| SanityImageMetadata
+	| SanityFileAsset
+	| SanityAssetSourceData
+	| SanityImageAsset
+	| Geopoint;
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
-// Source: src/sanity/lib/product/getAllProducts.tsx
+// Source: src/sanity/lib/product/getAllProducts.ts
 // Variable: ALL_PRODUCTS_QUERY
-// Query: *[_type == "product"] | order(_createdAt desc) {      _id,      name,      "slug": slug.current,      price,      stock,      isBestSeller,      isNewArrival,      images[]{ asset->{url}, alt }    }
+// Query: *[_type == "product"] | order(_createdAt desc) {      _id,      name,      "slug": slug.current,      price,      stock,      isBestSeller,      isNewArrival,      images[]{ asset->{url}, alt },      colors[]->{        _id,        title      }    }
 export type ALL_PRODUCTS_QUERY_RESULT = Array<{
-  _id: string;
-  name: string | null;
-  slug: string | null;
-  price: number | null;
-  stock: number | null;
-  isBestSeller: boolean | null;
-  isNewArrival: boolean | null;
-  images: Array<{
-    asset: {
-      url: string | null;
-    } | null;
-    alt: string | null;
-  }> | null;
+	_id: string;
+	name: string | null;
+	slug: string | null;
+	price: number | null;
+	stock: number | null;
+	isBestSeller: boolean | null;
+	isNewArrival: boolean | null;
+	images: Array<{
+		asset: {
+			url: string | null;
+		} | null;
+		alt: string | null;
+	}> | null;
+	colors: Array<{
+		_id: string;
+		title: string | null;
+	}> | null;
 }>;
 
-// Source: src/sanity/lib/product/getBestSellers.tsx
+// Source: src/sanity/lib/product/getBestSellers.ts
 // Variable: query
-// Query: *[_type == "product" && isBestSeller == true] | order(_createdAt desc) {      _id,      name,      "slug": slug.current,      price,      stock,      isBestSeller,      isNewArrival,      images[]{ asset->{url}, alt }    }
+// Query: *[_type == "product" && isBestSeller == true] | order(_createdAt desc) {      _id,      name,      "slug": slug.current,      price,      stock,      isBestSeller,      isNewArrival,      images[]{ asset->{url}, alt },      colors[]->{        _id,        title      }    }
 export type QueryResult = Array<{
-  _id: string;
-  name: string | null;
-  slug: string | null;
-  price: number | null;
-  stock: number | null;
-  isBestSeller: true;
-  isNewArrival: boolean | null;
-  images: Array<{
-    asset: {
-      url: string | null;
-    } | null;
-    alt: string | null;
-  }> | null;
+	_id: string;
+	name: string | null;
+	slug: string | null;
+	price: number | null;
+	stock: number | null;
+	isBestSeller: true;
+	isNewArrival: boolean | null;
+	images: Array<{
+		asset: {
+			url: string | null;
+		} | null;
+		alt: string | null;
+	}> | null;
+	colors: Array<{
+		_id: string;
+		title: string | null;
+	}> | null;
+}>;
+
+// Source: src/sanity/lib/product/getMyOrders.ts
+// Variable: MY_ORDERS_QUERY
+// Query: *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {        _id,        orderNumber,        orderDate,        status,        totalPrice,        currency,        products[]{          quantity,          selectedColor,          product->{            name,            price,            images[]{ asset->{url}, alt }          }        }      }
+export type MY_ORDERS_QUERY_RESULT = Array<{
+	_id: string;
+	orderNumber: string | null;
+	orderDate: string | null;
+	status: "cancelled" | "delivered" | "paid" | "pending" | "shipped" | null;
+	totalPrice: number | null;
+	currency: string | null;
+	products: Array<{
+		quantity: number | null;
+		selectedColor: {
+			colorId?: string;
+			colorTitle?: string;
+		} | null;
+		product: {
+			name: string | null;
+			price: number | null;
+			images: Array<{
+				asset: {
+					url: string | null;
+				} | null;
+				alt: string | null;
+			}> | null;
+		} | null;
+	}> | null;
 }>;
 
 // Source: src/sanity/lib/product/getNewArrivals.ts
 // Variable: NEW_ARRIVALS_QUERY
-// Query: *[_type == "product" && isNewArrival == true] | order(_createdAt desc) {      _id,      name,      "slug": slug.current,      price,      stock,      isBestSeller,      isNewArrival,      images[]{ asset->{url}, alt }    }
+// Query: *[_type == "product" && isNewArrival == true] | order(_createdAt desc) {      _id,      name,      "slug": slug.current,      price,      stock,      isBestSeller,      isNewArrival,      images[]{ asset->{url}, alt },      colors[]->{        _id,        title      }    }
 export type NEW_ARRIVALS_QUERY_RESULT = Array<{
-  _id: string;
-  name: string | null;
-  slug: string | null;
-  price: number | null;
-  stock: number | null;
-  isBestSeller: boolean | null;
-  isNewArrival: true;
-  images: Array<{
-    asset: {
-      url: string | null;
-    } | null;
-    alt: string | null;
-  }> | null;
+	_id: string;
+	name: string | null;
+	slug: string | null;
+	price: number | null;
+	stock: number | null;
+	isBestSeller: boolean | null;
+	isNewArrival: true;
+	images: Array<{
+		asset: {
+			url: string | null;
+		} | null;
+		alt: string | null;
+	}> | null;
+	colors: Array<{
+		_id: string;
+		title: string | null;
+	}> | null;
 }>;
 
 // Source: src/sanity/lib/product/getProductBySlug.ts
 // Variable: PRODUCT_BY_SLUG_QUERY
 // Query: *[_type == "product" && slug.current == $slug][0] {      _id,      name,      "slug": slug.current,      price,      stock,      description,      detailedDescription,      isBestSeller,      isNewArrival,      images[]{        alt,        asset->{url},        "color": color->{          _id,          title,          hex        }      },      colors[]->{        _id,        title,        hex      },      categories[]->{        _id,        name      }    }
 export type PRODUCT_BY_SLUG_QUERY_RESULT = {
-  _id: string;
-  name: string | null;
-  slug: string | null;
-  price: number | null;
-  stock: number | null;
-  description: BlockContent | null;
-  detailedDescription: string | null;
-  isBestSeller: boolean | null;
-  isNewArrival: boolean | null;
-  images: Array<{
-    alt: string | null;
-    asset: {
-      url: string | null;
-    } | null;
-    color: {
-      _id: string;
-      title: string | null;
-      hex: null;
-    } | null;
-  }> | null;
-  colors: Array<{
-    _id: string;
-    title: string | null;
-    hex: null;
-  }> | null;
-  categories: Array<{
-    _id: string;
-    name: null;
-  }> | null;
+	_id: string;
+	name: string | null;
+	slug: string | null;
+	price: number | null;
+	stock: number | null;
+	description: BlockContent | null;
+	detailedDescription: string | null;
+	isBestSeller: boolean | null;
+	isNewArrival: boolean | null;
+	images: Array<{
+		alt: string | null;
+		asset: {
+			url: string | null;
+		} | null;
+		color: {
+			_id: string;
+			title: string | null;
+			hex: null;
+		} | null;
+	}> | null;
+	colors: Array<{
+		_id: string;
+		title: string | null;
+		hex: null;
+	}> | null;
+	categories: Array<{
+		_id: string;
+		name: null;
+	}> | null;
 } | null;
 
-// Source: src/sanity/lib/product/getProductsByCategory.tsx
+// Source: src/sanity/lib/product/getProductsByCategory.ts
 // Variable: FILTERED_PRODUCTS_QUERY
 // Query: *[_type == "product"  ] {      _id,      name,      "slug": slug.current,      price,      stock,      description,      detailedDescription,      isBestSeller,      isNewArrival,      images[]{        alt,        asset->{url},        "color": color->{          _id,          title,          hex        }      },      colors[]->{        _id,        title,        hex      },      categories[]->{        _id,        title,        "slug": slug.current      }    }
 export type FILTERED_PRODUCTS_QUERY_RESULT = Array<{
-  _id: string;
-  name: string | null;
-  slug: string | null;
-  price: number | null;
-  stock: number | null;
-  description: BlockContent | null;
-  detailedDescription: string | null;
-  isBestSeller: boolean | null;
-  isNewArrival: boolean | null;
-  images: Array<{
-    alt: string | null;
-    asset: {
-      url: string | null;
-    } | null;
-    color: {
-      _id: string;
-      title: string | null;
-      hex: null;
-    } | null;
-  }> | null;
-  colors: Array<{
-    _id: string;
-    title: string | null;
-    hex: null;
-  }> | null;
-  categories: Array<{
-    _id: string;
-    title: string | null;
-    slug: string | null;
-  }> | null;
+	_id: string;
+	name: string | null;
+	slug: string | null;
+	price: number | null;
+	stock: number | null;
+	description: BlockContent | null;
+	detailedDescription: string | null;
+	isBestSeller: boolean | null;
+	isNewArrival: boolean | null;
+	images: Array<{
+		alt: string | null;
+		asset: {
+			url: string | null;
+		} | null;
+		color: {
+			_id: string;
+			title: string | null;
+			hex: null;
+		} | null;
+	}> | null;
+	colors: Array<{
+		_id: string;
+		title: string | null;
+		hex: null;
+	}> | null;
+	categories: Array<{
+		_id: string;
+		title: string | null;
+		slug: string | null;
+	}> | null;
 }>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
-  interface SanityQueries {
-    '\n    *[_type == "product"] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt }\n    }\n  ': ALL_PRODUCTS_QUERY_RESULT;
-    '\n    *[_type == "product" && isBestSeller == true] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt }\n    }\n  ': QueryResult;
-    '\n    *[_type == "product" && isNewArrival == true] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt }\n    }\n  ': NEW_ARRIVALS_QUERY_RESULT;
-    '\n    *[_type == "product" && slug.current == $slug][0] {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      description,\n      detailedDescription,\n      isBestSeller,\n      isNewArrival,\n      images[]{\n        alt,\n        asset->{url},\n        "color": color->{\n          _id,\n          title,\n          hex\n        }\n      },\n      colors[]->{\n        _id,\n        title,\n        hex\n      },\n      categories[]->{\n        _id,\n        name\n      }\n    }\n  ': PRODUCT_BY_SLUG_QUERY_RESULT;
-    '\n    *[_type == "product"  ] {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      description,\n      detailedDescription,\n      isBestSeller,\n      isNewArrival,\n      images[]{\n        alt,\n        asset->{url},\n        "color": color->{\n          _id,\n          title,\n          hex\n        }\n      },\n      colors[]->{\n        _id,\n        title,\n        hex\n      },\n      categories[]->{\n        _id,\n        title,\n        "slug": slug.current\n      }\n    }\n  ': FILTERED_PRODUCTS_QUERY_RESULT;
-  }
+	interface SanityQueries {
+		'\n    *[_type == "product"] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt },\n      colors[]->{\n        _id,\n        title\n      }\n    }\n  ': ALL_PRODUCTS_QUERY_RESULT;
+		'\n    *[_type == "product" && isBestSeller == true] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt },\n      colors[]->{\n        _id,\n        title\n      }\n    }\n  ': QueryResult;
+		'\n      *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {\n        _id,\n        orderNumber,\n        orderDate,\n        status,\n        totalPrice,\n        currency,\n        products[]{\n          quantity,\n          selectedColor,\n          product->{\n            name,\n            price,\n            images[]{ asset->{url}, alt }\n          }\n        }\n      }\n    ': MY_ORDERS_QUERY_RESULT;
+		'\n    *[_type == "product" && isNewArrival == true] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt },\n      colors[]->{\n        _id,\n        title\n      }\n    }\n  ': NEW_ARRIVALS_QUERY_RESULT;
+		'\n    *[_type == "product" && slug.current == $slug][0] {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      description,\n      detailedDescription,\n      isBestSeller,\n      isNewArrival,\n      images[]{\n        alt,\n        asset->{url},\n        "color": color->{\n          _id,\n          title,\n          hex\n        }\n      },\n      colors[]->{\n        _id,\n        title,\n        hex\n      },\n      categories[]->{\n        _id,\n        name\n      }\n    }\n  ': PRODUCT_BY_SLUG_QUERY_RESULT;
+		'\n    *[_type == "product"  ] {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      description,\n      detailedDescription,\n      isBestSeller,\n      isNewArrival,\n      images[]{\n        alt,\n        asset->{url},\n        "color": color->{\n          _id,\n          title,\n          hex\n        }\n      },\n      colors[]->{\n        _id,\n        title,\n        hex\n      },\n      categories[]->{\n        _id,\n        title,\n        "slug": slug.current\n      }\n    }\n  ': FILTERED_PRODUCTS_QUERY_RESULT;
+	}
 }

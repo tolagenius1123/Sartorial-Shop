@@ -70,9 +70,6 @@ const WishList = () => {
 										<h3 className="text-xl font-medium text-gray-900">
 											{product.name}
 										</h3>
-										{/* <p className="text-gray-500 text-sm mt-1">
-											Colour - {product.color || "Green"}
-										</p> */}
 									</div>
 								</div>
 

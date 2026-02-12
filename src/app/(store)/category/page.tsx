@@ -175,22 +175,30 @@ const Category = () => {
 							? Array.from({ length: 6 }).map((_, index) => (
 									<ProductCardSkeleton key={index} />
 								))
-							: filteredProducts.map((product) => (
-									<ProductCard
-										key={product._id}
-										product={product}
-										onAddToCart={() => {
-											addItem(product);
-											toast.success(
-												`${product.name} added to cart`,
-											);
-										}}
-										onBuyNow={() => {
-											addItem(product);
-											router.push("/checkout");
-										}}
-									/>
-								))}
+							: filteredProducts.map((product) => {
+									const colorToUse = product.colors?.[0];
+
+									if (!colorToUse) {
+										console.warn("Product has no colors");
+										return;
+									}
+									return (
+										<ProductCard
+											key={product._id}
+											product={product}
+											onAddToCart={() => {
+												addItem(product, colorToUse);
+												toast.success(
+													`${product.name} added to cart`,
+												);
+											}}
+											onBuyNow={() => {
+												addItem(product, colorToUse);
+												router.push("/checkout");
+											}}
+										/>
+									);
+								})}
 					</div>
 					{!loading && filteredProducts.length === 0 && (
 						<div className="text-center py-12">

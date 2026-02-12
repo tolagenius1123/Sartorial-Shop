@@ -46,7 +46,7 @@ const Footer = () => {
 					<p className="font-semibold text-2xl">Help</p>
 
 					<div className="mt-3 text-white flex flex-col gap-4">
-						<Link href={"/"}>Contact Us</Link>
+						<Link href={"/contact-us"}>Contact Us</Link>
 						<Link href={"/shipping-details"}>Shipping details</Link>
 						<Link href={"/refund-and-returns"}>
 							Refund & Returns

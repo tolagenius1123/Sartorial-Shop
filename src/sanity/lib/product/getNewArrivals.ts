@@ -11,7 +11,11 @@ export const getNewArrivals = async () => {
       stock,
       isBestSeller,
       isNewArrival,
-      images[]{ asset->{url}, alt }
+      images[]{ asset->{url}, alt },
+      colors[]->{
+        _id,
+        title
+      }
     }
   `;
 	return client.fetch(NEW_ARRIVALS_QUERY);

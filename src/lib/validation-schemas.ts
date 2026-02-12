@@ -54,3 +54,13 @@ export const joinSartorialSchema = yup.object().shape({
 		.required("Email is required"),
 	phoneNo: yup.string().required("Phone number is required"),
 });
+
+export const contactUsSchema = yup.object().shape({
+	fullName: yup.string().required("Full name is required"),
+	emailAddress: yup
+		.string()
+		.email("Invalid email address")
+		.required("Email is required"),
+	phoneNo: yup.string().required("Phone number is required"),
+	message: yup.string().required("Message is required"),
+});

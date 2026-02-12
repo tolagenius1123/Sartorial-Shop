@@ -36,22 +36,30 @@ const NewArrivals = () => {
 					? Array.from({ length: 4 }).map((_, index) => (
 							<ProductCardSkeleton key={index} />
 						))
-					: products.map((product) => (
-							<ProductCard
-								key={product._id}
-								product={product}
-								onAddToCart={() => {
-									addItem(product);
-									toast.success(
-										`${product.name} added to cart`,
-									);
-								}}
-								onBuyNow={() => {
-									addItem(product);
-									router.push("/checkout");
-								}}
-							/>
-						))}
+					: products.map((product) => {
+							const colorToUse = product.colors?.[0];
+
+							if (!colorToUse) {
+								console.warn("Product has no colors");
+								return;
+							}
+							return (
+								<ProductCard
+									key={product._id}
+									product={product}
+									onAddToCart={() => {
+										addItem(product, colorToUse);
+										toast.success(
+											`${product.name} added to cart`,
+										);
+									}}
+									onBuyNow={() => {
+										addItem(product, colorToUse);
+										router.push("/checkout");
+									}}
+								/>
+							);
+						})}
 			</div>
 		</div>
 	);

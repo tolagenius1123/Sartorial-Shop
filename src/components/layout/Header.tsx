@@ -10,20 +10,34 @@ import {
 } from "@/assets";
 import { headerLinks } from "@/data";
 import { cn } from "@/lib/utils";
-import { Heart } from "lucide-react";
+import { Heart, Package, Star } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useWishlistStore } from "@/store/useWishlistStore";
 import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import MobileHeaderLinks from "./MobileHeaderLinks";
+import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 const Cart = dynamic(() => import("./Cart"), { ssr: false });
 
 const Header = () => {
-	const { user } = useUser();
+	const { user, isSignedIn } = useUser();
+	const router = useRouter();
 	const pathname = usePathname();
 	const wishlistCount = useWishlistStore((state) => state.items.length);
+
+	const handleWishlist = () => {
+		if (!isSignedIn) {
+			toast.error("Please sign in to manage your wishlist", {
+				description: "You need an account to save items for later.",
+			});
+			return;
+		}
+
+		router.push("/wishlist");
+	};
 
 	return (
 		<header className="w-full fixed z-50 bg-white">
@@ -93,9 +107,18 @@ const Header = () => {
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
-					<SearchIcon className="h-5 w-5 text-sartorial-green cursor-pointer" />
+					<Link
+						href="/search"
+						className="hover:bg-gray-100 cursor-pointer p-2 rounded-sm"
+					>
+						<SearchIcon className="h-5 w-5 text-sartorial-green cursor-pointer" />
+					</Link>
 					<Cart />
-					<Link href="/wishlist" className="relative">
+					<Button
+						className="relative border-none shadow-none cursor-pointer"
+						variant="outline"
+						onClick={handleWishlist}
+					>
 						<Heart className="w-5 h-5 cursor-pointer text-sartorial-green" />
 
 						{wishlistCount > 0 && (
@@ -103,12 +126,29 @@ const Header = () => {
 								{wishlistCount}
 							</span>
 						)}
-					</Link>
+					</Button>
 					{/* <UserIcon className="h-5 w-5 text-sartorial-green cursor-pointer" /> */}
 					<ClerkLoaded>
 						{user ? (
-							<div className="ml-3 flex items-center space-x-2">
-								<UserButton />
+							<div className="flex items-center space-x-2">
+								<UserButton>
+									<UserButton.MenuItems>
+										<UserButton.Link
+											label="My Orders"
+											href="/account/orders"
+											labelIcon={
+												<Package className="h-4 w-4" />
+											}
+										/>
+										<UserButton.Link
+											label="My Reviews"
+											href="/account/reviews"
+											labelIcon={
+												<Star className="h-4 w-4" />
+											}
+										/>
+									</UserButton.MenuItems>
+								</UserButton>
 
 								<div className="hidden sm:block text-xs">
 									<p className="text-sartorial-green">

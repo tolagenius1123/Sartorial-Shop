@@ -25,6 +25,11 @@ const orderType = defineType({
 			type: "string",
 		}),
 		defineField({
+			name: "paypalOrderId",
+			title: "PayPal Order ID",
+			type: "string",
+		}),
+		defineField({
 			name: "clerkUserId",
 			title: "Store User ID",
 			type: "string",
@@ -142,6 +147,29 @@ const orderType = defineType({
 				{ name: "postalCode", title: "Postal Code", type: "string" },
 				{ name: "phone", title: "Phone Number", type: "string" },
 			],
+		}),
+		defineField({
+			name: "paymentMethod",
+			title: "Payment Method",
+			type: "string",
+			options: {
+				list: [
+					{ title: "Paystack", value: "paystack" },
+					{ title: "PayPal", value: "paypal" },
+				],
+			},
+		}),
+		defineField({
+			name: "shippingCost",
+			title: "Shipping Cost",
+			type: "number",
+			validation: (Rule) => Rule.min(0),
+		}),
+		defineField({
+			name: "subtotal",
+			title: "Subtotal",
+			type: "number",
+			validation: (Rule) => Rule.min(0),
 		}),
 		defineField({
 			name: "orderDate",

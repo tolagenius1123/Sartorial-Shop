@@ -28,8 +28,6 @@ const Cart = () => {
 		0,
 	);
 
-	console.log(groupedItems);
-
 	return (
 		<Dialog>
 			<DialogTrigger asChild>

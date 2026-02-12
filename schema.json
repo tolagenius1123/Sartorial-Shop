@@ -55,6 +55,13 @@
         },
         "optional": true
       },
+      "paypalOrderId": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "clerkUserId": {
         "type": "objectAttribute",
         "value": {
@@ -257,6 +264,37 @@
               "optional": true
             }
           }
+        },
+        "optional": true
+      },
+      "paymentMethod": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "paystack"
+            },
+            {
+              "type": "string",
+              "value": "paypal"
+            }
+          ]
+        },
+        "optional": true
+      },
+      "shippingCost": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
+      "subtotal": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
         },
         "optional": true
       },

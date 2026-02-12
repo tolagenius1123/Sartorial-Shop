@@ -18,6 +18,7 @@ import { Product } from "../../../../../sanity.types";
 import { getBestSellers } from "@/sanity/lib/product/getBestSellers";
 import ProductCardSkeleton from "@/components/layout/ProductCardSkeleton";
 import ProductDetailsSkeleton from "../ProductDetailsSkeleton";
+import { useUser } from "@clerk/nextjs";
 
 export type Color = {
 	_id: string;
@@ -48,6 +49,7 @@ export type ProductData = {
 };
 
 const ProductDetails = () => {
+	const { isSignedIn } = useUser();
 	const router = useRouter();
 	const params = useParams();
 	const slug = params.slug as string;
@@ -76,6 +78,13 @@ const ProductDetails = () => {
 	const toggleFavorite = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
+
+		if (!isSignedIn) {
+			toast.error("Please sign in to manage your wishlist", {
+				description: "You need an account to save items for later.",
+			});
+			return;
+		}
 
 		if (!product?._id) return;
 
@@ -327,16 +336,6 @@ const ProductDetails = () => {
 									variant="outline"
 									className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-sm h-10 px-4 md:px-10 hover:bg-gray-50"
 									disabled={product.stock <= 0}
-									// onClick={() => {
-									// 	for (let i = 0; i < quantity; i++) {
-									// 		addItem(product);
-									// 	}
-									// 	toast.success(
-									// 		`${product.name} added to cart`,
-									// 	);
-									// 	router.push("/checkout");
-									// }}
-
 									onClick={() => {
 										const colorInfo = product.colors?.find(
 											(c: Color) =>
@@ -428,11 +427,6 @@ const ProductDetails = () => {
 					<div className="mt-6 text-sartorial-green">
 						{generalTab === "product-details" && (
 							<div className="space-y-4 max-w-4xl">
-								{/* <div className="text-sm leading-relaxed text-gray-700">
-								{product.description && (
-									<PortableText value={product.description} />
-								)}
-							</div> */}
 								{product.detailedDescription && (
 									<div className="whitespace-pre-line text-sm text-gray-700">
 										{product.detailedDescription}
@@ -483,22 +477,30 @@ const ProductDetails = () => {
 						? Array.from({ length: 4 }).map((_, index) => (
 								<ProductCardSkeleton key={index} />
 							))
-						: relatedProducts.map((product) => (
-								<ProductCard
-									key={product._id}
-									product={product}
-									onAddToCart={() => {
-										addItem(product);
-										toast.success(
-											`${product.name} added to cart`,
-										);
-									}}
-									onBuyNow={() => {
-										addItem(product);
-										router.push("/checkout");
-									}}
-								/>
-							))}
+						: relatedProducts.map((product) => {
+								const colorToUse = product.colors?.[0];
+
+								if (!colorToUse) {
+									console.warn("Product has no colors");
+									return;
+								}
+								return (
+									<ProductCard
+										key={product._id}
+										product={product}
+										onAddToCart={() => {
+											addItem(product, colorToUse);
+											toast.success(
+												`${product.name} added to cart`,
+											);
+										}}
+										onBuyNow={() => {
+											addItem(product, colorToUse);
+											router.push("/checkout");
+										}}
+									/>
+								);
+							})}
 				</div>
 			</div>
 			<Footer />

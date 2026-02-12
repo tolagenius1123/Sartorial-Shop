@@ -95,7 +95,7 @@ const CustomInput = ({
 					)
 				)}
 			</div>
-			<p className="text-destructive text-sm">{error ? error : ""}</p>
+			<p className="text-destructive text-xs">{error ? error : ""}</p>
 			{/* {hasError && <p className="text-destructive text-sm">{error}</p>} */}
 		</div>
 	);

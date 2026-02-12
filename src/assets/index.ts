@@ -46,6 +46,8 @@ import Visa from "./icons/visa-logo.svg";
 import PayPal from "./icons/paypal-logo.svg";
 import MobileBanner1 from "./images/mobile-banner1.svg";
 import PaymentSuccess from "./icons/payment-success.svg";
+import ContactPhone from "./icons/contact-phone-icon.svg";
+import ContactEmail from "./icons/contact-email-icon.svg";
 
 export {
 	Sartorial,
@@ -96,4 +98,6 @@ export {
 	Visa,
 	MobileBanner1,
 	PaymentSuccess,
+	ContactPhone,
+	ContactEmail,
 };
