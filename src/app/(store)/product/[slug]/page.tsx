@@ -133,12 +133,6 @@ const ProductDetails = () => {
 
 	const handleColorSelect = (colorId: string) => {
 		setSelectedColor(colorId);
-		const matchingImage = product?.images.find(
-			(img: any) => img.color?._id === colorId,
-		);
-		if (matchingImage) {
-			setSelectedImage(matchingImage);
-		}
 	};
 
 	const handleQuantityChange = (action: "increment" | "decrement") => {
@@ -149,21 +143,13 @@ const ProductDetails = () => {
 		}
 	};
 
-	// if (loading) {
-	// 	return (
-	// 		<div className="h-screen w-full flex items-center justify-center">
-	// 			<p className="text-sartorial-green text-xl">Loading...</p>
-	// 		</div>
-	// 	);
-	// }
-
 	return (
 		<div className="h-auto w-full bg-sartorial-offWhite">
 			<Header />
 			{loading ? (
 				<ProductDetailsSkeleton />
 			) : (
-				<div className="w-full pt-10 pb-10 px-10 md:px-20 md:pt-40">
+				<div className="w-full pt-10 pb-10 px-5 md:px-20 md:pt-40">
 					<div className="w-full flex flex-col md:flex-row justify-between gap-5">
 						{/* Images Section */}
 						<div className="w-full md:w-[60%]">
@@ -174,7 +160,7 @@ const ProductDetails = () => {
 										(img: ProductImage, index: number) => (
 											<div
 												key={index}
-												className={`border rounded-lg cursor-pointer transition-all flex items-center justify-center ${
+												className={`w-20 h-20 md:w-30 md:h-30 border rounded-lg cursor-pointer transition-all flex items-center justify-center ${
 													selectedImage?.asset.url ===
 													img.asset.url
 														? "border-sartorial-green border-2"
@@ -182,15 +168,6 @@ const ProductDetails = () => {
 												}`}
 												onClick={() => {
 													setSelectedImage(img);
-													if (img.color?._id) {
-														setSelectedColor(
-															img.color._id,
-														);
-													}
-												}}
-												style={{
-													width: "120px",
-													height: "120px",
 												}}
 											>
 												<Image
@@ -326,19 +303,19 @@ const ProductDetails = () => {
 										onClick={() =>
 											handleQuantityChange("decrement")
 										}
-										className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tl-sm rounded-bl-sm h-10 px-4 text-xl hover:bg-gray-50 transition-colors"
+										className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tl-sm rounded-bl-sm h-10 px-3 md:px-4 text-xl hover:bg-gray-50 transition-colors"
 										disabled={quantity <= 1}
 									>
 										-
 									</button>
-									<div className="cursor-default text-sartorial-green border-y-2 border-sartorial-green h-10 px-6 flex items-center justify-center min-w-[60px] text-xl font-semibold">
+									<div className="cursor-default text-sartorial-green border-y-2 border-sartorial-green h-10 px-4 md:px-6 flex items-center justify-center w-10 md:w-15 text-lg md:text-xl font-semibold">
 										{quantity}
 									</div>
 									<button
 										onClick={() =>
 											handleQuantityChange("increment")
 										}
-										className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tr-sm rounded-br-sm h-10 px-4 text-xl hover:bg-gray-50 transition-colors"
+										className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-tr-sm rounded-br-sm h-10 px-3 md:px-4 text-xl hover:bg-gray-50 transition-colors"
 										disabled={quantity >= product.stock}
 									>
 										+
@@ -348,15 +325,37 @@ const ProductDetails = () => {
 								{/* Buy Now Button */}
 								<Button
 									variant="outline"
-									className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-sm h-10 px-5 md:px-10 hover:bg-gray-50"
+									className="cursor-pointer text-sartorial-green border-2 border-sartorial-green rounded-sm h-10 px-4 md:px-10 hover:bg-gray-50"
 									disabled={product.stock <= 0}
+									// onClick={() => {
+									// 	for (let i = 0; i < quantity; i++) {
+									// 		addItem(product);
+									// 	}
+									// 	toast.success(
+									// 		`${product.name} added to cart`,
+									// 	);
+									// 	router.push("/checkout");
+									// }}
+
 									onClick={() => {
+										const colorInfo = product.colors?.find(
+											(c: Color) =>
+												c._id === selectedColor,
+										);
+
 										for (let i = 0; i < quantity; i++) {
-											addItem(product);
+											addItem(
+												product,
+												colorInfo
+													? {
+															_id: colorInfo._id,
+															title: colorInfo.title,
+														}
+													: undefined,
+											);
 										}
-										// addItem(product);
 										toast.success(
-											`${product.name} added to cart`,
+											`${product.name}${colorInfo ? ` (${colorInfo.title})` : ""} added to cart`,
 										);
 										router.push("/checkout");
 									}}
@@ -473,13 +472,13 @@ const ProductDetails = () => {
 			)}
 
 			{/* Related Products */}
-			<div className="w-full mt-10 px-20 py-10 bg-gray-50">
+			<div className="w-full mt-10 px-6 md:px-20 py-10 bg-gray-50">
 				<div>
 					<p className="text-2xl font-semibold text-sartorial-green">
 						Related Products
 					</p>
 				</div>
-				<div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+				<div className="mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
 					{isRelatedProductsloading
 						? Array.from({ length: 4 }).map((_, index) => (
 								<ProductCardSkeleton key={index} />

@@ -5,12 +5,28 @@ import { Product } from "../../sanity.types";
 export interface BasketItem {
 	product: Product;
 	quantity: number;
+	selectedColor?: {
+		_id: string;
+		title: string;
+	};
 }
 
 interface BasketState {
 	items: BasketItem[];
-	addItem: (product: Product) => void;
-	removeItem: (productId: string) => void;
+	addItem: (
+		product: Product,
+		selectedColor?: {
+			_id: string;
+			title: string;
+		},
+	) => void;
+	removeItem: (
+		productId: string,
+		selectedColor?: {
+			_id: string;
+			title: string;
+		},
+	) => void;
 	clearBasket: () => void;
 	getTotalPrice: () => number;
 	getItemCount: (productId: string) => number;
@@ -22,53 +38,106 @@ export const useBasketStore = create<BasketState>()(
 		(set, get) => ({
 			items: [],
 
-			addItem: (product) =>
+			// addItem: (product) =>
+			// 	set((state) => {
+			// 		const existingItem = state.items.find(
+			// 			(item) => item.product._id === product._id,
+			// 		);
+
+			// 		if (existingItem) {
+			// 			return {
+			// 				items: state.items.map((item) =>
+			// 					item.product._id === product._id
+			// 						? { ...item, quantity: item.quantity + 1 }
+			// 						: item,
+			// 				),
+			// 			};
+			// 		} else {
+			// 			return {
+			// 				items: [...state.items, { product, quantity: 1 }],
+			// 			};
+			// 		}
+			// 	}),
+
+			addItem: (
+				product: Product,
+				selectedColor?: { _id: string; title: string },
+			) => {
 				set((state) => {
-					const existingItem = state.items.find(
-						(item) => item.product._id === product._id,
+					// Find if this exact product+color combination exists
+					const existingItemIndex = state.items.findIndex(
+						(item) =>
+							item.product._id === product._id &&
+							item.selectedColor?._id === selectedColor?._id,
 					);
 
-					if (existingItem) {
-						return {
-							items: state.items.map((item) =>
-								item.product._id === product._id
-									? { ...item, quantity: item.quantity + 1 }
-									: item,
-							),
-						};
-					} else {
-						return {
-							items: [...state.items, { product, quantity: 1 }],
-						};
+					if (existingItemIndex > -1) {
+						// Increase quantity for existing item
+						const newItems = [...state.items];
+						newItems[existingItemIndex].quantity += 1;
+						return { items: newItems };
 					}
-				}),
 
-			removeItem: (productId) =>
+					// Add new item with color
+					return {
+						items: [
+							...state.items,
+							{ product, quantity: 1, selectedColor },
+						],
+					};
+				});
+			},
+
+			// removeItem: (productId) =>
+			// 	set((state) => {
+			// 		const existingItem = state.items.find(
+			// 			(item) => item.product._id === productId,
+			// 		);
+
+			// 		if (!existingItem) {
+			// 			return state;
+			// 		}
+
+			// 		if (existingItem.quantity > 1) {
+			// 			return {
+			// 				items: state.items.map((item) =>
+			// 					item.product._id === productId
+			// 						? { ...item, quantity: item.quantity - 1 }
+			// 						: item,
+			// 				),
+			// 			};
+			// 		} else {
+			// 			return {
+			// 				items: state.items.filter(
+			// 					(item) => item.product._id !== productId,
+			// 				),
+			// 			};
+			// 		}
+			// 	}),
+
+			removeItem: (
+				productId: string,
+				selectedColor?: { _id: string; title: string },
+			) => {
 				set((state) => {
-					const existingItem = state.items.find(
-						(item) => item.product._id === productId,
+					const existingItemIndex = state.items.findIndex(
+						(item) =>
+							item.product._id === productId &&
+							item.selectedColor?._id === selectedColor?._id,
 					);
 
-					if (!existingItem) {
-						return state;
+					if (existingItemIndex === -1) return state;
+
+					const newItems = [...state.items];
+					if (newItems[existingItemIndex].quantity > 1) {
+						newItems[existingItemIndex].quantity -= 1;
+					} else {
+						newItems.splice(existingItemIndex, 1);
 					}
 
-					if (existingItem.quantity > 1) {
-						return {
-							items: state.items.map((item) =>
-								item.product._id === productId
-									? { ...item, quantity: item.quantity - 1 }
-									: item,
-							),
-						};
-					} else {
-						return {
-							items: state.items.filter(
-								(item) => item.product._id !== productId,
-							),
-						};
-					}
-				}),
+					return { items: newItems };
+				});
+			},
 
 			clearBasket: () => set({ items: [] }),
 

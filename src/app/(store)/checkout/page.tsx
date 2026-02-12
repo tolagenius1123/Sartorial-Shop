@@ -200,7 +200,12 @@ const CheckoutPage = () => {
 						quantity: item.quantity,
 						name: item.product.name,
 						price: item.product.price,
-						// Add any other product details you need
+						selectedColor: item.selectedColor
+							? {
+									colorId: item.selectedColor._id,
+									colorTitle: item.selectedColor.title,
+								}
+							: undefined,
 					})),
 					paymentReference,
 					paymentMethod,
@@ -222,6 +227,29 @@ const CheckoutPage = () => {
 		}
 	};
 
+	// Temporary debug logging
+	const debugItems = useBasketStore.getState().items.map((item) => ({
+		_id: item.product._id,
+		quantity: item.quantity,
+		name: item.product.name,
+		price: item.product.price,
+		selectedColor: item.selectedColor
+			? {
+					colorId: item.selectedColor._id,
+					colorTitle: item.selectedColor.title,
+				}
+			: undefined,
+	}));
+
+	console.log("=== CHECKOUT DEBUG ===");
+	console.log("Items from basket:", useBasketStore.getState().items);
+	console.log("Mapped items for payment:", debugItems);
+	console.log(
+		"Items with colors:",
+		debugItems.filter((i) => i.selectedColor),
+	);
+	console.log("=== END DEBUG ===");
+
 	const handlePaystackPayment = usePaystackCheckout({
 		email: formik.values.emailAddress,
 		amount: total,
@@ -237,10 +265,29 @@ const CheckoutPage = () => {
 			quantity: item.quantity,
 			name: item.product.name,
 			price: item.product.price,
+			selectedColor: item.selectedColor
+				? {
+						colorId: item.selectedColor._id,
+						colorTitle: item.selectedColor.title,
+					}
+				: undefined,
 		})),
 		onSuccess: async (ref) => {
-			toast.success("Payment successful! Processing your order...");
-			router.push(`/order-pending?reference=${ref.reference}`);
+			try {
+				toast.loading("Processing your order...");
+
+				// ✅ CREATE ORDER DIRECTLY (same as PayPal)
+				await createOrderInDatabase(ref.reference, "paystack");
+
+				toast.success("Payment successful!");
+				useBasketStore.getState().clearBasket();
+				router.push(`/order-pending?reference=${ref.reference}`);
+			} catch (error) {
+				console.error("Error creating order:", error);
+				toast.error(
+					"Payment successful but order creation failed. Please contact support.",
+				);
+			}
 		},
 		onClose: () => {
 			toast.info("Payment cancelled");

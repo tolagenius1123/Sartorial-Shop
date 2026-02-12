@@ -33,6 +33,10 @@ export type Order = {
       [internalGroqTypeReferenceTo]?: "product";
     };
     quantity?: number;
+    selectedColor?: {
+      colorId?: string;
+      colorTitle?: string;
+    };
     _key: string;
   }>;
   totalPrice?: number;
@@ -369,6 +373,42 @@ export type PRODUCT_BY_SLUG_QUERY_RESULT = {
   }> | null;
 } | null;
 
+// Source: src/sanity/lib/product/getProductsByCategory.tsx
+// Variable: FILTERED_PRODUCTS_QUERY
+// Query: *[_type == "product"  ] {      _id,      name,      "slug": slug.current,      price,      stock,      description,      detailedDescription,      isBestSeller,      isNewArrival,      images[]{        alt,        asset->{url},        "color": color->{          _id,          title,          hex        }      },      colors[]->{        _id,        title,        hex      },      categories[]->{        _id,        title,        "slug": slug.current      }    }
+export type FILTERED_PRODUCTS_QUERY_RESULT = Array<{
+  _id: string;
+  name: string | null;
+  slug: string | null;
+  price: number | null;
+  stock: number | null;
+  description: BlockContent | null;
+  detailedDescription: string | null;
+  isBestSeller: boolean | null;
+  isNewArrival: boolean | null;
+  images: Array<{
+    alt: string | null;
+    asset: {
+      url: string | null;
+    } | null;
+    color: {
+      _id: string;
+      title: string | null;
+      hex: null;
+    } | null;
+  }> | null;
+  colors: Array<{
+    _id: string;
+    title: string | null;
+    hex: null;
+  }> | null;
+  categories: Array<{
+    _id: string;
+    title: string | null;
+    slug: string | null;
+  }> | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -377,5 +417,6 @@ declare module "@sanity/client" {
     '\n    *[_type == "product" && isBestSeller == true] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt }\n    }\n  ': QueryResult;
     '\n    *[_type == "product" && isNewArrival == true] | order(_createdAt desc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      isBestSeller,\n      isNewArrival,\n      images[]{ asset->{url}, alt }\n    }\n  ': NEW_ARRIVALS_QUERY_RESULT;
     '\n    *[_type == "product" && slug.current == $slug][0] {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      description,\n      detailedDescription,\n      isBestSeller,\n      isNewArrival,\n      images[]{\n        alt,\n        asset->{url},\n        "color": color->{\n          _id,\n          title,\n          hex\n        }\n      },\n      colors[]->{\n        _id,\n        title,\n        hex\n      },\n      categories[]->{\n        _id,\n        name\n      }\n    }\n  ': PRODUCT_BY_SLUG_QUERY_RESULT;
+    '\n    *[_type == "product"  ] {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      stock,\n      description,\n      detailedDescription,\n      isBestSeller,\n      isNewArrival,\n      images[]{\n        alt,\n        asset->{url},\n        "color": color->{\n          _id,\n          title,\n          hex\n        }\n      },\n      colors[]->{\n        _id,\n        title,\n        hex\n      },\n      categories[]->{\n        _id,\n        title,\n        "slug": slug.current\n      }\n    }\n  ': FILTERED_PRODUCTS_QUERY_RESULT;
   }
 }

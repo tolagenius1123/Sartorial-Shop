@@ -45,6 +45,7 @@ import Verve from "./icons/verve-logo.png";
 import Visa from "./icons/visa-logo.svg";
 import PayPal from "./icons/paypal-logo.svg";
 import MobileBanner1 from "./images/mobile-banner1.svg";
+import PaymentSuccess from "./icons/payment-success.svg";
 
 export {
 	Sartorial,
@@ -94,4 +95,5 @@ export {
 	PayPal,
 	Visa,
 	MobileBanner1,
+	PaymentSuccess,
 };

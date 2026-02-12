@@ -28,6 +28,8 @@ const Cart = () => {
 		0,
 	);
 
+	console.log(groupedItems);
+
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
@@ -77,10 +79,19 @@ const Cart = () => {
 									<p className="text-sm md:text-base font-medium">
 										{item.product.name}
 									</p>
+									{item.selectedColor && (
+										<p className="text-xs text-white/70 mt-1">
+											Color: {item.selectedColor.title}
+										</p>
+									)}
 									<div className="flex items-center gap-3 mt-2">
 										<button
 											onClick={() =>
-												removeItem(item.product._id)
+												// removeItem(item.product._id)
+												removeItem(
+													item.product._id,
+													item.selectedColor,
+												)
 											}
 											className="border border-white/40 rounded-sm py-2 px-2 hover:bg-white hover:text-green-900 cursor-pointer"
 										>
@@ -89,7 +100,11 @@ const Cart = () => {
 										<span>{item.quantity}</span>
 										<button
 											onClick={() =>
-												addItem(item.product)
+												// addItem(item.product)
+												addItem(
+													item.product,
+													item.selectedColor,
+												)
 											}
 											className="border border-white/40 rounded-sm py-2 px-2 hover:bg-white hover:text-green-900 cursor-pointer"
 										>
@@ -101,7 +116,12 @@ const Cart = () => {
 
 							<div className="text-right space-y-2">
 								<button
-									onClick={() => removeItem(item.product._id)}
+									onClick={() =>
+										removeItem(
+											item.product._id,
+											item.selectedColor,
+										)
+									}
 									className="text-white/70 hover:text-red-400 cursor-pointer"
 								>
 									<Trash2 size={18} />

@@ -1,110 +1,44 @@
-// "use client";
-
-// import { useSearchParams } from "next/navigation";
-// import { useEffect } from "react";
-// import { Button } from "@/components/ui/button";
-// import Link from "next/link";
-// import { useBasketStore } from "@/store/store";
-
-// const Success = () => {
-// 	const searchParams = useSearchParams();
-// 	const orderNumber = searchParams.get("orderNumber");
-// 	const reference = searchParams.get("reference");
-// 	const clearBasket = useBasketStore((state) => state.clearBasket);
-
-// 	useEffect(() => {
-// 		if (orderNumber) {
-// 			clearBasket();
-// 		}
-// 	}, [orderNumber, clearBasket]);
-
-// 	return (
-// 		<div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-// 			<div className="bg-white p-12 rounded-xl shadow-lg max-w-2xl w-full mx-4">
-// 				<div className="flex justify-center mb-8">
-// 					<div className="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center">
-// 						<svg
-// 							className="h-8 w-8 text-green-600"
-// 							fill="none"
-// 							stroke="currentColor"
-// 							viewBox="0 0 24 24"
-// 						>
-// 							<path
-// 								strokeLinecap="round"
-// 								strokeLinejoin="round"
-// 								strokeWidth={2}
-// 								d="M5 13l4 4L19 7"
-// 							/>
-// 						</svg>
-// 					</div>
-// 				</div>
-
-// 				<h1 className="text-4xl font-bold mb-6 text-center">
-// 					Thank You for Your Order!
-// 				</h1>
-
-// 				<div className="border-t border-b border-gray-200 py-6 mb-6">
-// 					<p className="text-lg text-gray-700 mb-4">
-// 						Your order has been confirmed and will be shipped
-// 						shortly.
-// 					</p>
-// 					<div className="space-y-2">
-// 						{orderNumber && (
-// 							<p className="text-gray-600 flex items-center space-x-5">
-// 								<span>Order Number:</span>
-// 								<span className="font-mono text-sm text-green-600">
-// 									{orderNumber}
-// 								</span>
-// 							</p>
-// 						)}
-// 						{reference && (
-// 							<p className="text-gray-600 flex items-center space-x-5">
-// 								<span>Payment Reference:</span>
-// 								<span className="font-mono text-sm text-gray-800">
-// 									{reference}
-// 								</span>
-// 							</p>
-// 						)}
-// 					</div>
-// 				</div>
-
-// 				<div className="space-y-4">
-// 					<p className="text-gray-600">
-// 						A confirmation email has been sent to your registered
-// 						email address.
-// 					</p>
-// 					<div className="flex flex-col sm:flex-row gap-4 justify-center">
-// 						<Button
-// 							asChild
-// 							className="bg-green-600 hover:bg-green-700"
-// 						>
-// 							<Link href="/">View Order Details</Link>
-// 						</Button>
-// 						<Button asChild variant="outline">
-// 							<Link href="/">Continue Shopping</Link>
-// 						</Button>
-// 					</div>
-// 				</div>
-// 			</div>
-// 		</div>
-// 	);
-// };
-
-// export default Success;
-
 "use client";
-
 import { useSearchParams } from "next/navigation";
-import { useEffect, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useBasketStore } from "@/store/store";
+import Image from "next/image";
+import { PaymentSuccess } from "@/assets";
+import { useUser } from "@clerk/nextjs";
+import dynamic from "next/dynamic";
+
+const Confetti = dynamic(() => import("react-confetti"), {
+	ssr: false,
+});
 
 const SuccessContent = () => {
+	const { isSignedIn } = useUser();
 	const searchParams = useSearchParams();
 	const orderNumber = searchParams.get("orderNumber");
 	const reference = searchParams.get("reference");
 	const clearBasket = useBasketStore((state) => state.clearBasket);
+
+	const [showConfetti, setShowConfetti] = useState(true);
+	const [windowDimensions, setWindowDimensions] = useState({
+		width: 0,
+		height: 0,
+	});
+
+	useEffect(() => {
+		const updateDimensions = () => {
+			setWindowDimensions({
+				width: window.innerWidth,
+				height: window.innerHeight,
+			});
+		};
+
+		updateDimensions();
+
+		window.addEventListener("resize", updateDimensions);
+		return () => window.removeEventListener("resize", updateDimensions);
+	}, []);
 
 	useEffect(() => {
 		if (orderNumber) {
@@ -112,68 +46,102 @@ const SuccessContent = () => {
 		}
 	}, [orderNumber, clearBasket]);
 
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setShowConfetti(false);
+		}, 10000);
+
+		return () => clearTimeout(timer);
+	}, []);
+
 	return (
-		<div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-			<div className="bg-white p-12 rounded-xl shadow-lg max-w-2xl w-full mx-4">
-				<div className="flex justify-center mb-8">
-					<div className="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center">
-						<svg
-							className="h-8 w-8 text-green-600"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M5 13l4 4L19 7"
+		<>
+			{showConfetti && windowDimensions.width > 0 && (
+				<Confetti
+					width={windowDimensions.width}
+					height={windowDimensions.height}
+					recycle={false}
+					numberOfPieces={250}
+				/>
+			)}
+
+			<div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
+				<div className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg max-w-md sm:max-w-2xl w-full">
+					<div className="flex justify-center mb-6">
+						<div className="h-14 w-14 sm:h-16 sm:w-16 bg-green-100 rounded-full flex items-center justify-center">
+							<Image
+								src={PaymentSuccess}
+								alt="payment-success"
+								className="h-8 w-8 sm:h-10 sm:w-10"
 							/>
-						</svg>
+						</div>
 					</div>
-				</div>
 
-				<h1 className="text-4xl font-bold mb-6 text-center">
-					Thank You!
-				</h1>
+					<h1 className="text-2xl sm:text-4xl font-bold mb-4 text-center text-sartorial-green">
+						Thank You!
+					</h1>
 
-				<div className="border-t border-b border-gray-200 py-6 mb-6">
-					<p className="text-lg text-gray-700 mb-4">
-						Your order has been confirmed and is being processed.
-					</p>
-					<div className="space-y-2">
-						{orderNumber && (
-							<p className="text-gray-600 flex justify-between">
-								<span>Order Number:</span>
-								<span className="font-mono font-bold text-green-700">
-									{orderNumber}
-								</span>
-							</p>
-						)}
-						{reference && (
-							<p className="text-gray-600 flex justify-between">
-								<span>Payment Ref:</span>
-								<span className="font-mono text-sm text-gray-500">
-									{reference}
-								</span>
-							</p>
-						)}
+					<div className="border-t border-b border-gray-200 py-4 sm:py-6 mb-4 sm:mb-6">
+						<p className="text-sm sm:text-lg text-gray-700 mb-4 text-center">
+							Your order has been placed successfully. Check your
+							email for more details.
+						</p>
+
+						<div className="space-y-2 text-sm sm:text-base">
+							{orderNumber && (
+								<p className="text-gray-600 flex justify-between">
+									<span>Order Number:</span>
+									<span className="font-mono font-bold text-green-700">
+										{orderNumber}
+									</span>
+								</p>
+							)}
+							{reference && (
+								<p className="text-gray-600 flex justify-between">
+									<span>Payment Ref:</span>
+									<span className="font-mono text-xs sm:text-sm text-gray-500">
+										{reference}
+									</span>
+								</p>
+							)}
+						</div>
 					</div>
-				</div>
 
-				<div className="flex flex-col sm:flex-row gap-4 justify-center">
-					<Button asChild className="bg-green-600 hover:bg-green-700">
-						<Link href="/">Continue Shopping</Link>
-					</Button>
+					{isSignedIn ? (
+						<div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-4">
+							<Button className="px-8 h-11 bg-sartorial-green hover:bg-sartorial-green/90 rounded-full">
+								<Link href="/orders">View Order</Link>
+							</Button>
+
+							<Button
+								variant="outline"
+								className="px-8 h-11 rounded-full"
+							>
+								<Link href="/">Continue Shopping</Link>
+							</Button>
+						</div>
+					) : (
+						<div className="flex justify-center mt-4">
+							<Button className="px-8 h-11 bg-sartorial-green hover:bg-sartorial-green/90 rounded-full">
+								<Link href="/">Continue Shopping</Link>
+							</Button>
+						</div>
+					)}
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
 export default function SuccessPage() {
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense
+			fallback={
+				<div className="min-h-screen flex items-center justify-center">
+					Loading...
+				</div>
+			}
+		>
 			<SuccessContent />
 		</Suspense>
 	);

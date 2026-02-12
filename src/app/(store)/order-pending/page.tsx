@@ -1,118 +1,4 @@
-// "use client";
-// import { useEffect, useRef, useState } from "react";
-// import { useRouter, useSearchParams } from "next/navigation";
-// import { toast } from "sonner";
-
-// export default function OrderPendingPage() {
-// 	const router = useRouter();
-// 	const searchParams = useSearchParams();
-// 	const reference = searchParams.get("reference");
-// 	const [checkCount, setCheckCount] = useState(0);
-// 	const hasProcessed = useRef(false);
-// 	const maxChecks = 20;
-
-// 	useEffect(() => {
-// 		if (!reference) {
-// 			router.push("/");
-// 			return;
-// 		}
-
-// 		if (hasProcessed.current) return;
-
-// 		const checkOrder = async () => {
-// 			// Double-check to prevent race conditions
-// 			if (hasProcessed.current) return;
-
-// 			try {
-// 				console.log(
-// 					`Checking order... Attempt ${checkCount + 1}/${maxChecks}`,
-// 				);
-
-// 				const res = await fetch(
-// 					`/api/paystack/check-order?reference=${reference}`,
-// 				);
-// 				const data = await res.json();
-
-// 				console.log("Check order response:", data);
-
-// 				if (data.status === "success") {
-// 					hasProcessed.current = true;
-
-// 					console.log("Order found! Redirecting to success page");
-// 					toast.success("Order placed successfully!");
-
-// 					router.push(
-// 						`/success?orderNumber=${data.order.orderNumber}&reference=${reference}`,
-// 					);
-// 				} else if (checkCount >= maxChecks - 1) {
-// 					hasProcessed.current = true;
-
-// 					console.log("Max checks reached, redirecting to home");
-// 					toast.info(
-// 						"Your order is being processed. You'll receive an email confirmation shortly.",
-// 					);
-// 					router.push("/");
-// 				} else {
-// 					setCheckCount((prev) => prev + 1);
-// 				}
-// 			} catch (error) {
-// 				console.error("Error checking order:", error);
-
-// 				if (checkCount >= maxChecks - 1) {
-// 					hasProcessed.current = true;
-// 					toast.error(
-// 						"Error verifying order. Please check your email.",
-// 					);
-// 					router.push("/");
-// 				} else {
-// 					setCheckCount((prev) => prev + 1);
-// 				}
-// 			}
-// 		};
-
-// 		const initialTimeout = setTimeout(() => {
-// 			if (!hasProcessed.current) {
-// 				checkOrder();
-// 			}
-// 		}, 3000);
-
-// 		const interval = setInterval(() => {
-// 			if (!hasProcessed.current && checkCount < maxChecks) {
-// 				checkOrder();
-// 			}
-// 		}, 2000);
-
-// 		return () => {
-// 			clearTimeout(initialTimeout);
-// 			clearInterval(interval);
-// 		};
-// 	}, [reference, router, checkCount]);
-
-// 	return (
-// 		<div className="min-h-screen flex items-center justify-center bg-gray-50">
-// 			<div className="text-center">
-// 				<div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#2D5A43] mx-auto mb-4"></div>
-// 				<h2 className="text-2xl font-semibold text-gray-800 mb-2">
-// 					Processing Your Order
-// 				</h2>
-// 				<p className="text-gray-600">
-// 					Please wait while we confirm your payment...
-// 				</p>
-// 				<p className="text-sm text-gray-500 mt-2">
-// 					This usually takes just a few seconds
-// 				</p>
-// 				{checkCount > 5 && (
-// 					<p className="text-xs text-gray-400 mt-4">
-// 						Still processing... ({checkCount}/{maxChecks})
-// 					</p>
-// 				)}
-// 			</div>
-// 		</div>
-// 	);
-// }
-
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
@@ -125,7 +11,6 @@ export default function OrderPendingPage() {
 	const hasProcessed = useRef(false);
 	const maxChecks = 20;
 
-	// purely for UI display
 	const [displayCount, setDisplayCount] = useState(0);
 
 	useEffect(() => {
@@ -137,7 +22,6 @@ export default function OrderPendingPage() {
 		let attempts = 0;
 
 		const interval = setInterval(async () => {
-			// hard stop conditions
 			if (hasProcessed.current || attempts >= maxChecks) {
 				clearInterval(interval);
 				return;
@@ -198,7 +82,7 @@ export default function OrderPendingPage() {
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gray-50">
 			<div className="text-center">
-				<div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#2D5A43] mx-auto mb-4"></div>
+				<div className="animate-spin rounded-full h-16 w-16 border-b-2 border-sartorial-green mx-auto mb-4"></div>
 
 				<h2 className="text-2xl font-semibold text-gray-800 mb-2">
 					Processing Your Order

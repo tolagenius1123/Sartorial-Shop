@@ -56,9 +56,16 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 									height={40}
 									className="rounded-md object-cover"
 								/>
-								<p className="text-sm md:text-base font-medium">
-									{item.product.name}
-								</p>
+								<div className="flex flex-col">
+									<p className="text-sm md:text-base font-medium">
+										{item.product.name}
+									</p>
+									{item.selectedColor && (
+										<p className="text-xs">
+											Color: {item.selectedColor.title}
+										</p>
+									)}
+								</div>
 							</div>
 
 							<div className="text-right text-sm">

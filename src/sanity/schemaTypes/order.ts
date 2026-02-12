@@ -60,18 +60,36 @@ const orderType = defineType({
 							title: "Quantity Purchased",
 							type: "number",
 						}),
+						defineField({
+							name: "selectedColor",
+							title: "Selected Color",
+							type: "object",
+							fields: [
+								{
+									name: "colorId",
+									title: "Color ID",
+									type: "string",
+								},
+								{
+									name: "colorTitle",
+									title: "Color Name",
+									type: "string",
+								},
+							],
+						}),
 					],
 					preview: {
 						select: {
 							product: "product.name",
 							quantity: "quantity",
+							colorTitle: "selectedColor.colorTitle",
 							image: "product.image",
 							price: "product.price",
 							currency: "product.currency",
 						},
 						prepare(select) {
 							return {
-								title: `${select.product} x ${select.quantity}`,
+								title: `${select.product} x ${select.quantity}${select.colorTitle ? ` - ${select.colorTitle}` : ""}`,
 								subtitle: `${select.price * select.quantity}`,
 								media: select.image,
 							};
