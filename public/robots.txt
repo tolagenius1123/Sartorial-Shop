@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://sartorial.ng
+
+# Sitemaps
+Sitemap: https://sartorial.ng/sitemap.xml
