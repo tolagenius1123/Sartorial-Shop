@@ -1,5 +1,3 @@
-// lib/currency.ts
-
 /**
  * Convert Nigerian Naira to US Dollars
  * @param amountInNGN - Amount in Nigerian Naira

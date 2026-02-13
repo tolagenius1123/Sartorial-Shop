@@ -19,6 +19,7 @@ import { getBestSellers } from "@/sanity/lib/product/getBestSellers";
 import ProductCardSkeleton from "@/components/layout/ProductCardSkeleton";
 import ProductDetailsSkeleton from "../ProductDetailsSkeleton";
 import { useUser } from "@clerk/nextjs";
+import { convertNGNtoUSD } from "@/lib/currency";
 
 export type Color = {
 	_id: string;
@@ -68,8 +69,7 @@ const ProductDetails = () => {
 	const [isRelatedProductsloading, setIsRelatedProductsLoading] =
 		useState(true);
 
-	const EXCHANGE_RATE = 0.000714;
-	const priceInDollars = product ? product.price * EXCHANGE_RATE : 0;
+	const priceInDollars = product ? convertNGNtoUSD(product.price) : 0;
 
 	const { addToWishlist, removeFromWishlist, isInWishlist } =
 		useWishlistStore();

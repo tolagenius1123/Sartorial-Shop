@@ -14,6 +14,8 @@ import { toast } from "sonner";
 import ProductCardSkeleton from "@/components/layout/ProductCardSkeleton";
 import CategoryHero from "@/components/sections/CategoryHero";
 import { getFilteredProducts } from "@/sanity/lib/product/getProductsByCategory";
+import { convertNGNtoUSD } from "@/lib/currency";
+import { categories, colors, priceRanges } from "@/data";
 
 const Category = () => {
 	const searchParams = useSearchParams();
@@ -28,16 +30,6 @@ const Category = () => {
 
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(true);
-
-	const categories = ["Mini Bags", "Small Bags", "Medium Bags", "Large Bags"];
-	const priceRanges = ["Under $25", "$25 - $50", "$50 - $100", "Over $100"];
-	const colors = [
-		{ name: "Black", hex: "#000000" },
-		{ name: "White", hex: "#FFFFFF" },
-		{ name: "Blue", hex: "#3B82F6" },
-		{ name: "Red", hex: "#EF4444" },
-		{ name: "Green", hex: "#10B981" },
-	];
 
 	const handleCategoryChange = (category: string) => {
 		setSelectedCategories((prev) =>
@@ -73,17 +65,19 @@ const Category = () => {
 		if (selectedPriceRanges.length === 0) return allProducts;
 
 		return allProducts.filter((product) => {
-			const price = product.price || 0;
+			const priceInNGN = product.price || 0;
+			const priceInUSD = convertNGNtoUSD(priceInNGN);
+
 			return selectedPriceRanges.some((range) => {
 				switch (range) {
 					case "Under $25":
-						return price < 25;
+						return priceInUSD < 25;
 					case "$25 - $50":
-						return price >= 25 && price <= 50;
+						return priceInUSD >= 25 && priceInUSD <= 50;
 					case "$50 - $100":
-						return price > 50 && price <= 100;
+						return priceInUSD > 50 && priceInUSD <= 100;
 					case "Over $100":
-						return price > 100;
+						return priceInUSD > 100;
 					default:
 						return false;
 				}

@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { EXCHANGE_RATE } from "@/data";
 import { useBasketStore } from "@/store/store";
 import { useSyncExternalStore } from "react";
 import { SartorialBag } from "@/assets";
 import { urlFor } from "@/lib/imageUrl";
+import { convertNGNtoUSD } from "@/lib/currency";
 
 interface OrderSummaryProps {
 	shipping: number;
@@ -35,7 +35,7 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 				{groupedItems.map((item) => {
 					const nairaTotal =
 						(item.product.price || 0) * item.quantity;
-					const dollarTotal = nairaTotal * EXCHANGE_RATE;
+					const dollarTotal = convertNGNtoUSD(nairaTotal);
 
 					const imageUrl = item.product?.images?.[0]?.asset
 						? urlFor(item.product.images[0])
@@ -91,7 +91,7 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 					<p>₦{subtotal.toLocaleString()}</p>
 					<p className="text-gray-500 text-sm">
 						$
-						{(subtotal * EXCHANGE_RATE).toLocaleString(undefined, {
+						{convertNGNtoUSD(subtotal).toLocaleString(undefined, {
 							minimumFractionDigits: 2,
 							maximumFractionDigits: 2,
 						})}
@@ -107,7 +107,7 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 					<p>₦{shipping.toLocaleString()}</p>
 					<p className="text-gray-500 text-sm">
 						$
-						{(shipping * EXCHANGE_RATE).toLocaleString(undefined, {
+						{convertNGNtoUSD(shipping).toLocaleString(undefined, {
 							minimumFractionDigits: 2,
 							maximumFractionDigits: 2,
 						})}
@@ -123,7 +123,7 @@ const OrderSummary = ({ shipping, total }: OrderSummaryProps) => {
 					<p>₦{total.toLocaleString()}</p>
 					<p className="text-sm text-gray-600">
 						$
-						{(total * EXCHANGE_RATE).toLocaleString(undefined, {
+						{convertNGNtoUSD(total).toLocaleString(undefined, {
 							minimumFractionDigits: 2,
 							maximumFractionDigits: 2,
 						})}

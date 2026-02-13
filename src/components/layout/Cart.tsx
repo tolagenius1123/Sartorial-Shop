@@ -13,8 +13,8 @@ import { Button } from "@/components/ui/button";
 import { useBasketStore } from "@/store/store";
 import { CartIcon, SartorialBag } from "@/assets";
 import { useRouter } from "next/navigation";
-import { EXCHANGE_RATE } from "@/data";
 import { urlFor } from "@/lib/imageUrl";
+import { convertNGNtoUSD } from "@/lib/currency";
 
 const Cart = () => {
 	const router = useRouter();
@@ -133,10 +133,9 @@ const Cart = () => {
 								</p>
 								<p className="font-semibold">
 									$
-									{(
+									{convertNGNtoUSD(
 										(item.product.price ?? 0) *
-										item.quantity *
-										EXCHANGE_RATE
+											item.quantity,
 									).toLocaleString(undefined, {
 										minimumFractionDigits: 2,
 										maximumFractionDigits: 2,
@@ -157,7 +156,7 @@ const Cart = () => {
 								</p>
 								<p className="text-sm">
 									$
-									{(subtotal * EXCHANGE_RATE).toLocaleString(
+									{convertNGNtoUSD(subtotal).toLocaleString(
 										undefined,
 										{
 											minimumFractionDigits: 2,

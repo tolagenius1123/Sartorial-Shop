@@ -1,7 +1,6 @@
 "use client";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
-import { EXCHANGE_RATE } from "@/data";
 import { useBasketStore } from "@/store/store";
 import { useWishlistStore } from "@/store/useWishlistStore";
 import Image from "next/image";
@@ -9,6 +8,7 @@ import { toast } from "sonner";
 import { Product } from "../../../../sanity.types";
 import { SartorialBag } from "@/assets";
 import { urlFor } from "@/lib/imageUrl";
+import { convertNGNtoUSD } from "@/lib/currency";
 
 const WishList = () => {
 	const { items, removeFromWishlist } = useWishlistStore();
@@ -79,8 +79,9 @@ const WishList = () => {
 									</p>
 									<p className="text-gray-500">
 										$
-										{(
-											(product.price || 0) * EXCHANGE_RATE
+										{(product.price
+											? convertNGNtoUSD(product.price)
+											: 0
 										).toLocaleString(undefined, {
 											minimumFractionDigits: 2,
 											maximumFractionDigits: 2,

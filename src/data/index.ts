@@ -6,4 +6,31 @@ export const headerLinks = [
 	{ href: "/about-us", label: "About Us" },
 ];
 
-export const EXCHANGE_RATE = 0.000714;
+export const sortOptions = [
+	"Alphabetically, A to Z",
+	"Alphabetically, Z to A",
+	"Price, Low to High",
+	"Price, High to Low",
+];
+
+export const categories = [
+	"Mini Bags",
+	"Small Bags",
+	"Medium Bags",
+	"Large Bags",
+];
+
+export const priceRanges = [
+	"Under $25",
+	"$25 - $50",
+	"$50 - $100",
+	"Over $100",
+];
+
+export const colors = [
+	{ name: "Black", hex: "#000000" },
+	{ name: "White", hex: "#FFFFFF" },
+	{ name: "Blue", hex: "#3B82F6" },
+	{ name: "Red", hex: "#EF4444" },
+	{ name: "Green", hex: "#10B981" },
+];

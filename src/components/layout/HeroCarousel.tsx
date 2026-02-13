@@ -52,7 +52,7 @@ const HeroCarousel = () => {
 	return (
 		<>
 			<div className="pt-25 md:pt-24 flex flex-col items-center w-full overflow-hidden gap-4 bg-sartorial-offWhite">
-				<div className="relative w-full h-30 md:h-96">
+				<div className="relative w-full h-40 md:h-96">
 					{slides.map((slide, index) => (
 						<Link
 							href="/all-products"
@@ -69,7 +69,7 @@ const HeroCarousel = () => {
 								alt={`Slide ${index + 1}`}
 								fill
 								priority={index === 0}
-								className="object-contain sm:object-cover object-top"
+								className="object-cover sm:object-cover object-top"
 								// className="object-cover"
 							/>
 						</Link>
