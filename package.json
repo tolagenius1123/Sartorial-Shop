@@ -7,8 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint",
-		"typegen": "npx sanity@latest schema extract && npx sanity@latest typegen generate",
-		"postbuild": "next-sitemap"
+		"typegen": "npx sanity@latest schema extract && npx sanity@latest typegen generate"
 	},
 	"dependencies": {
 		"@clerk/nextjs": "^6.37.3",
